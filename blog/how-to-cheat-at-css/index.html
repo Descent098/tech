@@ -1,0 +1,477 @@
+<!DOCTYPE html><html lang="en" data-theme="lofi"><head><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" type="image/jpeg" href="/astro-redesign/profile.jpg"><meta name="generator" content="Astro v3.2.3"><!-- Primary Meta Tags --><title>How to cheat at CSS | Kieran Wood</title><meta name="title" content="How to cheat at CSS"><meta name="description" content="Write better CSS, by not writing CSS"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://kieranwood.ca/astro-redesign/blog/how-to-cheat-at-css/"><meta property="og:title" content="How to cheat at CSS"><meta property="og:description" content="Write better CSS, by not writing CSS"><meta property="og:image" content="https://kieranwood.ca/astro-redesign/blog/hal-gatewood-tzc3vjpck-q-unsplash.jpg"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://kieranwood.ca/astro-redesign/blog/how-to-cheat-at-css/"><meta property="twitter:title" content="How to cheat at CSS"><meta property="twitter:description" content="Write better CSS, by not writing CSS"><meta property="twitter:image" content="https://kieranwood.ca/astro-redesign/blog/hal-gatewood-tzc3vjpck-q-unsplash.jpg"><link rel="stylesheet" href="/astro-redesign/_astro/404.d6853b94.css" />
+<style>.time-line-container>div:last-child .education__time>.education__line{display:none}
+</style><script type="module">mermaid.initialize({securityLevel:"loose",theme:"dark"});
+</script></head><body><div class="bg-base-100 drawer lg:drawer-open"><input id="my-drawer" type="checkbox" class="drawer-toggle"><div class="drawer-content bg-base-100"><div class="sticky lg:hidden top-0 z-30 flex h-16 w-full justify-center bg-opacity-90 backdrop-blur transition-all duration-100 bg-base-100 text-base-content shadow-sm"><div class="navbar"><div class="navbar-start"><label for="my-drawer" class="btn btn-square btn-ghost"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg></label></div><div class="navbar-center"><a class="btn btn-ghost normal-case text-xl" href="/">Kieran Wood ⚡️</a></div><div class="navbar-end"></div></div></div><div class="md:flex md:justify-center"><main class="p-6 pt-10 lg:max-w-[900px] max-w-[100vw]"><main class="md:flex md:justify-center"><article class="prose prose-lg max-w-[750px] prose-img:mx-auto"><img src="/astro-redesign/blog/hal-gatewood-tzc3vjpck-q-unsplash.jpg" alt="How to cheat at CSS" class="w-full mb-6" style="border-radius:.5em" width="750" height="422" loading="lazy" decoding="async"><h1 class="title my-2 text-4xl font-bold">How to cheat at CSS</h1><time>Feb 19, 2023</time><br><a href="/blog/tag/scorch" class="badge badge-outline ml-2 no-underline">scorch</a><a href="/blog/tag/web" class="badge badge-outline ml-2 no-underline">web</a><a href="/blog/tag/css" class="badge badge-outline ml-2 no-underline">css</a><a href="/blog/tag/design" class="badge badge-outline ml-2 no-underline">design</a><a href="/blog/tag/ui-ux" class="badge badge-outline ml-2 no-underline">ui-ux</a><a href="/blog/tag/frontend" class="badge badge-outline ml-2 no-underline">frontend</a><p class="text-lg text-italics">Crossposted from <a class="text-violet-700" target="_blank" href="https://schulichignite.com/blog/how-to-cheat-at-css/">https://schulichignite.com/blog/how-to-cheat-at-css/</a></p><div class="divider my-2"></div><p>CSS is the language of design on the web. It’s used to control how everything looks. The styling of this text, how the article metadata (tags, authors etc) above this looks, everything. It’s what helps define your webpages, and make them look nice… It’s also hard to do well</p>
+<p>There’s a ton of things to keep in mind while using CSS:</p>
+<ul>
+<li>Design principles
+<ul>
+<li>Typography</li>
+<li>Colours</li>
+<li>Whitespacing</li>
+</ul>
+</li>
+<li>Accessibility</li>
+<li>Mobile responsiveness</li>
+<li>Cross-browser support</li>
+<li>etc.</li>
+</ul>
+<p>So how do we go about building websites that tick all these boxes without taking years to build?</p>
+<h2 id="traditional-approach">Traditional Approach</h2>
+<p>The traditional aproach you might take is to start from scratch, and begin building your CSS incrementally. You start with the outline of some HTML, setup some of the basics, and then start getting specific. We cover how to do this in the <a href="https://schulichignite.com/scorch/">ignite scorch</a> course. The problem is that this way takes a long time, and a lot of code (as of writing the CSS on this page is ~9300 lines). There’s also a ton of design and technical things to worry about, like:</p>
+<ul>
+<li>Mobile responsiveness</li>
+<li>Typography</li>
+<li>Accessibility</li>
+<li>Colour theory</li>
+<li>Whitespacing</li>
+<li>etc.</li>
+</ul>
+<p>Not only that, but you can run into the <a href="https://www.themodernnomad.com/blank-canvas-paralysis/">blank canvas problem</a> a lot while designing from scratch. Don’t get me wrong, it’s something every developer <strong>should</strong> know how to do, but not something you should <strong>have</strong> to do all the time. For the rest of this article, we’re going to talk about tools that will help you to build sites faster, more reliably, and with less headaches!</p>
+<h2 id="css-frameworks">CSS Frameworks</h2>
+<p>CSS frameworks are a “batteries included” way to develop a site. For the most part you just plug them onto your site, and they handle lots of the hard design problems for you. The only cost is that it’s often hard to change the decisions they make for you down the road. They’re great for people who don’t want to do design, but still want nice websites!</p>
+<p>There are a few types of CSS frameworks.</p>
+<h3 id="component-based">Component based</h3>
+<p>Component based frameworks intend to setup “components”, essentially there is pre-built CSS for common things you want to implement. For example there may be a <code>image-round</code> class that rounds images, or an <code>accordion</code> class that let’s you implement something fancier, like this:</p>
+<div class="card col-md-4">
+  <img class="card-img-top" src="https://images.unsplash.com/photo-1589101545496-c5dcd131213f?ixlib=rb-4.0.3&#x26;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&#x26;auto=format&#x26;fit=crop&#x26;w=1358&#x26;q=80" alt="Pelican">
+  <div class="card-body">
+    <h5 class="card-title">Pelican</h5>
+    <p class="card-text">What a sick bird</p>
+  </div>
+</div>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #E1E4E8">&#x3C;</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">class</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"card col-md-4"</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">  &#x3C;</span><span style="color: #85E89D">img</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">class</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"card-img-top"</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">src</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"https://images.unsplash.com/photo-1589101545496-c5dcd131213f?ixlib=rb-4.0.3&#x26;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8"</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">alt</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"Pelican"</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">  &#x3C;</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">class</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"card-body"</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    &#x3C;</span><span style="color: #85E89D">h5</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">class</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"card-title"</span><span style="color: #E1E4E8">>Pelican&#x3C;/</span><span style="color: #85E89D">h5</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    &#x3C;</span><span style="color: #85E89D">p</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">class</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"card-text"</span><span style="color: #E1E4E8">>What a sick bird&#x3C;/</span><span style="color: #85E89D">p</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">  &#x3C;/</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">&#x3C;/</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8">></span></span></code></pre>
+<h4 id="bootstrap">Bootstrap</h4>
+<p><a href="https://getbootstrap.com/">Bootstrap</a> is what is used to build the ignite site. It’s a very common component library that is used to build millions of sites. It has over 20 built in components, and can be included with <a href="https://getbootstrap.com/docs/5.3/getting-started/introduction/#:~:text=%3Clink%20href,%3E%3C/script%3E">2 lines of HTML (1 link tag for CSS, 1 script for JS)</a>. It includes support for:</p>
+<ul>
+<li><a href="https://getbootstrap.com/docs/5.2/layout/grid/">a grid system</a></li>
+<li><a href="https://getbootstrap.com/docs/5.2/layout/breakpoints/">mobile-responsive design</a></li>
+<li><a href="https://getbootstrap.com/docs/5.2/components/accordion/">advanced components</a></li>
+<li><a href="(https://getbootstrap.com/docs/5.2/utilities/colors/)">predefined colours</a></li>
+<li><a href="https://getbootstrap.com/docs/5.2/customize/css-variables/">variables (colors, spacing,e tc.)</a></li>
+<li>A ton of community support/tutorials</li>
+<li>Custom themes (see below)</li>
+<li>etc.</li>
+</ul>
+<p>So what’s the catch. Well generally speaking bootstrap is less optimized than some of the leaner libraries in this article. Convenience comes at the cost of performance and efficiency. That being said, it’s a great choice for your first few sites, sites with tons of people working on the code base, and sites that benefit from being developed quickly while not needing to be the most efficient.</p>
+<h5 id="themes-plugins-and-applications">Themes, Plugins and Applications</h5>
+<p>Because of it’s popularity, there are also a few additional systems built around bootstrap. For example there is a large library of themes from providers like <a href="https://bootswatch.com/">Bootswatch</a>, that will let you build with regular bootstrap, but have a completely different feel.</p>
+<p>On top of that there are tons of great IDE plugins/extensions built around bootstrap. One of my favourites is the <a href="https://marketplace.visualstudio.com/items?itemName=AnbuselvanRocky.bootstrap5-vscode">snippet plugin</a>, which lets you type short codes to insert common bootstrap components.</p>
+<p>Additionally there are full featured VIDE’s (Visual Integrated Development Environments) that will let you build out entire sites visually for bootstrap. The most popular is <a href="https://bootstrapstudio.io/">bootstrap studio</a> which you can get a free license for with the <a href="https://education.github.com/pack">github student pack</a></p>
+<h4 id="bulma">Bulma</h4>
+<p><a href="https://bulma.io/">Bulma</a> is an alternative component library to bootstrap. It’s a bit smaller (about 10 components), but it focuses highly on readability, short class names and simplicity. For example here is a <a href="https://bulma.io/documentation/components/tabs/">tabs component</a> in bulma:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #E1E4E8">&#x3C;</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">class</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"tabs"</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">  &#x3C;</span><span style="color: #85E89D">ul</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    &#x3C;</span><span style="color: #85E89D">li</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">class</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"is-active"</span><span style="color: #E1E4E8">>&#x3C;</span><span style="color: #85E89D">a</span><span style="color: #E1E4E8">>Pictures&#x3C;/</span><span style="color: #85E89D">a</span><span style="color: #E1E4E8">>&#x3C;/</span><span style="color: #85E89D">li</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    &#x3C;</span><span style="color: #85E89D">li</span><span style="color: #E1E4E8">>&#x3C;</span><span style="color: #85E89D">a</span><span style="color: #E1E4E8">>Music&#x3C;/</span><span style="color: #85E89D">a</span><span style="color: #E1E4E8">>&#x3C;/</span><span style="color: #85E89D">li</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    &#x3C;</span><span style="color: #85E89D">li</span><span style="color: #E1E4E8">>&#x3C;</span><span style="color: #85E89D">a</span><span style="color: #E1E4E8">>Videos&#x3C;/</span><span style="color: #85E89D">a</span><span style="color: #E1E4E8">>&#x3C;/</span><span style="color: #85E89D">li</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    &#x3C;</span><span style="color: #85E89D">li</span><span style="color: #E1E4E8">>&#x3C;</span><span style="color: #85E89D">a</span><span style="color: #E1E4E8">>Documents&#x3C;/</span><span style="color: #85E89D">a</span><span style="color: #E1E4E8">>&#x3C;/</span><span style="color: #85E89D">li</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">  &#x3C;/</span><span style="color: #85E89D">ul</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">&#x3C;/</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8">></span></span></code></pre>
+<h4 id="primer">Primer</h4>
+<p><a href="https://primer.style/css/">Primer CSS</a> is made by the github team, and it’s what they use at github to style their components. As such it has lots of cool components that are useful if you’re building applications or tools around code!</p>
+<p>These include:</p>
+<ul>
+<li><a href="https://primer.style/css/components/avatar-stack">Avatar stacks</a></li>
+<li><a href="https://primer.style/css/components/select-menu">Select menus</a></li>
+<li><a href="https://primer.style/css/components/loaders">Loaders</a></li>
+<li><a href="https://primer.style/css/components/toasts">Toasts</a></li>
+<li><a href="https://primer.style/css/components/timeline">Timelines</a></li>
+<li>And <a href="https://primer.style/css/components">many more</a></li>
+</ul>
+<p>On top of that it has:</p>
+<ul>
+<li><a href="https://primer.style/css/support/theming">Dark theme built in</a></li>
+<li><a href="https://primer.style/css/tools/deprecations">Built in CSS deprecation</a></li>
+<li><a href="https://primer.style/css/utilities/animations">Animations</a></li>
+<li><a href="https://primer.style/css/support/breakpoints">Mobile breakpoints</a></li>
+<li>And tons of other features</li>
+</ul>
+<h4 id="picnic-css">Picnic CSS</h4>
+<p><a href="https://picnicss.com/">Picnic CSS</a> is another smaller library that gives you a few of the basics, and a decent grid system. The selection of components is admittedly a bit… odd (why is there a <a href="https://picnicss.com/documentation#dropimage">drop image</a>, but no <a href="https://www.w3schools.com/howto/howto_js_accordion.asp">accordion</a>?).</p>
+<p>It’s quite a bit smaller than others in this list (7kb total vs 25kb for <a href="#bootstrap">bootstrap</a>), making it great for smaller apps where you need the features it offers. If you only need what it supports then it’s a great option!</p>
+<h4 id="spectre">Spectre</h4>
+<p><a href="https://picturepan2.github.io/spectre">Spectre</a> is a framework that has a few advantages over bootstrap:</p>
+<ul>
+<li>It is smaller (10kb vs 25kb for something like bootstrap)</li>
+<li>faster to load</li>
+<li>Includes components not found in bootstrap for more app-interfaces (like <a href="https://picturepan2.github.io/spectre/components/chips.html">chips</a>,<a href="https://picturepan2.github.io/spectre/components/empty.html">empty states</a>, and <a href="https://picturepan2.github.io/spectre/components/steps.html">steps</a>)</li>
+</ul>
+<p>On top of this much of the HTML itself is simpler than the equivalent in bootstrap (<a href="https://picturepan2.github.io/spectre/components/accordions.html">accordions</a> for example ). But the most interesting is some of the stuff they’re doing in their <a href="https://picturepan2.github.io/spectre/experimentals">experiemental section</a> such as:</p>
+<ul>
+<li><a href="https://picturepan2.github.io/spectre/experimentals/calendars.html">Calendars</a></li>
+<li><a href="https://picturepan2.github.io/spectre/experimentals/timelines.html">Timelines</a></li>
+<li><a href="https://picturepan2.github.io/spectre/experimentals/comparison.html">Comparisson sliders</a></li>
+</ul>
+<p>And <a href="https://picturepan2.github.io/spectre/experimentals">more</a>!</p>
+<h4 id="cons-of-component-based">Cons of Component based</h4>
+<p>While component based systems seem great, there are a few general downsides to go with the upsides:</p>
+<ul>
+<li>You are often committed to someone elses design philosophy</li>
+<li>If you change components radically it’s a lot of work to move to new versions</li>
+<li>The CSS is often <strong>way</strong> more than you need, and wastes resources and time loading</li>
+<li>Lot’s of things are very <em>magic</em> and can make it hard to debug</li>
+</ul>
+<h3 id="semantic-css">Semantic CSS</h3>
+<p>Semantic CSS are CSS libraries that are designed to do things that are similar to component systems, except without <strong>any</strong> (or very few) classes. You write <strong>plain HTML</strong> and it does the rest. This is ideal for super simple sites that don’t need to be super flashy, or as a base to build from.</p>
+<h4 id="pico-css">Pico CSS</h4>
+<p><a href="https://picocss.com/">Pico CSS</a> is an incredibly lightweight component system that is designed to be simpler than other systems like bootstrap. It’s designed to allow you to just use normal HTML, and have it be styled nicely. For example with other libraries you might find a pattern like this (taken from <a href="https://picocss.com/#:~:text=%3Cform%20class%3D%22form,Action%3C/button%3E%0A%3C/form%3E">their site</a>):</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #E1E4E8">&#x3C;</span><span style="color: #85E89D">form</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">class</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"form form-modifier margin padding align"</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">  &#x3C;</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">class</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"input-wrapper input-wrapper-modifier margin padding"</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    &#x3C;</span><span style="color: #85E89D">input</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">type</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"text"</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">class</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"input input-type-modifier input-style-modifier input-size-modifier"</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">  &#x3C;/</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">  &#x3C;</span><span style="color: #85E89D">button</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">type</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"submit"</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">class</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"button button-style-modifier button-size-modifier action-trigger margin padding"</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    Action</span></span>
+<span class="line"><span style="color: #E1E4E8">  &#x3C;/</span><span style="color: #85E89D">button</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">&#x3C;/</span><span style="color: #85E89D">form</span><span style="color: #E1E4E8">></span></span></code></pre>
+<p>and pico would instead do:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #E1E4E8">&#x3C;</span><span style="color: #85E89D">form</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">  &#x3C;</span><span style="color: #85E89D">input</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">type</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"text"</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">  &#x3C;</span><span style="color: #85E89D">button</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">type</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"submit"</span><span style="color: #E1E4E8">>Action&#x3C;/</span><span style="color: #85E89D">button</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">&#x3C;/</span><span style="color: #85E89D">form</span><span style="color: #E1E4E8">></span></span></code></pre>
+<p>On top of this super simple approach it bundles some of the <a href="https://picocss.com/docs/accordions.html">harder to implement components</a> in more semantic HTML!</p>
+<h4 id="alternatives">Alternatives</h4>
+<p>There are a ton of alternatives, but they’re pretty similar, so whichever you pick largely comes down to preference. Many of these will also feature <em>bookmarklets</em>, which is a fancy function you can put in the bookmarks of your browser and drag it onto any page to apply styling to it. Essentially if you put <code>javascript:</code> in the URL of a page, you can get it to run a javascript function. Since the CSS styles default HTML, all you do is get javascript to download and apply the CSS, and it will automatically apply the CSS.</p>
+<p><img src="/blog/bookmarklets.gif" alt="bookmarklet example"></p>
+<p>Here are some alternatives</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Name</th><th>Description/features</th><th>Link</th></tr></thead><tbody><tr><td>MVP</td><td>similar to pico, except I find it has a few more bells and whistles built in (including fancy <a href="https://andybrewer.github.io/mvp/#docs:~:text=How%20do%20I%20handle%20a%20user%27s%20dark%20mode%20preference%3F">dark theme management</a>)</td><td><a href="https://andybrewer.github.io/mvp">https://andybrewer.github.io/mvp</a></td></tr><tr><td>Water CSS</td><td>Has a <a href="https://watercss.kognise.dev/#:~:text=Bookmarklet,your%20bookmarks%20bar%3A">bookmarklet</a>, is responsive, and has a nice dark theme</td><td><a href="https://watercss.kognise.dev/">https://watercss.kognise.dev/</a></td></tr><tr><td>Sakura</td><td>Has a <a href="https://oxal.org/projects/sakura/#:~:text=If%20so%2C%20enable,projects/sakura/bookmark">bookmarklet</a>, and is super simple to use</td><td><a href="https://oxal.org/projects/sakura/">https://oxal.org/projects/sakura/</a></td></tr><tr><td>awsm.css</td><td>semantic CSS + a few themes to let you spice things up a bit</td><td><a href="https://igoradamenko.github.io/awsm.css/">https://igoradamenko.github.io/awsm.css/</a></td></tr></tbody></table>
+<h4 id="cons-of-semantic-css">Cons of Semantic CSS</h4>
+<p>While nice and simple there are a few potential issues with semantic CSS:</p>
+<ul>
+<li>It usually only handles the bear minimum, but even then many tags are unstyled</li>
+<li>While many support themeing, a lot of them require <a href="#sassscss">scss</a> to do it which adds complexity</li>
+<li>Many of them have dark themes, but they are seperate stylesheets instead of just <a href="https://schulichignite.com/blog/taking-your-html-elements-further/#data-values">data variables</a>, which wastes resources to load</li>
+</ul>
+<h3 id="boilerplate">Boilerplate</h3>
+<p>Boilerplate CSS frameworks do the bare minimum to help you get started, and that’s it. They’re designed to be fast and simple, and are a great way to start on something you <strong>mostly</strong> wanna design yourself, but will get the basics out of the way.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Name</th><th>Description/features</th><th>Link</th></tr></thead><tbody><tr><td>Skeleton</td><td>an incredibly small (~400 lines), library that gives you a responsive grid system, typography, buttons, forms, code, tables, and utility classes. Everything else is up to you!</td><td><a href="http://getskeleton.com/">http://getskeleton.com/</a></td></tr><tr><td>Milligram</td><td>a 2kb, it handles the same sort of stuff as skeleton, but includes a few extra bells and whistles (like <a href="https://milligram.io/blockquotes.html">quotes</a>). It’s a great starting point for a design.</td><td><a href="https://milligram.io/">https://milligram.io/</a></td></tr><tr><td>Typesettings</td><td>just a stylesheet for typography. Everything else is your problem!</td><td><a href="https://mikemai.net/typesettings/index.html">https://mikemai.net/typesettings/index.html</a></td></tr><tr><td>Vanilla CSS</td><td>A great place to start from, include <a href="https://normform.netlify.app/">noraform</a> for even nicer forms</td><td><a href="https://vanillacss.com/">https://vanillacss.com/</a></td></tr><tr><td>Bare CSS</td><td>Will set defaults that will automatically turn off when you put classes on your elements. Making it a great starting place to build itteratively</td><td><a href="http://barecss.com/">http://barecss.com/</a></td></tr></tbody></table>
+<p>Compared to semantic CSS these are often even less feature filled (and therefore also smaller), and require you to build <strong>anything</strong> more complicated than the essentials yourself.</p>
+<h3 id="extensions">Extensions</h3>
+<p>Extensions simply aim to extend CSS. Whether it be with variables, improved nesting, or fancy ways of handling more complicated calculations for you. You are still writing all the stylesheets yourself, but they serve to just make it easier to do common tasks, and sand down some of the rough edges of CSS.</p>
+<h4 id="sassscss">SASS/SCSS</h4>
+<p><a href="https://sass-lang.com/">SASS(Syntatically Awesome Style Sheets)/SCSS (sassy CSS)</a> are an example of CSS extensions. They are by far the most popular, and many systems (including bootstrap) offer SCSS on top of traditional CSS. Both are compiled, meaning you have to run some code to convert them to CSS files before you can use them. You can’t just use <code>.scss</code> or <code>.sass</code> files in place of <code>.css</code> files.</p>
+<p>SASS and SCSS are different, here is an article explaining the <a href="https://www.geeksforgeeks.org/what-is-the-difference-between-scss-and-sass/">differences here</a>. The basics are that SCSS can use existing CSS, and just extends CSS normally, whereas SASS is a whole new language. You can easily convert between the two using <a href="https://codebeautify.org/sass-to-css-converter">online converters</a>. The big advantage with SCSS is it’s much more concise, arguably easier to read, and makes variables way easier. Here is an example of complicated nesting being easier with SCSS:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #85E89D">*</span><span style="color: #E1E4E8">{</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #79B8FF">box-sizing</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">border-box</span><span style="color: #E1E4E8">;</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #79B8FF">margin</span><span style="color: #E1E4E8">:</span><span style="color: #79B8FF">0</span><span style="color: #E1E4E8">;</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #79B8FF">padding</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">0</span><span style="color: #E1E4E8">;</span></span>
+<span class="line"><span style="color: #E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #B392F0">.card</span><span style="color: #E1E4E8">{</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #6A737D">/*Style the card class and all sub-components*/</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #79B8FF">border-radius</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">50</span><span style="color: #F97583">%</span><span style="color: #E1E4E8">;</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #79B8FF">background-color</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">#ccc</span><span style="color: #E1E4E8">;</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #B392F0">.title</span><span style="color: #E1E4E8">{ </span><span style="color: #6A737D">/* Any title class element inside the card*/</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #79B8FF">font-family</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">serif</span><span style="color: #E1E4E8">;</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #79B8FF">font-size</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">1.5</span><span style="color: #F97583">em</span><span style="color: #E1E4E8">;</span></span>
+<span class="line"><span style="color: #E1E4E8">    }</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #85E89D">p</span><span style="color: #E1E4E8">{ </span><span style="color: #6A737D">/* Any paragraph tag inside the card*/</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #79B8FF">font-size</span><span style="color: #E1E4E8">:</span><span style="color: #79B8FF">1.2</span><span style="color: #F97583">em</span><span style="color: #E1E4E8">;</span></span>
+<span class="line"><span style="color: #E1E4E8">    }</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #B392F0">.body</span><span style="color: #E1E4E8">{ </span><span style="color: #6A737D">/* Any body class element inside the card*/</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #79B8FF">font-size</span><span style="color: #E1E4E8">:</span><span style="color: #79B8FF">1.1</span><span style="color: #F97583">em</span><span style="color: #E1E4E8">;</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #85E89D">figure</span><span style="color: #E1E4E8">{ </span><span style="color: #6A737D">/* Any figure element inside the body, inside a card*/</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #79B8FF">width</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">25</span><span style="color: #F97583">%</span><span style="color: #E1E4E8">;</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #79B8FF">border-radius</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">1</span><span style="color: #F97583">%</span><span style="color: #E1E4E8"> </span><span style="color: #79B8FF">5</span><span style="color: #F97583">%</span><span style="color: #E1E4E8">;</span></span>
+<span class="line"><span style="color: #E1E4E8">        }</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span></span>
+<span class="line"><span style="color: #E1E4E8">        </span></span>
+<span class="line"><span style="color: #E1E4E8">    }</span></span>
+<span class="line"><span style="color: #E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #85E89D">article</span><span style="color: #E1E4E8">{</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #6A737D">/*Style the article tag and all sub-components*/</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #79B8FF">background-color</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">#141414</span><span style="color: #E1E4E8">;</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #79B8FF">color</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">white</span><span style="color: #E1E4E8">;</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #85E89D">figure</span><span style="color: #E1E4E8">{</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #6A737D">/*Any figure  element inside an article*/</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #79B8FF">border-radius</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">5</span><span style="color: #F97583">%</span><span style="color: #E1E4E8"> </span><span style="color: #79B8FF">8</span><span style="color: #F97583">%</span><span style="color: #E1E4E8">;</span></span>
+<span class="line"><span style="color: #E1E4E8">    }</span></span>
+<span class="line"><span style="color: #E1E4E8">}</span></span></code></pre>
+<p>Will then expand the nested styles into this css:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #85E89D">*</span><span style="color: #E1E4E8"> {</span></span>
+<span class="line"><span style="color: #E1E4E8">	 </span><span style="color: #79B8FF">box-sizing</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">border-box</span><span style="color: #E1E4E8">;</span></span>
+<span class="line"><span style="color: #E1E4E8">	 </span><span style="color: #79B8FF">margin</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">0</span><span style="color: #E1E4E8">;</span></span>
+<span class="line"><span style="color: #E1E4E8">	 </span><span style="color: #79B8FF">padding</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">0</span><span style="color: #E1E4E8">;</span></span>
+<span class="line"><span style="color: #E1E4E8">}</span></span>
+<span class="line"><span style="color: #E1E4E8"> </span><span style="color: #B392F0">.card</span><span style="color: #E1E4E8"> {</span></span>
+<span class="line"><span style="color: #E1E4E8">	</span><span style="color: #6A737D">/*Style the card class and all sub-components*/</span></span>
+<span class="line"><span style="color: #E1E4E8">	 </span><span style="color: #79B8FF">border-radius</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">50</span><span style="color: #F97583">%</span><span style="color: #E1E4E8">;</span></span>
+<span class="line"><span style="color: #E1E4E8">	 </span><span style="color: #79B8FF">background-color</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">#ccc</span><span style="color: #E1E4E8">;</span></span>
+<span class="line"><span style="color: #E1E4E8">}</span></span>
+<span class="line"><span style="color: #E1E4E8"> </span><span style="color: #B392F0">.card</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">.title</span><span style="color: #E1E4E8"> {</span></span>
+<span class="line"><span style="color: #E1E4E8">	</span><span style="color: #6A737D">/* Any title class element inside the card*/</span></span>
+<span class="line"><span style="color: #E1E4E8">	 </span><span style="color: #79B8FF">font-family</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">serif</span><span style="color: #E1E4E8">;</span></span>
+<span class="line"><span style="color: #E1E4E8">	 </span><span style="color: #79B8FF">font-size</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">1.5</span><span style="color: #F97583">em</span><span style="color: #E1E4E8">;</span></span>
+<span class="line"><span style="color: #E1E4E8">}</span></span>
+<span class="line"><span style="color: #E1E4E8"> </span><span style="color: #B392F0">.card</span><span style="color: #E1E4E8"> </span><span style="color: #85E89D">p</span><span style="color: #E1E4E8"> {</span></span>
+<span class="line"><span style="color: #E1E4E8">	</span><span style="color: #6A737D">/* Any paragraph tag inside the card*/</span></span>
+<span class="line"><span style="color: #E1E4E8">	 </span><span style="color: #79B8FF">font-size</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">1.2</span><span style="color: #F97583">em</span><span style="color: #E1E4E8">;</span></span>
+<span class="line"><span style="color: #E1E4E8">}</span></span>
+<span class="line"><span style="color: #E1E4E8"> </span><span style="color: #B392F0">.card</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">.body</span><span style="color: #E1E4E8"> {</span></span>
+<span class="line"><span style="color: #E1E4E8">	</span><span style="color: #6A737D">/* Any body class element inside the card*/</span></span>
+<span class="line"><span style="color: #E1E4E8">	 </span><span style="color: #79B8FF">font-size</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">1.1</span><span style="color: #F97583">em</span><span style="color: #E1E4E8">;</span></span>
+<span class="line"><span style="color: #E1E4E8">}</span></span>
+<span class="line"><span style="color: #E1E4E8"> </span><span style="color: #B392F0">.card</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">.body</span><span style="color: #E1E4E8"> </span><span style="color: #85E89D">figure</span><span style="color: #E1E4E8"> {</span></span>
+<span class="line"><span style="color: #E1E4E8">	</span><span style="color: #6A737D">/* Any figure element inside the body, inside a card*/</span></span>
+<span class="line"><span style="color: #E1E4E8">	 </span><span style="color: #79B8FF">width</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">25</span><span style="color: #F97583">%</span><span style="color: #E1E4E8">;</span></span>
+<span class="line"><span style="color: #E1E4E8">	 </span><span style="color: #79B8FF">border-radius</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">1</span><span style="color: #F97583">%</span><span style="color: #E1E4E8"> </span><span style="color: #79B8FF">5</span><span style="color: #F97583">%</span><span style="color: #E1E4E8">;</span></span>
+<span class="line"><span style="color: #E1E4E8">}</span></span>
+<span class="line"><span style="color: #E1E4E8"> </span><span style="color: #85E89D">article</span><span style="color: #E1E4E8"> {</span></span>
+<span class="line"><span style="color: #E1E4E8">	</span><span style="color: #6A737D">/*Style the article tag and all sub-components*/</span></span>
+<span class="line"><span style="color: #E1E4E8">	 </span><span style="color: #79B8FF">background-color</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">#141414</span><span style="color: #E1E4E8">;</span></span>
+<span class="line"><span style="color: #E1E4E8">	 </span><span style="color: #79B8FF">color</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">white</span><span style="color: #E1E4E8">;</span></span>
+<span class="line"><span style="color: #E1E4E8">}</span></span>
+<span class="line"><span style="color: #E1E4E8"> </span><span style="color: #85E89D">article</span><span style="color: #E1E4E8"> </span><span style="color: #85E89D">figure</span><span style="color: #E1E4E8"> {</span></span>
+<span class="line"><span style="color: #E1E4E8">	</span><span style="color: #6A737D">/*Any figure element inside an article*/</span></span>
+<span class="line"><span style="color: #E1E4E8">	 </span><span style="color: #79B8FF">border-radius</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">5</span><span style="color: #F97583">%</span><span style="color: #E1E4E8"> </span><span style="color: #79B8FF">8</span><span style="color: #F97583">%</span><span style="color: #E1E4E8">;</span></span>
+<span class="line"><span style="color: #E1E4E8">}</span></span></code></pre>
+<h4 id="less">Less</h4>
+<p><a href="https://lesscss.org/">Less</a> is not compiled, instead you can just include the javascript file in the same page as your less files. It’s very similar in advantages to SCSS, but beter in cases where you can’t compile ahead of time. It also allows you to modify your configurations per-page, since the configuration is done in javascript. The exact same example as the SCSS example will work in Less as well.</p>
+<h4 id="cons-of-extensions">Cons of extensions</h4>
+<p>While they can be useful, extensions bring their own problems:</p>
+<ul>
+<li>You &#x26; anyone working with you will need to install them and have them setup to work on a project</li>
+<li>Each has it’s own opinions and skills aren’t always transferrable</li>
+<li>Often the difference for smaller projects is dozens of lines of code and not really worth it</li>
+</ul>
+<h3 id="utility-classes">Utility Classes</h3>
+<p>Utility classes is a newer approach. Essentially it’s the same CSS you know, but it uses classes to do everything instead of inline CSS. This gives the advantage of being able to see exactly what’s happening to an element, while keeping it shorter than regular CSS. Additionally it allows for abstractions, like giving you text sizes in <code>title</code>, <code>main</code>, <code>accent</code> instead of every size under the sun, or colours in terms of <code>green</code>, <code>green-dark</code>, <code>green-light</code> etc. Essentially similar to boilerplate CSS it just tries to let you take the reigns while making things easier.</p>
+<p>There is a downside to using these though…</p>
+<p>Because they aren’t component based there can often be <strong>very long</strong> class names. It’s a joke in the community that Utility libraries are just <a href="https://github.com/tailwindlabs/discuss/issues/3">inline styles</a>. There are interesting arguments for <a href="https://frontstuff.io/no-utility-classes-arent-the-same-as-inline-styles">why they are more than that</a>, but either way let’s dive into some examples and you can decide for yourself.</p>
+<h4 id="tailwind">Tailwind</h4>
+<p><a href="https://tailwindcss.com/">Tailwind</a> is by far the most popular, and most controversial of utility class systems. It uses classes to allow you to change individual settings (margin, padding etc.), but also gives you things like the <a href="https://tailwindcss.com/blog/tailwindcss-typography-v0-5">typography plugin</a> that make designing text-heavy sites much easier. They have a <a href="https://play.tailwindcss.com/">playground</a>, which will let you mess around with tailwind without having to set it up!</p>
+<p>Here is an example of a banner with 2 buttons on it:</p>
+<p><img src="/blog/chrome_qrawy7bmpa.png" alt="tailwind banner example"></p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #E1E4E8">&#x3C;</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">class</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"bg-gray-50"</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">  &#x3C;</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">class</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"mx-auto max-w-7xl py-12 px-6 lg:flex lg:items-center lg:justify-between lg:py-16 lg:px-8"</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    &#x3C;</span><span style="color: #85E89D">h2</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">class</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">      &#x3C;</span><span style="color: #85E89D">span</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">class</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"block"</span><span style="color: #E1E4E8">>Ready to dive in?&#x3C;/</span><span style="color: #85E89D">span</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">      &#x3C;</span><span style="color: #85E89D">span</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">class</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"block text-indigo-600"</span><span style="color: #E1E4E8">>Start your free trial today.&#x3C;/</span><span style="color: #85E89D">span</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    &#x3C;/</span><span style="color: #85E89D">h2</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    &#x3C;</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">class</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"mt-8 flex lg:mt-0 lg:flex-shrink-0"</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">      &#x3C;</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">class</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"inline-flex rounded-md shadow"</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">        &#x3C;</span><span style="color: #85E89D">a</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">href</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"#"</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">class</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-5 py-3 text-base font-medium text-white hover:bg-indigo-700"</span><span style="color: #E1E4E8">>Get started&#x3C;/</span><span style="color: #85E89D">a</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">      &#x3C;/</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">      &#x3C;</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">class</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"ml-3 inline-flex rounded-md shadow"</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">        &#x3C;</span><span style="color: #85E89D">a</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">href</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"#"</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">class</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"inline-flex items-center justify-center rounded-md border border-transparent bg-white px-5 py-3 text-base font-medium text-indigo-600 hover:bg-indigo-50"</span><span style="color: #E1E4E8">>Learn more&#x3C;/</span><span style="color: #85E89D">a</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">      &#x3C;/</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    &#x3C;/</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">  &#x3C;/</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">&#x3C;/</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8">></span></span></code></pre>
+<p>As you can see, some of the lines get hard to read. For example the link tag has 13 classes! But arguably it’s also more clear what is effecting it since the classes are inline. On top of this there are other advantages to tailwind. For example if you set it up how they recommend, it will automatically remove unused CSS. This might not seem like a big deal, but for large and/or populat applications this can save a lot of money on bandwidth, and load times.</p>
+<h5 id="tailwindui">TailwindUI</h5>
+<p><a href="https://tailwindui.com/">TailwindUI</a> is a component library built by the tailwind team. It <a href="https://tailwindui.com/all-access">isn’t cheap</a>, but it is built well, and comes with a ton of great tailwind template sites as well! The example banner above comes straight from tailwind UI!</p>
+<p>It also is constantly updated with new components and fixes, which makes the lifetime license really handy. If you really like tailwind, and want to support the developers then this is a great way to do it while getting a great product out of it!</p>
+<h5 id="daisyui">DaisyUI</h5>
+<p><a href="https://daisyui.com/">DaisyUI</a> is a free alternative tailwind based component library! It has almost <a href="https://daisyui.com/components/">50 components</a>, <a href="https://daisyui.com/docs/themes/">several themes</a>, and support for <a href="https://daisyui.com/docs/install/">a ton of frameworks as well as plain CSS through a CDN</a>. For example here is an accordion/collapse in daisyUI:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #E1E4E8">&#x3C;</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">class</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"collapse"</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">  &#x3C;</span><span style="color: #85E89D">input</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">type</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"checkbox"</span><span style="color: #E1E4E8"> /> </span></span>
+<span class="line"><span style="color: #E1E4E8">  &#x3C;</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">class</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"collapse-title text-xl font-medium"</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    Click me to show/hide content</span></span>
+<span class="line"><span style="color: #E1E4E8">  &#x3C;/</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">  &#x3C;</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">class</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"collapse-content"</span><span style="color: #E1E4E8">> </span></span>
+<span class="line"><span style="color: #E1E4E8">    &#x3C;</span><span style="color: #85E89D">p</span><span style="color: #E1E4E8">>hello&#x3C;/</span><span style="color: #85E89D">p</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">  &#x3C;/</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">&#x3C;/</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8">></span></span></code></pre>
+<h5 id="tailwind-elements">Tailwind Elements</h5>
+<p><a href="https://tailwind-elements.com/">Tailwind elements</a> is another free component library, built in a bootstrap style and based on tailwind. This can be handy because it allows you to get the benefits of CSS purging, and being able to make modifications using tailwind. While having the simplicity of a bootstrap-style approach.</p>
+<h4 id="turretcss">TurretCSS</h4>
+<p><a href="https://turretcss.com/">Turret CSS</a> is another utility class system that is designed to help you build elements quickly. It uses a bit of a different syntax.</p>
+<p>The approach is:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #E1E4E8">&#x3C;</span><span style="color: #FDAEB7; font-style: italic">element</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">class</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"[element] [element-modifier] [element-style]"</span><span style="color: #E1E4E8">>&#x3C;/</span><span style="color: #FDAEB7; font-style: italic">element</span><span style="color: #E1E4E8">></span></span></code></pre>
+<p>So, for example with a button that has the primary colour (blue by default):</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #E1E4E8">&#x3C;</span><span style="color: #85E89D">button</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">class</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"button button-border button-primary"</span><span style="color: #E1E4E8">>&#x3C;/</span><span style="color: #85E89D">button</span><span style="color: #E1E4E8">></span></span></code></pre>
+<p>It’s designed to make utility classes more “semantic”, so when you’re reading the names they map onto something that is obvious and offer an easy way to modify from there.</p>
+<h4 id="cons-of-utility-classes">Cons of Utility classes</h4>
+<p>I mentioned a few before, but here are the main potential cons of utility classes:</p>
+<ul>
+<li>If you are building ”<a href="#component-based">components</a>” you end up repeating yourself <strong>constantly</strong></li>
+<li>Complicated designs often require <a href="https://www.aleksandrhovhannisyan.com/blog/why-i-dont-like-tailwind-css/#:~:text=That%E2%80%99s%2071%20class%20names%20just%20to%20style%20a%20checkbox.">incredibly long (71 in this case!)</a> class names that make it hard to read</li>
+<li>You typically have to setup the system that builds your utility classes</li>
+<li>You have to learn the semantics of the particular utility class system you’re using, whereas CSS is universal</li>
+</ul>
+<h2 id="react">React</h2>
+<p><a href="https://reactjs.org/">React</a> is a component-based UI framework. This means it has it’s own code that (often) runs inside <a href="https://nodejs.org/en/">nodeJS</a>. Instead of having the seperation of HTML/CSS/JS, react takes over all 3 (mostly). It uses javascript (or <a href="https://www.typescriptlang.org/">typescript</a>), or optionally a language called <a href="https://reactjs.org/docs/introducing-jsx.html">JSX</a>. This means it can encapsulate all of the state, and look of a component all in one class!</p>
+<p>Here is an example of a react component that is using JSX to create a timer that goes up by 1 each second:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #F97583">class</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">Timer</span><span style="color: #E1E4E8"> </span><span style="color: #F97583">extends</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">React</span><span style="color: #E1E4E8">.</span><span style="color: #B392F0">Component</span><span style="color: #E1E4E8"> {</span></span>
+<span class="line"><span style="color: #E1E4E8">  </span><span style="color: #F97583">constructor</span><span style="color: #E1E4E8">(</span><span style="color: #FFAB70">props</span><span style="color: #E1E4E8">) {</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #79B8FF">super</span><span style="color: #E1E4E8">(props);</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #79B8FF">this</span><span style="color: #E1E4E8">.state </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> { seconds: </span><span style="color: #79B8FF">0</span><span style="color: #E1E4E8"> };</span></span>
+<span class="line"><span style="color: #E1E4E8">  }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #E1E4E8">  </span><span style="color: #B392F0">tick</span><span style="color: #E1E4E8">() {</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #79B8FF">this</span><span style="color: #E1E4E8">.</span><span style="color: #B392F0">setState</span><span style="color: #E1E4E8">(</span><span style="color: #FFAB70">state</span><span style="color: #E1E4E8"> </span><span style="color: #F97583">=></span><span style="color: #E1E4E8"> ({</span></span>
+<span class="line"><span style="color: #E1E4E8">      seconds: state.seconds </span><span style="color: #F97583">+</span><span style="color: #E1E4E8"> </span><span style="color: #79B8FF">1</span></span>
+<span class="line"><span style="color: #E1E4E8">    }));</span></span>
+<span class="line"><span style="color: #E1E4E8">  }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #E1E4E8">  </span><span style="color: #B392F0">componentDidMount</span><span style="color: #E1E4E8">() {</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #79B8FF">this</span><span style="color: #E1E4E8">.interval </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">setInterval</span><span style="color: #E1E4E8">(() </span><span style="color: #F97583">=></span><span style="color: #E1E4E8"> </span><span style="color: #79B8FF">this</span><span style="color: #E1E4E8">.</span><span style="color: #B392F0">tick</span><span style="color: #E1E4E8">(), </span><span style="color: #79B8FF">1000</span><span style="color: #E1E4E8">);</span></span>
+<span class="line"><span style="color: #E1E4E8">  }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #E1E4E8">  </span><span style="color: #B392F0">componentWillUnmount</span><span style="color: #E1E4E8">() {</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #B392F0">clearInterval</span><span style="color: #E1E4E8">(</span><span style="color: #79B8FF">this</span><span style="color: #E1E4E8">.interval);</span></span>
+<span class="line"><span style="color: #E1E4E8">  }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #E1E4E8">  </span><span style="color: #B392F0">render</span><span style="color: #E1E4E8">() {</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #F97583">return</span><span style="color: #E1E4E8"> (</span></span>
+<span class="line"><span style="color: #E1E4E8">      &#x3C;</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">        Seconds: {</span><span style="color: #79B8FF">this</span><span style="color: #E1E4E8">.state.seconds}</span></span>
+<span class="line"><span style="color: #E1E4E8">      &#x3C;/</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    );</span></span>
+<span class="line"><span style="color: #E1E4E8">  }</span></span>
+<span class="line"><span style="color: #E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #E1E4E8">root.</span><span style="color: #B392F0">render</span><span style="color: #E1E4E8">(&#x3C;</span><span style="color: #79B8FF">Timer</span><span style="color: #E1E4E8"> />);</span></span></code></pre>
+<p>Because of it’s extensibility react can be used to put together entire applications! In fact the larger your application the better react tends to scale because everything is in one place. This was actually why it was created by <a href="https://www.meta.com/ca/">meta</a> in the first place. Like bootstrap or other CSS frameworks you can create libraries of components that can be reused (in fact <a href="https://react-bootstrap.github.io/getting-started/introduction#examples">bootstrap is available in react</a>!</p>
+<h3 id="mantine-ui">Mantine UI</h3>
+<p><a href="https://mantine.dev/">Mantine UI</a> is a component library built for react that is completely free and comes with 100+ components! It works with other frameworks outside of react as well. On top of that it also features:</p>
+<ul>
+<li><a href="https://mantine.dev/guides/dark-theme/">Toggleable dark theme with system preference support</a></li>
+<li><a href="https://mantine.dev/core/grid/">Grid system</a></li>
+<li>More application-oriented components (<a href="https://mantine.dev/core/chip/">chips</a>, <a href="https://mantine.dev/core/loader/">loader</a>, <a href="https://mantine.dev/core/skeleton/">skeletons</a>, etc.)</li>
+<li>etc.</li>
+</ul>
+<h3 id="material-ui">Material UI</h3>
+<p><a href="https://mui.com/">Material UI</a> is a component library for react that includes a ton of components for building websites using react. The <a href="https://mui.com/core/">core</a> is free, and you can <a href="https://mui.com/pricing/">pay for extras</a>.</p>
+<p>It has extra features such as:</p>
+<ul>
+<li><a href="https://mui.com/material-ui/customization/dark-mode/">Toggleable dark theme with system preference support</a></li>
+<li><a href="https://mui.com/material-ui/api/grid/">Grid System</a></li>
+<li>Application-oriented components (<a href="https://mui.com/material-ui/react-speed-dial/">Speed dial</a>, <a href="https://mui.com/material-ui/react-pagination/">pagination</a>, <a href="https://mui.com/material-ui/react-snackbar/">snackbars</a>, etc.)</li>
+</ul>
+<h3 id="react-alternatives">React alternatives</h3>
+<p>There are a few alternatives to react you can check out like:</p>
+<ul>
+<li><a href="https://svelte.dev/">Svelte</a> (and <a href="https://kit.svelte.dev/">svelte kit</a>)</li>
+<li><a href="https://www.solidjs.com/">Solid JS</a></li>
+<li><a href="https://vuejs.org/">Vue.js</a></li>
+<li><a href="https://angular.io/">Angular</a></li>
+<li><a href="https://mithril.js.org/">Mithril JS</a></li>
+</ul>
+<h3 id="cons-of-react">Cons of react</h3>
+<p>While having everything in one spot is great, there can be a few cons with react:</p>
+<ul>
+<li><strong>Everything</strong> is in javascript/jsx (CSS, JS, HTML), so there’s no <a href="https://en.wikipedia.org/wiki/Separation_of_concerns">seperation of concerns</a></li>
+<li>React uses lots of abstractions, so when you learn it you will often learn the abstractions and what it’s actually doing is “magic” under the hood</li>
+<li>Often times people make react do <strong>a lot</strong>, it’s common to find codebases with react and 10-12 other libraries that are integrated with react that you have to learn before you can start working</li>
+<li>React can create weird problems, that then require layers of tools to solve (<a href="https://reactjs.org/docs/code-splitting.html#:~:text=Bundling,an%20entire%20app%20at%20once.">bundling/code-splitting</a>, <a href="https://beta.reactjs.org/reference/react/useEffect">complex state management</a>, installing “magic” packages to “avoid complexity”, etc. )</li>
+<li><strong>Some</strong> react projects require a server, <strong>some</strong> don’t. It’s always safer to assume you will need a server and the complexity and maintenance that comes along with that (if it’s a plain static site probably better to look elsewhere)</li>
+<li>React has changed <strong>a lot</strong> over the years, and as it has changed it will <strong>often</strong> break old projects or completely shift design philosophies that make your code out of date</li>
+</ul>
+<h2 id="css-generators">CSS Generators</h2>
+<p>CSS Generators are just tools that will help you generate CSS. There are a ton of CSS properties that are hard to remember the syntax for, like <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/border">borders</a>, or <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow">shadows</a>, or <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/animation">animations</a>. These sites will help you generate some common hard to remember CSS:</p>
+<ul>
+<li><a href="https://webcode.tools/generators/css">https://webcode.tools/generators/css</a></li>
+<li><a href="https://cssgradient.io/">CSS Gradient Generator</a></li>
+<li><a href="https://animista.net/">CSS Animations</a></li>
+</ul>
+<h3 id="design-trends">Design Trends</h3>
+<p>There are often design trends in the world that people want you to build a site around. Sometimes it’s hard to remember <em>exactly</em> how to implement them all. Here are a few sites that have generators for some common design trends:</p>
+<ul>
+<li><a href="https://ui.glass/generator/">Glassmorphism</a> (<a href="https://css.glass/">alternate</a>)</li>
+<li><a href="https://neumorphic.design/">Neumorphism</a></li>
+<li><a href="https://m3.material.io/theme-builder">Material</a> (<a href="https://materialtheme.arcsine.dev/">Alternative</a>)</li>
+<li><a href="https://grainy-gradients.vercel.app/">Grainy CSS Gradients</a> (from <a href="https://css-tricks.com/grainy-gradients/">https://css-tricks.com/grainy-gradients/</a>)</li>
+</ul>
+<h3 id="backgrounds">Backgrounds</h3>
+<p>Finally, sometimes it’s hard to pick a nice background. Whethere it’s a <a href="https://www.optimizely.com/optimization-glossary/hero-image/">hero</a>, or just an element that needs a bit of flair. These sites will help you generate great backgrounds:</p>
+<ul>
+<li><a href="https://coolbackgrounds.io/">https://coolbackgrounds.io/</a></li>
+<li><a href="https://vincentgarreau.com/particles.js">https://vincentgarreau.com/particles.js</a></li>
+<li><a href="https://www.svgbackgrounds.com/set/free-svg-backgrounds-and-patterns/">https://www.svgbackgrounds.com/set/free-svg-backgrounds-and-patterns/</a></li>
+<li><a href="https://doodad.dev/pattern-generator/">https://doodad.dev/pattern-generator/</a></li>
+<li><a href="https://codepen.io/goodkatz/pen/LYPGxQz">https://codepen.io/goodkatz/pen/LYPGxQz</a></li>
+<li><a href="https://www.app.websitebackgroundmaker.com/get-started">https://www.app.websitebackgroundmaker.com/get-started</a></li>
+<li><a href="https://heropatterns.com/">https://heropatterns.com/</a></li>
+<li><a href="https://app.haikei.app/">https://app.haikei.app/</a></li>
+<li><a href="https://superdesigner.co/tools/backgrounds?type=peak">https://superdesigner.co/tools/backgrounds?type=peak</a></li>
+<li><a href="https://www.magicpattern.design/tools/css-backgrounds">https://www.magicpattern.design/tools/css-backgrounds</a></li>
+<li><a href="https://bgjar.com/">https://bgjar.com/</a></li>
+<li><a href="https://www.vantajs.com/">https://www.vantajs.com/</a></li>
+</ul></article></main><script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js" integrity="sha256-mm3Re3y7xlvh+yCD+l/Zs1d+PU0AEad93MkWvljfm/s=" crossorigin="anonymous"></script></main></div><footer class="footer footer-center block mb-5 pt-10"><div class="pb-2">
+&copy; 2023 Kieran Wood
+</div><div class="inline opacity-75"><!-- Thanks for using this template. You can keep this line to support my work :) --><a href="https://astrofy-template.netlify.app/" target="_blank" class="font-bold">Astrofy Template</a> developed by
+<a href="https://manuelernestog.github.io" target="_blank" class="font-bold">Manuel Ernesto ⚡️</a></div></footer></div><div class="drawer-side z-40"><label for="my-drawer" class="drawer-overlay"></label><aside class="px-2 pt-2 h-auto min-h-full w-[19rem] bg-base-200 text-base-content flex flex-col"><div class="w-fit mx-auto mt-5 mb-6"><a href="/"><div class="avatar transition ease-in-out hover:scale-[102%] block m-auto"><div class="w-[8.5rem]"><img src="/astro-redesign/profile.jpg" class="mask mask-circle" alt="Profile image" width="300" height="300" loading="lazy" decoding="async"></div></div></a></div><ul class="menu grow shrink menu-md overflow-y-auto"><li><a class="py-3 text-base" id="home" href="/astro-redesign/">Home</a></li><li><a class="py-3 text-base" id="projects" href="/astro-redesign/projects">Projects</a></li><!-- <li><a class="py-3 text-base" id="services" href="/astro-redesign/services">Services</a></li>
+    <li><a class="py-3 text-base" id="store" href="/astro-redesign/store">Store</a></li> --><li><a class="py-3 text-base" id="blog" href="/astro-redesign/blog/">Blog</a></li><li><a class="py-3 text-base" id="cv" href="/astro-redesign/cv">CV</a></li><li><a class="py-3 text-base" href="/astro-redesign/contact">Contact</a></li></ul><script>(function(){const sideBarActiveItemID = undefined;
+const activeClass = "bg-base-300";
+
+const activeItemElem = document.getElementById(sideBarActiveItemID);
+activeItemElem && activeItemElem.classList.add(activeClass);
+})();</script><div class="block sticky pointer-events-none bottom-10 bg-base-200 justify-center h-12 [mask-image:linear-gradient(transparent,#000000)]"></div><div class="social-icons px-4 pb-5 pt-1 flex self-center justify-center sticky bottom-0 bg-base-200"><a href="https://github.com/descent098" target="_blank" class="mx-3" aria-label="Github" title="Github"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.026 2c-5.509 0-9.974 4.465-9.974 9.974 0 4.406 2.857 8.145 6.821 9.465.499.09.679-.217.679-.481 0-.237-.008-.865-.011-1.696-2.775.602-3.361-1.338-3.361-1.338-.452-1.152-1.107-1.459-1.107-1.459-.905-.619.069-.605.069-.605 1.002.07 1.527 1.028 1.527 1.028.89 1.524 2.336 1.084 2.902.829.091-.645.351-1.085.635-1.334-2.214-.251-4.542-1.107-4.542-4.93 0-1.087.389-1.979 1.024-2.675-.101-.253-.446-1.268.099-2.64 0 0 .837-.269 2.742 1.021a9.582 9.582 0 0 1 2.496-.336 9.554 9.554 0 0 1 2.496.336c1.906-1.291 2.742-1.021 2.742-1.021.545 1.372.203 2.387.099 2.64.64.696 1.024 1.587 1.024 2.675 0 3.833-2.33 4.675-4.552 4.922.355.308.675.916.675 1.846 0 1.334-.012 2.41-.012 2.737 0 .267.178.577.687.479C19.146 20.115 22 16.379 22 11.974 22 6.465 17.535 2 12.026 2z"></path></svg></a><a href="https://www.linkedin.com/in/kieran-wood" target="_blank" class="mx-3" aria-label="Linkedin" title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><circle cx="4.983" cy="5.009" r="2.188"></circle><path d="M9.237 8.855v12.139h3.769v-6.003c0-1.584.298-3.118 2.262-3.118 1.937 0 1.961 1.811 1.961 3.218v5.904H21v-6.657c0-3.27-.704-5.783-4.526-5.783-1.835 0-3.065 1.007-3.568 1.96h-.051v-1.66H9.237zm-6.142 0H6.87v12.139H3.095z"></path></svg></a><a href="https://instagram.com/descent098" target="_blank" class="mx-3" aria-label="Instagram" title="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 -5 24 24" style="fill: currentColor;transform: ;msFilter:;"><path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"></path></svg></a><a href="/rss.xml" target="_blank" class="mx-3" aria-label="RSS Feed" title="RSS Feed"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><path d="M19 20.001C19 11.729 12.271 5 4 5v2c7.168 0 13 5.832 13 13.001h2z"></path><path d="M12 20.001h2C14 14.486 9.514 10 4 10v2c4.411 0 8 3.589 8 8.001z"></path><circle cx="6" cy="18" r="2"></circle></svg></a></div></aside></div></div></body></html>

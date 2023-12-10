@@ -1,0 +1,135 @@
+<!DOCTYPE html><html lang="en" data-theme="lofi"><head><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" type="image/jpeg" href="/astro-redesign/profile.jpg"><meta name="generator" content="Astro v3.2.3"><!-- Primary Meta Tags --><title>The Dangers of CDN&#39;s | Kieran Wood</title><meta name="title" content="The Dangers of CDN's"><meta name="description" content="How to avoid the most common vulnerabilities with CDN's"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://kieranwood.ca/astro-redesign/blog/dangers-of-cdns/"><meta property="og:title" content="The Dangers of CDN's"><meta property="og:description" content="How to avoid the most common vulnerabilities with CDN's"><meta property="og:image" content="https://kieranwood.ca/astro-redesign/blog/nasa-1lfi7wkgwz4-unsplash.jpg"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://kieranwood.ca/astro-redesign/blog/dangers-of-cdns/"><meta property="twitter:title" content="The Dangers of CDN's"><meta property="twitter:description" content="How to avoid the most common vulnerabilities with CDN's"><meta property="twitter:image" content="https://kieranwood.ca/astro-redesign/blog/nasa-1lfi7wkgwz4-unsplash.jpg"><link rel="stylesheet" href="/astro-redesign/_astro/404.d6853b94.css" />
+<style>.time-line-container>div:last-child .education__time>.education__line{display:none}
+</style><script type="module">mermaid.initialize({securityLevel:"loose",theme:"dark"});
+</script></head><body><div class="bg-base-100 drawer lg:drawer-open"><input id="my-drawer" type="checkbox" class="drawer-toggle"><div class="drawer-content bg-base-100"><div class="sticky lg:hidden top-0 z-30 flex h-16 w-full justify-center bg-opacity-90 backdrop-blur transition-all duration-100 bg-base-100 text-base-content shadow-sm"><div class="navbar"><div class="navbar-start"><label for="my-drawer" class="btn btn-square btn-ghost"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg></label></div><div class="navbar-center"><a class="btn btn-ghost normal-case text-xl" href="/">Kieran Wood ⚡️</a></div><div class="navbar-end"></div></div></div><div class="md:flex md:justify-center"><main class="p-6 pt-10 lg:max-w-[900px] max-w-[100vw]"><main class="md:flex md:justify-center"><article class="prose prose-lg max-w-[750px] prose-img:mx-auto"><img src="/astro-redesign/blog/nasa-1lfi7wkgwz4-unsplash.jpg" alt="The Dangers of CDN's" class="w-full mb-6" style="border-radius:.5em" width="750" height="422" loading="lazy" decoding="async"><h1 class="title my-2 text-4xl font-bold">The Dangers of CDN&#39;s</h1><time>Jan 29, 2023</time><br><a href="/blog/tag/scorch" class="badge badge-outline ml-2 no-underline">scorch</a><a href="/blog/tag/web" class="badge badge-outline ml-2 no-underline">web</a><a href="/blog/tag/html" class="badge badge-outline ml-2 no-underline">html</a><a href="/blog/tag/js" class="badge badge-outline ml-2 no-underline">js</a><a href="/blog/tag/networking" class="badge badge-outline ml-2 no-underline">networking</a><a href="/blog/tag/security" class="badge badge-outline ml-2 no-underline">security</a><p class="text-lg text-italics">Crossposted from <a class="text-violet-700" target="_blank" href="https://schulichignite.com/blog/dangers-of-cdns/">https://schulichignite.com/blog/dangers-of-cdns/</a></p><div class="divider my-2"></div><p>CDN’s are used a lot in web development to make things faster, and easier. But with everything there are pros and cons. We’re going to look at CDN’s and some of the risks associated with them!</p>
+<h2 id="what-is-a-cdn">What is a CDN?</h2>
+<p>A CDN (content delivery network) is a server that allows you to serve resources over the internet quickly. Unlike regular servers with applications that actually process information CDN’s are there to make sending <strong>static</strong> (stuff that doesn’t change) content as quick as possible. This is because they don’t have to do any calculations, so there’s no slowdown from other things running, and because everything is static they can aggressively <a href="https://aws.amazon.com/caching/">cache content</a>.</p>
+<p>They are used for many things including:</p>
+<ul>
+<li>
+<p>Improving the load speed of files</p>
+</li>
+<li>
+<p>Allowing distribution of files internationally</p>
+</li>
+<li>
+<p>Optimizing files (minifying images, HTML, CSS, JS etc.)</p>
+</li>
+</ul>
+<p>One of their main uses is to distribute code for websites.</p>
+<h2 id="using-cdns-for-javascript">Using CDN’s for Javascript</h2>
+<p>Javascript (JS) has many packages available. There are several ways to load these packages, and if you are interested in more details be sure to check out our <a href="/scorch">scorch sessions</a>. The important one for this article is that you can include a HTTP based “source”. Essentially a javascript file is loaded from a CDN on the user’s browser.</p>
+<p>There are several advantages to this approach including:</p>
+<ul>
+<li>
+<p>The package is already built and ready to use. You literally just put the URL in a script tag</p>
+</li>
+<li>
+<p>CDN’s are often much faster to load than your own servers</p>
+</li>
+<li>
+<p>CDN’s will often automate the job of making your file smaller</p>
+</li>
+</ul>
+<p>So, then what’s the problem?</p>
+<h2 id="show-me-your-id">Show me your ID</h2>
+<p>Fundamentally you are loading a file from the internet, or specifically a URL. Let’s say for example our file is hosted on <a href="https://ignite-cdn.com/file.js">https://ignite-cdn.com/file.js</a> and the website we’re going to is <a href="https://schulichignite.com">https://schulichignite.com</a></p>
+<p>Then the HTML from <a href="https://schulichignite.com">https://schulichignite.com</a> might have something like this:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #E1E4E8">&#x3C;</span><span style="color: #85E89D">script</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">src</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"https://ignite-cdn.com/file.js"</span><span style="color: #E1E4E8">>&#x3C;/</span><span style="color: #85E89D">script</span><span style="color: #E1E4E8">></span></span></code></pre>
+<p>Well, if we put on our hacking black fedora’s and trench-coats there is a clear way for someone malicious to inject code into this. All they have to do is convince your computer (or any of the computers your computer connects to), that whatever malicious code they want to run is at the URL.</p>
+<p>There are more involved methods of doing this like stealing peoples passwords and uploading malicious code, or hacking into a server etc. The method isn’t important, the point is that when we ask <a href="https://ignite-cdn.com/file.js">https://ignite-cdn.com/file.js</a> for the file we have <strong>no way to make sure we are getting what we want</strong>.</p>
+<p>These attacks are often called <a href="https://developers.cloudflare.com/cache/best-practices/avoid-web-poisoning/">CDN-poisioning or cache-poisioning</a>. It feeds off a problem of authority. I can’t trust ignite-cdn.com and the only validation I can get that the code is correct is from ignite-cdn.com. Sort of like asking a theif if they took something, and just hoping they tell the truth. So the question as developers is how do we provide something to authenticate the file that works in HTML?</p>
+<h2 id="a-solution">A solution</h2>
+<p>This problem has come up before, especially on the early days of the internet. We need a way to essentially ask something to authenticate the content without having to run it. Since our files are just plain text we essentially need something that checks if the text is correct.</p>
+<p>But if we were to do that by just comparing the text to a lookup, then there’s a few problems:</p>
+<ol>
+<li>Why even use a CDN if the HTML already includes the content</li>
+<li>For long files we have to compare letter-by-letter which is slow</li>
+</ol>
+<p>So how did people solve this problem? They began using hashes to quickly allow people to verify the data they got is correct.</p>
+<h3 id="what-is-hashing">What is hashing?</h3>
+<p>A hash is basically a string of numbers and characters. Essentially what happens is you take some sort of input (like the text of a file), put it through a hashing algorithm (a function that creates hashes like sha-1) and then you get a hash (string of numbers &#x26; characters) as an output. These hash systems are incredibly fast, and allow you to compare files much faster than character by character. In the HTML spec this comparison to a hash on a javascript file is called an integrity hash (or <a href="https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity">subresource Integrity</a> if you want to be fancy).</p>
+<pre class="mermaid">graph TD
+    A[fa:fa-user User] -->|1. Request file| B(https://ignite-cdn.com/file.js)
+    B --> C[fa:fa-user User]
+    C -->|2. Browser takes the TEXT, but doesn't RUN the code| D{hashing algorithm}
+    D -->|Output hash matches integrity| E[fa:fa-user User: runs code]
+    D -->|Output hash doesn't match| F[fa:fa-user User: retry or throw error]
+</pre>
+<h3 id="example">Example</h3>
+<p>So if I have a file called <code>file.js</code>  on the server at the beginning this file has the code:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #E1E4E8">console.</span><span style="color: #B392F0">log</span><span style="color: #E1E4E8">(</span><span style="color: #9ECBFF">"Hello World"</span><span style="color: #E1E4E8">)</span></span></code></pre>
+<p>If I take that code and I run it through a <a href="https://www.geeksforgeeks.org/sha-1-hash-in-java/">SHA-1</a> algorithm (online version <a href="https://codebeautify.org/sha1-hash-generator">here</a>) I get:</p>
+<p><code>865cd55417af5a27ab17ae1fff7510c7acc4f250</code> (40 bytes)</p>
+<p>Now on the HTML from <a href="https://schulichignite.com">https://schulichignite.com</a> I can do:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #E1E4E8">&#x3C;</span><span style="color: #85E89D">script</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">src</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"https://ignite-cdn.com/file.js"</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">integrity</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"sha1-865cd55417af5a27ab17ae1fff7510c7acc4f250"</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">crossorigin</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"anonymous"</span><span style="color: #E1E4E8">>&#x3C;/</span><span style="color: #85E89D">script</span><span style="color: #E1E4E8">></span></span></code></pre>
+<p>The <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/crossorigin">cross origin attribute</a> is part of <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">CORS</a>, which is not important for now. The part that matters is the integrity attribute we added, which has our hashing algorithm, and our hash. Now when our user loads the page the browser knows to take the text, run it through SHA-1 and <strong>only run the code</strong> if it matches. Otherwise retry downloading the file, or throw an error.</p>
+<p>So if our fedora and trenchcoat wearing hacker wanted to send:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #F97583">let</span><span style="color: #E1E4E8"> password </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">prompt</span><span style="color: #E1E4E8">(</span><span style="color: #9ECBFF">"shulichignite.com want's your password:"</span><span style="color: #E1E4E8">)</span></span>
+<span class="line"><span style="color: #E1E4E8">console.</span><span style="color: #B392F0">log</span><span style="color: #E1E4E8">(password) </span><span style="color: #6A737D">// This would be replaced with sending your password somewhere else</span></span></code></pre>
+<p>Which has a hash of <code>e8d9a577049257f59e6fdb0ed42a147c0eb334ac</code>, the browser would see it doesn’t match the integrity hash <code>865cd55417af5a27ab17ae1fff7510c7acc4f250</code> and refuse to run it.</p>
+<p>There are some additional features that help secure against other problems of authenticity like:</p>
+<ul>
+<li>
+<p><a href="https://www.ssl.com/faqs/faq-what-is-ssl/">ssl</a>; Encrypts your data being transferred so it can’t be tampered with, and ensures only the person with the correct “key” can read it. What allows you to use https instead of http in URL’s</p>
+</li>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">CORS</a>; Only allows data from allowed “origins” [domains/urls]</p>
+</li>
+</ul>
+<h2 id="other-problems">Other problems</h2>
+<p>There are a few other issues with the solution suggested, and CDN’s in general:</p>
+<ul>
+<li>
+<p>I used SHA-1 for my example, I would highly recommend a stronger hash algorithm that avoids <a href="https://privacycanada.net/hash-functions/hash-collision-attack/">collisions</a>, something like SHA-384</p>
+</li>
+<li>
+<p>Versions are tied to specific URL’s, so the code has to update to update versions and all the hashes</p>
+</li>
+<li>
+<p>If the CDN ever goes down your app stops working</p>
+</li>
+<li>
+<p>If the URL changes your app stops working</p>
+</li>
+<li>
+<p>If the file creator pulls it from the CDN your app stops working</p>
+</li>
+<li>
+<p>If the user loses connection when the resource loads it doesn’t work</p>
+</li>
+</ul>
+<p>Essentially you have no control over a CDN. You have basically introduced a potential for bugs with no easy way to fix them quickly. This is <strong>usually</strong> fine because most people are already relying on servers from other companies (sometimes the same one’s as their CDN’s), but if you need guarentee’s you might want to look into other solutions.</p>
+<h2 id="when-to-use-cdns-for-js">When to use CDN’s for JS</h2>
+<p>There are however a ton of good times to use CDN’s:</p>
+<ul>
+<li>
+<p>If you’re building a quick/throwaway project where security isn’t super important</p>
+</li>
+<li>
+<p>If you know your user will always have a connection</p>
+</li>
+<li>
+<p>If you’re using it for files that don’t have important information in them (i.e. public photos)</p>
+</li>
+<li>
+<p>If your site is hosted with a CDN provider. For example if your site is hosted with cloudflare, then there’s 1 point of network failure anyways.</p>
+</li>
+<li>
+<p>If you’re willing to use integrity hashes and other checks to ensure users are getting the right files</p>
+</li>
+<li>
+<p>If you need the performance they bring, and are willing to take the correct precautions (Like <a href="https://www.theverge.com/22787426/netflix-cdn-open-connect">Netflix’s crazy CDN’s</a>)</p>
+</li>
+</ul>
+<h2 id="conclusion">Conclusion</h2>
+<p>If you are going to use CDN’s, make sure you’re using them safely. Include integrity hashes where you can. Failing to do so means that people can inject whatever malicious code into your site they want, and your users pay the price. Generally CDN’s like <a href="https://unpkg.com/">unpkg</a>, <a href="https://cdnjs.cloudflare.com/">cloudflare</a>, and many more will actually generate the hashes for you, so there’s no reason not to!</p></article></main><script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js" integrity="sha256-mm3Re3y7xlvh+yCD+l/Zs1d+PU0AEad93MkWvljfm/s=" crossorigin="anonymous"></script></main></div><footer class="footer footer-center block mb-5 pt-10"><div class="pb-2">
+&copy; 2023 Kieran Wood
+</div><div class="inline opacity-75"><!-- Thanks for using this template. You can keep this line to support my work :) --><a href="https://astrofy-template.netlify.app/" target="_blank" class="font-bold">Astrofy Template</a> developed by
+<a href="https://manuelernestog.github.io" target="_blank" class="font-bold">Manuel Ernesto ⚡️</a></div></footer></div><div class="drawer-side z-40"><label for="my-drawer" class="drawer-overlay"></label><aside class="px-2 pt-2 h-auto min-h-full w-[19rem] bg-base-200 text-base-content flex flex-col"><div class="w-fit mx-auto mt-5 mb-6"><a href="/"><div class="avatar transition ease-in-out hover:scale-[102%] block m-auto"><div class="w-[8.5rem]"><img src="/astro-redesign/profile.jpg" class="mask mask-circle" alt="Profile image" width="300" height="300" loading="lazy" decoding="async"></div></div></a></div><ul class="menu grow shrink menu-md overflow-y-auto"><li><a class="py-3 text-base" id="home" href="/astro-redesign/">Home</a></li><li><a class="py-3 text-base" id="projects" href="/astro-redesign/projects">Projects</a></li><!-- <li><a class="py-3 text-base" id="services" href="/astro-redesign/services">Services</a></li>
+    <li><a class="py-3 text-base" id="store" href="/astro-redesign/store">Store</a></li> --><li><a class="py-3 text-base" id="blog" href="/astro-redesign/blog/">Blog</a></li><li><a class="py-3 text-base" id="cv" href="/astro-redesign/cv">CV</a></li><li><a class="py-3 text-base" href="/astro-redesign/contact">Contact</a></li></ul><script>(function(){const sideBarActiveItemID = undefined;
+const activeClass = "bg-base-300";
+
+const activeItemElem = document.getElementById(sideBarActiveItemID);
+activeItemElem && activeItemElem.classList.add(activeClass);
+})();</script><div class="block sticky pointer-events-none bottom-10 bg-base-200 justify-center h-12 [mask-image:linear-gradient(transparent,#000000)]"></div><div class="social-icons px-4 pb-5 pt-1 flex self-center justify-center sticky bottom-0 bg-base-200"><a href="https://github.com/descent098" target="_blank" class="mx-3" aria-label="Github" title="Github"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.026 2c-5.509 0-9.974 4.465-9.974 9.974 0 4.406 2.857 8.145 6.821 9.465.499.09.679-.217.679-.481 0-.237-.008-.865-.011-1.696-2.775.602-3.361-1.338-3.361-1.338-.452-1.152-1.107-1.459-1.107-1.459-.905-.619.069-.605.069-.605 1.002.07 1.527 1.028 1.527 1.028.89 1.524 2.336 1.084 2.902.829.091-.645.351-1.085.635-1.334-2.214-.251-4.542-1.107-4.542-4.93 0-1.087.389-1.979 1.024-2.675-.101-.253-.446-1.268.099-2.64 0 0 .837-.269 2.742 1.021a9.582 9.582 0 0 1 2.496-.336 9.554 9.554 0 0 1 2.496.336c1.906-1.291 2.742-1.021 2.742-1.021.545 1.372.203 2.387.099 2.64.64.696 1.024 1.587 1.024 2.675 0 3.833-2.33 4.675-4.552 4.922.355.308.675.916.675 1.846 0 1.334-.012 2.41-.012 2.737 0 .267.178.577.687.479C19.146 20.115 22 16.379 22 11.974 22 6.465 17.535 2 12.026 2z"></path></svg></a><a href="https://www.linkedin.com/in/kieran-wood" target="_blank" class="mx-3" aria-label="Linkedin" title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><circle cx="4.983" cy="5.009" r="2.188"></circle><path d="M9.237 8.855v12.139h3.769v-6.003c0-1.584.298-3.118 2.262-3.118 1.937 0 1.961 1.811 1.961 3.218v5.904H21v-6.657c0-3.27-.704-5.783-4.526-5.783-1.835 0-3.065 1.007-3.568 1.96h-.051v-1.66H9.237zm-6.142 0H6.87v12.139H3.095z"></path></svg></a><a href="https://instagram.com/descent098" target="_blank" class="mx-3" aria-label="Instagram" title="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 -5 24 24" style="fill: currentColor;transform: ;msFilter:;"><path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"></path></svg></a><a href="/rss.xml" target="_blank" class="mx-3" aria-label="RSS Feed" title="RSS Feed"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><path d="M19 20.001C19 11.729 12.271 5 4 5v2c7.168 0 13 5.832 13 13.001h2z"></path><path d="M12 20.001h2C14 14.486 9.514 10 4 10v2c4.411 0 8 3.589 8 8.001z"></path><circle cx="6" cy="18" r="2"></circle></svg></a></div></aside></div></div></body></html>

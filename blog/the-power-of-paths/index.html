@@ -1,0 +1,614 @@
+<!DOCTYPE html><html lang="en" data-theme="lofi"><head><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" type="image/jpeg" href="/astro-redesign/profile.jpg"><meta name="generator" content="Astro v3.2.3"><!-- Primary Meta Tags --><title>The power of paths | Kieran Wood</title><meta name="title" content="The power of paths"><meta name="description" content="Representing locations can be hard, but it's important to use good representations in code. This helps us in searching for things in code as well as being able to store types of information efficiently."><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://kieranwood.ca/astro-redesign/blog/the-power-of-paths/"><meta property="og:title" content="The power of paths"><meta property="og:description" content="Representing locations can be hard, but it's important to use good representations in code. This helps us in searching for things in code as well as being able to store types of information efficiently."><meta property="og:image" content="https://kieranwood.ca/astro-redesign/blog/paths/hero.jpg"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://kieranwood.ca/astro-redesign/blog/the-power-of-paths/"><meta property="twitter:title" content="The power of paths"><meta property="twitter:description" content="Representing locations can be hard, but it's important to use good representations in code. This helps us in searching for things in code as well as being able to store types of information efficiently."><meta property="twitter:image" content="https://kieranwood.ca/astro-redesign/blog/paths/hero.jpg"><link rel="stylesheet" href="/astro-redesign/_astro/404.d6853b94.css" />
+<style>.time-line-container>div:last-child .education__time>.education__line{display:none}
+</style><script type="module">mermaid.initialize({securityLevel:"loose",theme:"dark"});
+</script></head><body><div class="bg-base-100 drawer lg:drawer-open"><input id="my-drawer" type="checkbox" class="drawer-toggle"><div class="drawer-content bg-base-100"><div class="sticky lg:hidden top-0 z-30 flex h-16 w-full justify-center bg-opacity-90 backdrop-blur transition-all duration-100 bg-base-100 text-base-content shadow-sm"><div class="navbar"><div class="navbar-start"><label for="my-drawer" class="btn btn-square btn-ghost"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg></label></div><div class="navbar-center"><a class="btn btn-ghost normal-case text-xl" href="/">Kieran Wood ⚡️</a></div><div class="navbar-end"></div></div></div><div class="md:flex md:justify-center"><main class="p-6 pt-10 lg:max-w-[900px] max-w-[100vw]"><main class="md:flex md:justify-center"><article class="prose prose-lg max-w-[750px] prose-img:mx-auto"><img src="/astro-redesign/blog/paths/hero.jpg" alt="The power of paths" class="w-full mb-6" style="border-radius:.5em" width="750" height="422" loading="lazy" decoding="async"><h1 class="title my-2 text-4xl font-bold">The power of paths</h1><time>Jun 5, 2023</time><br><a href="/blog/tag/scorch" class="badge badge-outline ml-2 no-underline">scorch</a><a href="/blog/tag/web" class="badge badge-outline ml-2 no-underline">web</a><a href="/blog/tag/theory" class="badge badge-outline ml-2 no-underline">theory</a><a href="/blog/tag/low-level" class="badge badge-outline ml-2 no-underline">low-level</a><p class="text-lg text-italics">Crossposted from <a class="text-violet-700" target="_blank" href="https://schulichignite.com/blog/the-power-of-paths/">https://schulichignite.com/blog/the-power-of-paths/</a></p><div class="divider my-2"></div><p>A path is a way to something. It’s how we go from what we know, and where we are, to what we want to know, and where we want to go. When we’re programming we often need to get information in some way. The question is how do we create a path to get that information that is:</p>
+<ul>
+<li>Easy to use</li>
+<li>Provides us the information we need</li>
+<li>Is efficient</li>
+<li>Can be reused</li>
+</ul>
+<p>Whether it be a way to locate a file in a file system, or the way to locate an element on an HTML page, or an actual path between two locations on a map the solutions to these problems are often very similar.</p>
+<h2 id="graphs-trees--nodes">Graphs, trees &#x26; nodes</h2>
+<p>Throughout the article I will use the terms graph and nodes. This is a computer science concept that comes up <strong>a lot</strong>. The basics are that a graph/tree is a collection of nodes that are linked together. Nodes can represent anything, but usually they represent an object (class instance). As a simple example imagine this dictionary in python ( I have added whitespace to make it easier to read):</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #E1E4E8">users </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> {</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #9ECBFF">"Kieran Wood"</span><span style="color: #E1E4E8">:{</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #9ECBFF">"age"</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">24</span><span style="color: #E1E4E8">,</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #9ECBFF">"url"</span><span style="color: #E1E4E8">:</span><span style="color: #9ECBFF">"https://schulichignite.com/authors/kieran-wood/"</span><span style="color: #E1E4E8">, </span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #9ECBFF">"posts"</span><span style="color: #E1E4E8">:[</span></span>
+<span class="line"><span style="color: #E1E4E8">            {</span><span style="color: #9ECBFF">"It's caches all the way down"</span><span style="color: #E1E4E8">:{</span></span>
+<span class="line"><span style="color: #E1E4E8">                    </span><span style="color: #9ECBFF">"url"</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">"https://schulichignite.com/blog/its-caches-all-the-way-down/"</span><span style="color: #E1E4E8">,</span></span>
+<span class="line"><span style="color: #E1E4E8">                    </span><span style="color: #9ECBFF">"tags"</span><span style="color: #E1E4E8">:[</span></span>
+<span class="line"><span style="color: #E1E4E8">                        </span><span style="color: #9ECBFF">"optimization"</span><span style="color: #E1E4E8">,</span></span>
+<span class="line"><span style="color: #E1E4E8">                        </span><span style="color: #9ECBFF">"web"</span><span style="color: #E1E4E8">,</span></span>
+<span class="line"><span style="color: #E1E4E8">                        </span><span style="color: #9ECBFF">"scorch"</span><span style="color: #E1E4E8">,</span></span>
+<span class="line"><span style="color: #E1E4E8">                        </span><span style="color: #9ECBFF">"theory"</span><span style="color: #E1E4E8">,</span></span>
+<span class="line"><span style="color: #E1E4E8">                        </span><span style="color: #9ECBFF">"terminology"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #E1E4E8">                    ]</span></span>
+<span class="line"><span style="color: #E1E4E8">                }</span></span>
+<span class="line"><span style="color: #E1E4E8">            }</span></span>
+<span class="line"><span style="color: #E1E4E8">        ]</span></span>
+<span class="line"><span style="color: #E1E4E8">    },</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #9ECBFF">"Spencer Fietz"</span><span style="color: #E1E4E8">:{</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #9ECBFF">"age"</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">24</span><span style="color: #E1E4E8">,</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #9ECBFF">"url"</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">"https://schulichignite.com/authors/spencer-fietz/"</span><span style="color: #E1E4E8">,</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #9ECBFF">"posts"</span><span style="color: #E1E4E8">:[</span></span>
+<span class="line"><span style="color: #E1E4E8">            {</span><span style="color: #9ECBFF">"Custom Web Fonts"</span><span style="color: #E1E4E8">:{</span></span>
+<span class="line"><span style="color: #E1E4E8">                    </span><span style="color: #9ECBFF">"url"</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">"https://schulichignite.com/blog/custom-webfonts/"</span><span style="color: #E1E4E8">,</span></span>
+<span class="line"><span style="color: #E1E4E8">                    </span><span style="color: #9ECBFF">"tags"</span><span style="color: #E1E4E8">:[</span></span>
+<span class="line"><span style="color: #E1E4E8">                        </span><span style="color: #9ECBFF">"css"</span><span style="color: #E1E4E8">,</span></span>
+<span class="line"><span style="color: #E1E4E8">                        </span><span style="color: #9ECBFF">"web"</span><span style="color: #E1E4E8">,</span></span>
+<span class="line"><span style="color: #E1E4E8">                        </span><span style="color: #9ECBFF">"scorch"</span><span style="color: #E1E4E8">,</span></span>
+<span class="line"><span style="color: #E1E4E8">                    ]</span></span>
+<span class="line"><span style="color: #E1E4E8">                }</span></span>
+<span class="line"><span style="color: #E1E4E8">            }</span></span>
+<span class="line"><span style="color: #E1E4E8">        ]</span></span>
+<span class="line"><span style="color: #E1E4E8">    },</span></span>
+<span class="line"><span style="color: #E1E4E8">}</span></span></code></pre>
+<p>This could be represented with the following tree. Nodes are the hexagons, and circles are attributes (url’s removed because they’re distracting):</p>
+<pre class="mermaid">flowchart TD
+    ZZ{{Users}} --> A &#x26; AA
+    A{{Kieran Wood}} --> b((24)) &#x26; c((url)) &#x26; d((posts))
+    d --> e((It's Caches All the Way down)) --> f((url)) &#x26; g((tags))
+    g --> h((optimization)) &#x26; i((web)) &#x26; j((scorch)) &#x26; k((theory)) &#x26; l((terminology))
+    AA{{Spencer Fietz}} --> BB((24)) &#x26; CC((url)) &#x26; DD((posts))
+    DD --> EE((Custom Web Fonts)) --> FF((url)) &#x26; GG((tags))
+    GG --> HH((css)) &#x26; II((web)) &#x26; JJ((scorch))
+</pre>
+<p>This is a useful visualization because each edge (arrow/line) tells you what the node is related to. So we know that Spencer and Kieran are both under the Users node, so we know that to find them we can start at the Users node and work our way down. This will come up later!</p>
+<h2 id="what-are-paths">What are paths?</h2>
+<p>Paths come in many different forms, but essentially they all look to solve the problem of <em>resource location</em>. There is some sort of thing you want, and you need a way to specify where it is that allows you to access/store it. This can be used to specify where a file is/should be saved on your computer, to specifying a webpage a user wants, to even something like the moves made in a chess game.</p>
+<p>Paths simply define the “path” to follow, the same way a sidewalk is a path you can use to get from one place to another, or a road. Essentially they are a set of instructions to get from point A to point B. Just like roads and sidewalks which can be concrete, dirt, gravel or any other material, paths can come in tons of different formats and require different ways to traverse them.</p>
+<h2 id="ways-to-encode-locations">Ways to encode locations</h2>
+<p>There are many different standards that people use to encode locations. Encoding just means a way to take a set of information in one format, and convert it to another format. There are a ton of different formats for specifying locations, we will look at a few common types of data, and how to encode paths for them, as well as some generic encodings.</p>
+<h3 id="custom-left-right-format">Custom left-right format</h3>
+<p>First, for a simple example let’s create an encoding for telling someone how to get out of a maze by telling them to turn left or right at a junction. We could encode this data by having “L” for left, then “R” for right and then string them together (i.e. “LRLRRRL” is left, right, left, right, right, right, left). As they move through the maze when they come up on a junction they take the leftmost letter in a string, go the direction it specifies, and then remove the letter. So starting with this:</p>
+<p><img src="/blog/paths/path-start.png" alt=""></p>
+<p>You can then start to walk the path by going straight until you come upon a junction:</p>
+<p><img src="/blog/paths/junction-1.png" alt=""></p>
+<p>At this point you take the leftmost letter of the string, follow what direction it says, remove it from the string and then go straight until the next junction:</p>
+<p><img src="/blog/paths/junction-1-complete.png" alt=""></p>
+<p>At this junction you then take the leftmost letter of the string, follow what direction it says, remove it from the string and then go straight until the next junction:</p>
+<p><img src="/blog/paths/junction-2.png" alt=""></p>
+<p>You then end with an empty string and the following solution:</p>
+<p><img src="/blog/paths/complete.png" alt=""></p>
+<p>This was our own custom system, but now let’s look at some common ways people use to do resource location.</p>
+<h3 id="cells">Cells</h3>
+<p>Cells are a common system used to specify a location in grid-like systems (chess, spreadsheets, Bingo, tables etc.). These encodings work by specifying locations in rows (green) and columns (red):</p>
+<p><img src="/blog/paths/rows-columns.png" alt=""></p>
+<p>So the rows going from top to bottom would be <code>A B C</code>, <code>D E F</code>, and <code>G H I</code>, The columns are <code>A D G</code>, <code>B E H</code>, and <code>C F I</code>. With that knowledge let’s look at an example.</p>
+<h4 id="tic-tac-toe">Tic-Tac-Toe</h4>
+<p>For example let’s use the game Tic-Tac-Toe, one player is “X” and another is “O”, each player is aiming to create a line of 3 of their assigned character. This can be horizontal, vertical, or diagonal. There are 9 squares in a grid to start with:</p>
+<p><img src="/blog/paths/cells1.png" alt=""></p>
+<p>We can then add labels to the rows and columns to be able to label where each player puts their marks. In this case the X player puts their mark in the center, which is B2:</p>
+<p><img src="/blog/paths/cell-labels.png" alt=""></p>
+<p>Now as the game goes on X eventually wins. We can now record this game by writing down how X won. In this case they won with a line at <code>A1 B2 C3</code>:</p>
+<p><img src="/blog/paths/tic-tac-toe-done.png" alt=""></p>
+<h5 id="code">Code</h5>
+<p>We could put this example in code a few ways. One option would be to just take in a string of the moves, but this isn’t a great way of doing it because any number of formatting bugs have to be handled. Instead we could do this with some classes in python (if you’re unfamiliar look into <a href="https://realpython.com/python-data-classes/">dataclasses</a> and <a href="https://realpython.com/lessons/type-hinting/">type hints</a>):</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #F97583">from</span><span style="color: #E1E4E8"> dataclasses </span><span style="color: #F97583">import</span><span style="color: #E1E4E8"> dataclass</span></span>
+<span class="line"><span style="color: #F97583">from</span><span style="color: #E1E4E8"> typing </span><span style="color: #F97583">import</span><span style="color: #E1E4E8"> Literal, List</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #B392F0">@dataclass</span></span>
+<span class="line"><span style="color: #F97583">class</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">Cell</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">    row: Literal[</span><span style="color: #79B8FF">1</span><span style="color: #E1E4E8">, </span><span style="color: #79B8FF">2</span><span style="color: #E1E4E8">, </span><span style="color: #79B8FF">3</span><span style="color: #E1E4E8">] </span><span style="color: #6A737D"># Can be either a 1, 2 or 3</span></span>
+<span class="line"><span style="color: #E1E4E8">    column: Literal[</span><span style="color: #9ECBFF">"A"</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">"B"</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">"C"</span><span style="color: #E1E4E8">] </span><span style="color: #6A737D"># Can be either an "A", "B", or "C"</span></span>
+<span class="line"><span style="color: #E1E4E8">    player: Literal[</span><span style="color: #9ECBFF">"X"</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">"O"</span><span style="color: #E1E4E8">, </span><span style="color: #79B8FF">None</span><span style="color: #E1E4E8">] </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> </span><span style="color: #79B8FF">None</span><span style="color: #E1E4E8"> </span><span style="color: #6A737D"># Which player has the space, defaults to None</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #B392F0">@dataclass</span></span>
+<span class="line"><span style="color: #F97583">class</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">Board</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">    cells:List[Cell] </span><span style="color: #6A737D"># List of all the cells in the game</span></span>
+<span class="line"><span style="color: #E1E4E8">    winner:Literal[</span><span style="color: #9ECBFF">"X"</span><span style="color: #E1E4E8">,</span><span style="color: #9ECBFF">"O"</span><span style="color: #E1E4E8">, </span><span style="color: #79B8FF">None</span><span style="color: #E1E4E8">] </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> </span><span style="color: #79B8FF">None</span><span style="color: #E1E4E8"> </span><span style="color: #6A737D"># Which player has won, defaults to None</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #F97583">def</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">player_move</span><span style="color: #E1E4E8">(self, player: Literal[</span><span style="color: #9ECBFF">"X"</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">"O"</span><span style="color: #E1E4E8">], column:Literal[</span><span style="color: #9ECBFF">"A"</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">"B"</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">"C"</span><span style="color: #E1E4E8">], row:Literal[</span><span style="color: #79B8FF">1</span><span style="color: #E1E4E8">, </span><span style="color: #79B8FF">2</span><span style="color: #E1E4E8">, </span><span style="color: #79B8FF">3</span><span style="color: #E1E4E8">]):</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #6A737D"># Record a player's move</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #F97583">for</span><span style="color: #E1E4E8"> cell </span><span style="color: #F97583">in</span><span style="color: #E1E4E8"> </span><span style="color: #79B8FF">self</span><span style="color: #E1E4E8">.cells:</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #F97583">if</span><span style="color: #E1E4E8"> cell.row </span><span style="color: #F97583">==</span><span style="color: #E1E4E8"> row </span><span style="color: #F97583">and</span><span style="color: #E1E4E8"> cell.column </span><span style="color: #F97583">==</span><span style="color: #E1E4E8"> column:</span></span>
+<span class="line"><span style="color: #E1E4E8">                cell.player </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> player</span></span>
+<span class="line"><span style="color: #E1E4E8">                </span><span style="color: #F97583">return</span><span style="color: #E1E4E8"> </span><span style="color: #6A737D"># Found cell</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #F97583">raise</span><span style="color: #E1E4E8"> </span><span style="color: #79B8FF">ValueError</span><span style="color: #E1E4E8">(</span><span style="color: #F97583">f</span><span style="color: #9ECBFF">"Could not find cell </span><span style="color: #79B8FF">{</span><span style="color: #E1E4E8">column</span><span style="color: #79B8FF">}{</span><span style="color: #E1E4E8">row</span><span style="color: #79B8FF">}</span><span style="color: #9ECBFF">"</span><span style="color: #E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #6A737D"># Testing</span></span>
+<span class="line"><span style="color: #6A737D">## 1. Setup cells for new game</span></span>
+<span class="line"><span style="color: #E1E4E8">cells:List[Cell] </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> []</span></span>
+<span class="line"><span style="color: #F97583">for</span><span style="color: #E1E4E8"> column </span><span style="color: #F97583">in</span><span style="color: #E1E4E8"> [</span><span style="color: #9ECBFF">"A"</span><span style="color: #E1E4E8">,</span><span style="color: #9ECBFF">"B"</span><span style="color: #E1E4E8">,</span><span style="color: #9ECBFF">"C"</span><span style="color: #E1E4E8">]:</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #F97583">for</span><span style="color: #E1E4E8"> row </span><span style="color: #F97583">in</span><span style="color: #E1E4E8"> [</span><span style="color: #79B8FF">1</span><span style="color: #E1E4E8">,</span><span style="color: #79B8FF">2</span><span style="color: #E1E4E8">,</span><span style="color: #79B8FF">3</span><span style="color: #E1E4E8">]:</span></span>
+<span class="line"><span style="color: #E1E4E8">        cells.append(Cell(row, column))</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #6A737D">## 2. Create new game</span></span>
+<span class="line"><span style="color: #E1E4E8">game:Board </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> Board(cells)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #6A737D">## 3. Register player moves</span></span>
+<span class="line"><span style="color: #E1E4E8">game.player_move(</span><span style="color: #9ECBFF">"X"</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">"B"</span><span style="color: #E1E4E8">, </span><span style="color: #79B8FF">2</span><span style="color: #E1E4E8">)</span></span>
+<span class="line"><span style="color: #E1E4E8">game.player_move(</span><span style="color: #9ECBFF">"O"</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">"A"</span><span style="color: #E1E4E8">, </span><span style="color: #79B8FF">3</span><span style="color: #E1E4E8">)</span></span>
+<span class="line"><span style="color: #E1E4E8">game.player_move(</span><span style="color: #9ECBFF">"X"</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">"A"</span><span style="color: #E1E4E8">, </span><span style="color: #79B8FF">1</span><span style="color: #E1E4E8">)</span></span>
+<span class="line"><span style="color: #E1E4E8">game.player_move(</span><span style="color: #9ECBFF">"O"</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">"C"</span><span style="color: #E1E4E8">, </span><span style="color: #79B8FF">2</span><span style="color: #E1E4E8">)</span></span>
+<span class="line"><span style="color: #E1E4E8">game.player_move(</span><span style="color: #9ECBFF">"X"</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">"C"</span><span style="color: #E1E4E8">, </span><span style="color: #79B8FF">3</span><span style="color: #E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #6A737D">## 4. Register Winner</span></span>
+<span class="line"><span style="color: #E1E4E8">game.winner </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> </span><span style="color: #9ECBFF">"X"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #79B8FF">print</span><span style="color: #E1E4E8">(game) </span><span style="color: #6A737D"># Print the game record</span></span></code></pre>
+<h5 id="other-real-world-examples">Other real-world examples</h5>
+<p>There are tons of real-world examples of this sort of encoding being used, here are some examples:</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Algebraic_notation_(chess)">Algebraic Notation in Chess</a></li>
+<li><a href="https://bettersolutions.com/excel/formulas/cell-references-a1-r1c1-notation.htm">A1 &#x26; R1C1 Notation in Excel</a></li>
+<li><a href="http://sudopedia.enjoysudoku.com/Diagrams_and_Notations.html">Sudoku</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Games/Techniques/Tilemaps">Tielmapping</a> (using location of pixels in an image to reuse textures)</li>
+<li><a href="https://mathinsight.org/cartesian_coordinates">Coordinate systems (Cartesian Coordinates)</a></li>
+</ul>
+<p>and there are many others!</p>
+<h3 id="delimiters">Delimiters</h3>
+<p>Delimiters are an incredibly useful encoding for paths. They are used in situations that have containers and items. Items are basically just whatever resource you are looking for (files, location in a map app etc.), containers are something that can contain other containers and/or items (folders, cities in a map app etc.). When we write a path we will specify the container that contains the items and delimit (seperate) them with some sort of indicator. This let’s our program know where to find exactly what we’re looking for.</p>
+<h4 id="file-paths">File paths</h4>
+<p>For example on your computer file system you have drives &#x26; folders (containers), which hold files (items):</p>
+<p><img src="/blog/paths/delimiter1.png" alt=""></p>
+<p>With this we could then have a drive on a computer with the following structure:</p>
+<p><img src="/blog/paths/fp.png" alt=""></p>
+<p>If we then wanted <code>file.txt</code> we could encode the path with <code>C://project/file.txt</code>. Effectively we start with <code>C://</code> since that’s the drive that has the file we need, from there we basically use <code>/</code> to say “look inside here”. So if we wanted <code>lake.png</code> we would do <code>C://project/images/lake.png</code> as the path. In this case <code>/</code> is our <em>delimiter</em>, which means it’s what we use to make decisions about where to look inside.</p>
+<p>We can walkthrough the steps a program would take using the <code>C://project/images/lake.png</code> path. At the beginning we can just look for a drive, in our case <code>C://</code> (as we go I will strikethrough the current step):</p>
+<p><img src="/blog/paths/fp-2.png" alt=""></p>
+<p>Now that we have the drive we can just read the remaining path from left to right until we encounter a delimiter (<code>/</code>), when we do we take the text to the left of the delimiter, find the folder, enter it and then look inside it using the rest of the path:</p>
+<p><img src="/blog/paths/fp-3.png" alt=""></p>
+<p>Now the same process again to go inside the images folder:</p>
+<p><img src="/blog/paths/fp-4.png" alt=""></p>
+<p>Then finally we have the file:</p>
+<p><img src="/blog/paths/fp-5.png" alt=""></p>
+<p>*In the real world windows uses <code>\</code> linux and MacOS use <code>/</code> as path delimiters!</p>
+<h5 id="code-1">Code</h5>
+<p>This code shows a <strong>Very simple</strong>, long and <strong>buggy</strong> example of how you could make a “filesystem” in python. Since this example is long you can skip it by <a href="#relative-vs-absolute-paths">clicking here to go to the next section</a>:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #F97583">from</span><span style="color: #E1E4E8"> </span><span style="color: #79B8FF">__future__</span><span style="color: #E1E4E8"> </span><span style="color: #F97583">import</span><span style="color: #E1E4E8"> annotations </span><span style="color: #6A737D"># Allows type definitions to work properly</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #F97583">from</span><span style="color: #E1E4E8"> string </span><span style="color: #F97583">import</span><span style="color: #E1E4E8"> ascii_uppercase      </span><span style="color: #6A737D"># All uppercase letters in a list</span></span>
+<span class="line"><span style="color: #F97583">from</span><span style="color: #E1E4E8"> dataclasses </span><span style="color: #F97583">import</span><span style="color: #E1E4E8"> dataclass       </span><span style="color: #6A737D"># Used to create classes faster</span></span>
+<span class="line"><span style="color: #F97583">from</span><span style="color: #E1E4E8"> typing </span><span style="color: #F97583">import</span><span style="color: #E1E4E8"> Literal, List, Union </span><span style="color: #6A737D"># Used to type class attributes faster</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #6A737D"># Forces a value to be an uppercase letter</span></span>
+<span class="line"><span style="color: #79B8FF">UPPERCASE_LETTERS</span><span style="color: #E1E4E8"> </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> Literal[ </span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #9ECBFF">'A'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'B'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'C'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'D'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'E'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'F'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'G'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'H'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'I'</span><span style="color: #E1E4E8">,</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #9ECBFF">'J'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'K'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'L'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'M'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'N'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'O'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'P'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'Q'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'R'</span><span style="color: #E1E4E8">,</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #9ECBFF">'S'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'T'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'U'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'V'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'W'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'X'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'Y'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'Z'</span></span>
+<span class="line"><span style="color: #E1E4E8">]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #B392F0">@dataclass</span></span>
+<span class="line"><span style="color: #F97583">class</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">File</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">    filename:</span><span style="color: #79B8FF">str</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #B392F0">@dataclass</span></span>
+<span class="line"><span style="color: #F97583">class</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">Folder</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">    name: </span><span style="color: #79B8FF">str</span></span>
+<span class="line"><span style="color: #E1E4E8">    contents: Union[List[Union[Folder, File]], </span><span style="color: #79B8FF">None</span><span style="color: #E1E4E8">] </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> </span><span style="color: #79B8FF">None</span><span style="color: #E1E4E8"> </span><span style="color: #6A737D"># The contents of Folder</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #B392F0">@dataclass</span></span>
+<span class="line"><span style="color: #F97583">class</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">Drive</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">    letter: </span><span style="color: #79B8FF">UPPERCASE_LETTERS</span><span style="color: #E1E4E8"> </span><span style="color: #6A737D"># Forces a value to be an uppercase letter</span></span>
+<span class="line"><span style="color: #E1E4E8">    contents: Union[List[Union[Folder, File]], </span><span style="color: #79B8FF">None</span><span style="color: #E1E4E8">] </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> </span><span style="color: #79B8FF">None</span><span style="color: #E1E4E8"> </span><span style="color: #6A737D"># The contents of drive</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #F97583">def</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">find_folder</span><span style="color: #E1E4E8">(container:Union[Drive, Folder], folder_name:</span><span style="color: #79B8FF">str</span><span style="color: #E1E4E8">) -> Folder:</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #6A737D"># Finds a folder in a specified container</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #F97583">for</span><span style="color: #E1E4E8"> item </span><span style="color: #F97583">in</span><span style="color: #E1E4E8"> container.contents:</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #F97583">if</span><span style="color: #E1E4E8"> </span><span style="color: #79B8FF">type</span><span style="color: #E1E4E8">(item) </span><span style="color: #F97583">==</span><span style="color: #E1E4E8"> Folder:</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #F97583">if</span><span style="color: #E1E4E8"> item.name </span><span style="color: #F97583">==</span><span style="color: #E1E4E8"> folder_name:</span></span>
+<span class="line"><span style="color: #E1E4E8">                </span><span style="color: #F97583">return</span><span style="color: #E1E4E8"> item</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #F97583">raise</span><span style="color: #E1E4E8"> </span><span style="color: #79B8FF">ValueError</span><span style="color: #E1E4E8">(</span><span style="color: #F97583">f</span><span style="color: #9ECBFF">"Could not find folder </span><span style="color: #79B8FF">{</span><span style="color: #E1E4E8">folder_name</span><span style="color: #79B8FF">}</span><span style="color: #9ECBFF"> in </span><span style="color: #79B8FF">{</span><span style="color: #E1E4E8">container</span><span style="color: #79B8FF">}</span><span style="color: #9ECBFF">"</span><span style="color: #E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #F97583">def</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">find_file</span><span style="color: #E1E4E8">(container:Union[Drive, Folder], file_name:</span><span style="color: #79B8FF">str</span><span style="color: #E1E4E8">) -> File:</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #6A737D"># Finds a file in a specified container</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #79B8FF">print</span><span style="color: #E1E4E8">(</span><span style="color: #F97583">f</span><span style="color: #9ECBFF">"Checking if </span><span style="color: #79B8FF">{</span><span style="color: #E1E4E8">container.name</span><span style="color: #79B8FF">}</span><span style="color: #9ECBFF"> has file </span><span style="color: #79B8FF">{</span><span style="color: #E1E4E8">file_name</span><span style="color: #79B8FF">}</span><span style="color: #9ECBFF">"</span><span style="color: #E1E4E8">)</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #F97583">for</span><span style="color: #E1E4E8"> item </span><span style="color: #F97583">in</span><span style="color: #E1E4E8"> container.contents:</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #F97583">if</span><span style="color: #E1E4E8"> </span><span style="color: #79B8FF">type</span><span style="color: #E1E4E8">(item) </span><span style="color: #F97583">==</span><span style="color: #E1E4E8"> File:</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #F97583">if</span><span style="color: #E1E4E8"> item.filename </span><span style="color: #F97583">==</span><span style="color: #E1E4E8"> file_name:</span></span>
+<span class="line"><span style="color: #E1E4E8">                </span><span style="color: #F97583">return</span><span style="color: #E1E4E8"> item</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #F97583">raise</span><span style="color: #E1E4E8"> </span><span style="color: #79B8FF">ValueError</span><span style="color: #E1E4E8">(</span><span style="color: #F97583">f</span><span style="color: #9ECBFF">"Could not find file </span><span style="color: #79B8FF">{</span><span style="color: #E1E4E8">file_name</span><span style="color: #79B8FF">}</span><span style="color: #9ECBFF"> in </span><span style="color: #79B8FF">{</span><span style="color: #E1E4E8">container</span><span style="color: #79B8FF">}</span><span style="color: #9ECBFF">"</span><span style="color: #E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color: #F97583">def</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">get_file</span><span style="color: #E1E4E8">(path: </span><span style="color: #79B8FF">str</span><span style="color: #E1E4E8">, drives:List[Drive]):</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #6A737D"># Get's a file using a provided path</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #F97583">if</span><span style="color: #E1E4E8"> </span><span style="color: #F97583">not</span><span style="color: #E1E4E8"> path[</span><span style="color: #79B8FF">0</span><span style="color: #E1E4E8">] </span><span style="color: #F97583">in</span><span style="color: #E1E4E8"> ascii_uppercase:</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #F97583">raise</span><span style="color: #E1E4E8"> </span><span style="color: #79B8FF">ValueError</span><span style="color: #E1E4E8">(</span><span style="color: #9ECBFF">"Incorrect path provided"</span><span style="color: #E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #6A737D"># Find correct drive</span></span>
+<span class="line"><span style="color: #E1E4E8">    correct_drive </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> </span><span style="color: #79B8FF">None</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #F97583">for</span><span style="color: #E1E4E8"> drive </span><span style="color: #F97583">in</span><span style="color: #E1E4E8"> drives:</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #F97583">if</span><span style="color: #E1E4E8"> path[</span><span style="color: #79B8FF">0</span><span style="color: #E1E4E8">].upper() </span><span style="color: #F97583">==</span><span style="color: #E1E4E8"> drive.letter:</span></span>
+<span class="line"><span style="color: #E1E4E8">            correct_drive </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> drive</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #F97583">break</span><span style="color: #E1E4E8"> </span><span style="color: #6A737D"># End loop</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #F97583">if</span><span style="color: #E1E4E8"> </span><span style="color: #F97583">not</span><span style="color: #E1E4E8"> correct_drive: </span><span style="color: #6A737D"># No drive with the letter was found</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #F97583">raise</span><span style="color: #E1E4E8"> </span><span style="color: #79B8FF">ValueError</span><span style="color: #E1E4E8">(</span><span style="color: #F97583">f</span><span style="color: #9ECBFF">"No drive with leter </span><span style="color: #79B8FF">{</span><span style="color: #E1E4E8">path[</span><span style="color: #79B8FF">0</span><span style="color: #E1E4E8">]</span><span style="color: #79B8FF">}</span><span style="color: #9ECBFF"> found"</span><span style="color: #E1E4E8">)</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #6A737D"># Manipulate the path variable</span></span>
+<span class="line"><span style="color: #E1E4E8">    path </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> path[</span><span style="color: #79B8FF">4</span><span style="color: #E1E4E8">:] </span><span style="color: #6A737D"># Remove drive information</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #6A737D">## Assign variables for the loop</span></span>
+<span class="line"><span style="color: #E1E4E8">    filename </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> path.split(</span><span style="color: #9ECBFF">"/"</span><span style="color: #E1E4E8">)[</span><span style="color: #F97583">-</span><span style="color: #79B8FF">1</span><span style="color: #E1E4E8">] </span><span style="color: #6A737D"># Get just the filename</span></span>
+<span class="line"><span style="color: #E1E4E8">    folders </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> path.split(</span><span style="color: #9ECBFF">"/"</span><span style="color: #E1E4E8">)[:</span><span style="color: #F97583">-</span><span style="color: #79B8FF">1</span><span style="color: #E1E4E8">] </span><span style="color: #6A737D"># Get just the folders as a list of str's</span></span>
+<span class="line"><span style="color: #E1E4E8">    current_folder </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> find_folder(correct_drive, folders[</span><span style="color: #79B8FF">0</span><span style="color: #E1E4E8">])</span></span>
+<span class="line"><span style="color: #E1E4E8">    folders.pop(</span><span style="color: #79B8FF">0</span><span style="color: #E1E4E8">) </span><span style="color: #6A737D"># Remove first folder since it's the current_folder</span></span>
+<span class="line"><span style="color: #E1E4E8">    correct_file </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> </span><span style="color: #79B8FF">None</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #F97583">if</span><span style="color: #E1E4E8"> </span><span style="color: #F97583">not</span><span style="color: #E1E4E8"> folders: </span><span style="color: #6A737D"># If the file is in the current directory/drive</span></span>
+<span class="line"><span style="color: #E1E4E8">        correct_file </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> find_file(current_folder, filename)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #6A737D"># Loop over each folder to find the file</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #F97583">for</span><span style="color: #E1E4E8"> folder </span><span style="color: #F97583">in</span><span style="color: #E1E4E8"> folders:</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #6A737D"># Assign the current folder to the current piece of the path</span></span>
+<span class="line"><span style="color: #E1E4E8">        current_folder </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> find_folder(current_folder, folder)</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #F97583">try</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #79B8FF">print</span><span style="color: #E1E4E8">(</span><span style="color: #F97583">f</span><span style="color: #9ECBFF">"Checking </span><span style="color: #79B8FF">{</span><span style="color: #E1E4E8">folder</span><span style="color: #79B8FF">}</span><span style="color: #9ECBFF">"</span><span style="color: #E1E4E8">)</span></span>
+<span class="line"><span style="color: #E1E4E8">            correct_file </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> find_file(current_folder, filename)</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #F97583">break</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #F97583">except</span><span style="color: #E1E4E8"> </span><span style="color: #79B8FF">ValueError</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #79B8FF">print</span><span style="color: #E1E4E8">(current_folder)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #79B8FF">print</span><span style="color: #E1E4E8">(correct_file)</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color: #6A737D"># Testing</span></span>
+<span class="line"><span style="color: #6A737D">## Create files and folders</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #E1E4E8">project_folder </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> Folder(</span><span style="color: #9ECBFF">"project"</span><span style="color: #E1E4E8">, [</span></span>
+<span class="line"><span style="color: #E1E4E8">    File(</span><span style="color: #9ECBFF">"file.txt"</span><span style="color: #E1E4E8">),</span></span>
+<span class="line"><span style="color: #E1E4E8">    File(</span><span style="color: #9ECBFF">"readme.md"</span><span style="color: #E1E4E8">),</span></span>
+<span class="line"><span style="color: #E1E4E8">    Folder(</span><span style="color: #9ECBFF">"images"</span><span style="color: #E1E4E8">, [</span></span>
+<span class="line"><span style="color: #E1E4E8">        File(</span><span style="color: #9ECBFF">"lake.png"</span><span style="color: #E1E4E8">)</span></span>
+<span class="line"><span style="color: #E1E4E8">    ])</span></span>
+<span class="line"><span style="color: #E1E4E8">])</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #6A737D">## Create drive</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #E1E4E8">c </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> Drive(</span><span style="color: #9ECBFF">"C"</span><span style="color: #E1E4E8">, [project_folder])</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #6A737D"># Test looking for the file</span></span>
+<span class="line"><span style="color: #79B8FF">print</span><span style="color: #E1E4E8">(get_file(</span><span style="color: #9ECBFF">"C://project/images/lake.png"</span><span style="color: #E1E4E8">, [c]))</span></span></code></pre>
+<h4 id="relative-vs-absolute-paths">Relative vs Absolute paths</h4>
+<p>Up until this point we have been using absolute paths when talking about files. Absolute paths give you <em>exactly</em> where things are. It tells you which drive to look in, and exactly which folders. The advantage with this is that you can find what you’re looking for from <strong>anywhere</strong> on the computer. But they can also be long and unruly to deal with. For example here is the link to this webpage on my computer <code>C:\Users\Kieran\Desktop\development\ignite\website\content\blog\the power of paths.md</code>.</p>
+<p>But what if I currently have the website folder open? Why do I have to go back all the way and parse all of <code>C:\Users\Kieran\Desktop\development</code>? I could just skip that whole part. <em>Relative paths</em> do exactly that. When you run a script, or a file from a terminal your terminal already has a location open in order to read the file. Relative paths use your <em>current working directory</em> (<code>cwd</code>, or the folder you’re in currenly) to make paths easier to work with. This is handy because it’s shorter, and also it helps avoid problems with if you rename a directory. If I were to rename the project from <code>/website</code> to <code>ignite-site</code> the entire absolute path would break, but if I assume I’m already in that folder when I’m running the command, it doesn’t matter!</p>
+<p>Relative paths have a couple of special characters they use:</p>
+<ul>
+<li><code>.</code> This is your current folder you are in (<code>cwd</code>)</li>
+<li><code>..</code> This means “go up a directory”. So if you have an absolute path <code>C://folder-1/folder-2/python.exe</code>, and you are inside <code>/folder-2</code>, you can use <code>..</code> as a relative path to <code>/folder-1</code></li>
+</ul>
+<h4 id="document-parsing">Document parsing</h4>
+<p>Another example of delimiters that is common is in document parsing. <a href="https://en.wikipedia.org/wiki/OpenDocument_technical_specification">Microsot word documents</a>, HTML documents (like this page), <a href="http://docs.oasis-open.org/office/v1.2/os/OpenDocument-v1.2-os-part1.html#__RefHeading__440356_826425813">slideshow presentation systems</a> etc. all use delimiters to build <em>document trees</em>. If you are familiar with classes essentially what happens is as the source code is read a bunch of instances/objects are generated, you can then access those objects/instances with languages to manipulate them. The most common form of this is HTML being manipulated with Javascript.</p>
+<p>If you are unfamiliar with HTML or Javascript you should take our <a href="/scorch">scorch</a> course to learn more, but the basics are with HTML you create <em>elements</em>, these elements all have a few parts:</p>
+<ul>
+<li>Start tag; Indicates where an element starts (and what tagname or type of element it is)</li>
+<li>End tag; Indicates where an element ends</li>
+<li>Attributes (optional); Additional configuration information for the element (i.e. a link to a webpage for an anchor tag)</li>
+<li>Inner Content (optional); Text and other HTML that can be placed inside elements</li>
+</ul>
+<p>The format is:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #E1E4E8">&#x3C;</span><span style="color: #FDAEB7; font-style: italic">tagname</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">attribute</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"value"</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    innercontent</span></span>
+<span class="line"><span style="color: #E1E4E8">&#x3C;/</span><span style="color: #FDAEB7; font-style: italic">tagname</span><span style="color: #E1E4E8">></span></span></code></pre>
+<p>So for example here is a <code>div</code> tag (generic container), with a heading 2 tag (large text), and an anchor link (link to a page):</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #E1E4E8">&#x3C;</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    &#x3C;</span><span style="color: #85E89D">h2</span><span style="color: #E1E4E8">>Hello World!&#x3C;/</span><span style="color: #85E89D">h2</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    &#x3C;</span><span style="color: #85E89D">a</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">href</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"https://schulichignite.com"</span><span style="color: #E1E4E8">>Link to ignite!&#x3C;/</span><span style="color: #85E89D">a</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">&#x3C;/</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8">></span></span></code></pre>
+<p>With javascript we could then access the <code>h2</code> element using <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/getElementsByTagName">document.getElementsByTagName()</a>. This returns an array of elements, and in our case we want the first one in the document, so we access the 0th index:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #E1E4E8">console.</span><span style="color: #B392F0">log</span><span style="color: #E1E4E8">(document.</span><span style="color: #B392F0">getElementsByTagName</span><span style="color: #E1E4E8">(</span><span style="color: #9ECBFF">"h2"</span><span style="color: #E1E4E8">)[</span><span style="color: #79B8FF">0</span><span style="color: #E1E4E8">]) </span><span style="color: #6A737D">// Logs the element</span></span></code></pre>
+<p>Under the hood the browser is reading the HTML we provide, and creating a tree of <code>Element</code>’s (objects). These <code>Element</code>’s have a ton of attributes and methods associated with them,  but the most important for us are the children and parent attributes. Essentially as the browser encounters an <code>Element</code> it creates a new object, then it will attach any <code>Element</code>s found inside the <code>Element</code> to the children attribute, and then inside the new <code>Element</code> attach the outer <code>Element</code> as a parent. So with the following HTML:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #E1E4E8">&#x3C;</span><span style="color: #85E89D">body</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    &#x3C;</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">        &#x3C;</span><span style="color: #85E89D">h2</span><span style="color: #E1E4E8">>Hello &#x3C;</span><span style="color: #85E89D">strong</span><span style="color: #E1E4E8">>World!&#x3C;/</span><span style="color: #85E89D">strong</span><span style="color: #E1E4E8">>&#x3C;/</span><span style="color: #85E89D">h2</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">        &#x3C;</span><span style="color: #85E89D">a</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">href</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"https://schulichignite.com"</span><span style="color: #E1E4E8">>Link to ignite!&#x3C;/</span><span style="color: #85E89D">a</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    &#x3C;/</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    &#x3C;</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">        &#x3C;</span><span style="color: #85E89D">h3</span><span style="color: #E1E4E8">>Hello &#x3C;</span><span style="color: #85E89D">em</span><span style="color: #E1E4E8">>There!&#x3C;/</span><span style="color: #85E89D">em</span><span style="color: #E1E4E8">>&#x3C;/</span><span style="color: #85E89D">h3</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">        &#x3C;</span><span style="color: #85E89D">p</span><span style="color: #E1E4E8">>Lorem Ipsum dolor&#x3C;/</span><span style="color: #85E89D">p</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    &#x3C;/</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">&#x3C;/</span><span style="color: #85E89D">body</span><span style="color: #E1E4E8">></span></span></code></pre>
+<p>We would have something like this:</p>
+<pre class="mermaid">flowchart TD
+    ZZ{{Body}} --children--> A &#x26; AA
+    A{{div}} --children--> b{{h2}} &#x26; c{{a}}
+    b --children-->d{{strong}}
+    AA{{div}} --children--> BB{{h3}} &#x26; CC{{p}}
+    BB --children-->DD{{em}}
+</pre>
+<p>We could then add in the parent relations:</p>
+<pre class="mermaid">flowchart TD
+    ZZ{{Body}} --children--> A &#x26; AA
+    A &#x26; AA --parent-->  ZZ{{Body}} 
+
+    A{{div}} --children--> b{{h2}} &#x26; c{{a}}
+    b --children-->d{{strong}}
+     b{{h2}} &#x26; c{{a}}--parent--> A{{div}}
+    d{{strong}} --parent-->b 
+
+
+    AA{{div}} --children--> BB{{h3}} &#x26; CC{{p}}
+    BB --children-->DD{{em}}
+    
+    BB{{h3}} &#x26; CC{{p}} --parent--> AA{{div}} 
+    DD{{em}}--parent--> BB 
+</pre>
+<p>Then under the hood there is an extra node created called document:</p>
+<pre class="mermaid">flowchart TD
+    QQ{{Document}} --children-->ZZ
+    ZZ --Parent-->QQ
+    ZZ{{Body}} --children--> A &#x26; AA
+    A &#x26; AA --parent-->  ZZ{{Body}} 
+
+    A{{div}} --children--> b{{h2}} &#x26; c{{a}}
+    b --children-->d{{strong}}
+     b{{h2}} &#x26; c{{a}}--parent--> A{{div}}
+    d{{strong}} --parent-->b 
+
+
+    AA{{div}} --children--> BB{{h3}} &#x26; CC{{p}}
+    BB --children-->DD{{em}}
+    
+    BB{{h3}} &#x26; CC{{p}} --parent--> AA{{div}} 
+    DD{{em}}--parent--> BB 
+</pre>
+<p>So now to search for the <code>h2</code> tag like before we just start at the document node, and then search the children of each node in the tree one at a time to find what we need. Since we’re looking for <strong>all</strong> <code>h2</code>’s we can create an empty array, and append to it as we find <code>Element</code>‘s. This might look something like this in steps:</p>
+<pre class="mermaid">flowchart TD
+    AA{{div}} &#x26; A{{div}}
+    QQ{{Document}} --1. Check if an h2-->ZZ{{Body}}
+    ZZ{{Body}} --2. Check if an h2--> A &#x26; AA
+    A{{div}} --3. Check if an h2 --> b{{h2}} &#x26; c{{a}}
+    AA{{div}} --3. Check if an h2 --> BB{{h3}} &#x26; CC{{p}}
+</pre>
+<p>At step 3 since we found an h2 we can append that <code>Element</code> to our result list and continue searching the rest of the <code>Element</code>’s:</p>
+<pre class="mermaid">flowchart TD
+    AA{{div}} &#x26; A{{div}}
+    QQ{{Document}} --1. Check if an h2-->ZZ{{Body}}
+    ZZ{{Body}} --2. Check if an h2--> A &#x26; AA
+    A{{div}} --3. Check if an h2 --> b{{h2}} &#x26; c{{a}}
+    AA{{div}} --3. Check if an h2 --> BB{{h3}} &#x26; CC{{p}}
+    b --4. Check if h2--> d{{strong}}
+    BB --4. Check if h2-->DD{{em}}
+</pre>
+<p>Now that there are no more <code>Element</code>’s to check we return the result list, which has only the one element!</p>
+<h5 id="xpath--css">Xpath &#x26; CSS</h5>
+<p>CSS is another language used in web development to style webpages. It uses a selector system to find elements on a page to effect. This is another form of path encoding, it is too complex to go into here, but you can <a href="https://www.w3schools.com/cssref/css_selectors.php">find a reference guide here</a>. We will just cover some basics. For example we could with the following HTML:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #E1E4E8">&#x3C;</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    &#x3C;</span><span style="color: #85E89D">h2</span><span style="color: #E1E4E8">>Hello World!&#x3C;/</span><span style="color: #85E89D">h2</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    &#x3C;</span><span style="color: #85E89D">a</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">href</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"https://schulichignite.com"</span><span style="color: #E1E4E8">>Link to ignite!&#x3C;/</span><span style="color: #85E89D">a</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">&#x3C;/</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8">></span></span></code></pre>
+<p>Select <strong>any</strong> anchor link (<code>a</code>) inside a <code>div</code> and make it red:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #85E89D">div</span><span style="color: #E1E4E8"> </span><span style="color: #85E89D">a</span><span style="color: #E1E4E8">{</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #79B8FF">color</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">red</span><span style="color: #E1E4E8">;</span></span>
+<span class="line"><span style="color: #E1E4E8">}</span></span></code></pre>
+<p>or even select just links to <code>https://schulichginite.com</code> and make them orange, while making every other anchor tag in a div red:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #85E89D">div</span><span style="color: #E1E4E8"> </span><span style="color: #85E89D">a</span><span style="color: #E1E4E8">{</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #79B8FF">color</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">red</span><span style="color: #E1E4E8">;</span></span>
+<span class="line"><span style="color: #E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #85E89D">a</span><span style="color: #E1E4E8">[</span><span style="color: #B392F0">href</span><span style="color: #F97583">=</span><span style="color: #9ECBFF">"https://schulichignite.com"</span><span style="color: #E1E4E8">]{</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #79B8FF">color</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">orange</span><span style="color: #E1E4E8">;</span></span>
+<span class="line"><span style="color: #E1E4E8">}</span></span></code></pre>
+<p>CSS supports a bunch of fancy queries like only the first element of a type inside another element, or only every odd row in a table etc.</p>
+<p>CSS is not the only way to locate elements in a document though. There is another standard called <a href="https://www.w3schools.com/xml/xpath_intro.asp">Xpath</a>, which will look familiar. It is a way to specify looking up HTML elements in a <a href="https://www.w3schools.com/xml/xpath_syntax.asp">file-path-like syntax</a>. This is used in many systems including automation frameworks like <a href="https://www.selenium.dev/">selenium</a>. Actually HTML is just a subset of elements for a language called <a href="https://www.w3schools.com/xml/xml_whatis.asp">XML</a>, which is where the X in Xpath comes from! For example if we have the HTML:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #E1E4E8">&#x3C;</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    &#x3C;</span><span style="color: #85E89D">h2</span><span style="color: #E1E4E8">>Hello World!&#x3C;/</span><span style="color: #85E89D">h2</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    &#x3C;</span><span style="color: #85E89D">a</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">href</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"https://schulichignite.com"</span><span style="color: #E1E4E8">>Link to ignite!&#x3C;/</span><span style="color: #85E89D">a</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">&#x3C;/</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8">></span></span></code></pre>
+<p>and we wanted to access the h2 element, we could do:</p>
+<p><code>/div/h2</code> or <code>./div/h2</code> or <code>div/h2</code></p>
+<p>This is useful for more advanced queries like state queries (select elements based on attributes, text inside them etc.), multi-option queries (if element matches A or B paths), and location-based lookups (only the 3rd element of a certain type in the document). It can be used in javascript with <a href="https://developer.mozilla.org/en-US/docs/Web/XPath/Introduction_to_using_XPath_in_JavaScript">evaluate()</a>, but there are better ways to do this in javascript. It’s mostly useful for languages that don’t run in the browser like python where you can use it to query a system that makes sense out of HTML files like <a href="https://lxml.de/">lxml</a>, or in cases where HTML isn’t the only type of XML-like file you’re going to be working with!</p>
+<p>You can play around with Xpath using utilities like <a href="http://xpather.com/">xpather</a>.</p>
+<h4 id="url-parsing">URL parsing</h4>
+<p>URL’s are what you use to access websites. For examplle this page is on <code>https://schulichignite.com/blog/the-power-of-paths</code> and this looks pretty familiar! It’s very similar to file paths, and in the old days it actually was. Old servers used to just <em>proxy</em> a folder. What that means is you would have some domain like <code>example.com</code>, that domain would then act like a <a href="#relative-vs-absolute-paths">current working directory</a> from which people would then specify the HTML file they wanted to see! So if we had something like this, where the proxy is on <code>/site</code>:</p>
+<p><img src="/blog/paths/proxy.png" alt=""></p>
+<p>Then when users go to <code>example.com</code> they would get <code>index.html</code> (reserved name for historical purposes), then if they went to <code>example.com/about</code> they would get <code>about.html</code>!</p>
+<p>Most webservers do fancier things these days. For example <a href="">flask</a> will allow you to write templates using <a href="">jinja</a>. This is basically a fancy way of generating HTML from a file on-demand, which let’s you do things like update the page with the weather for the day. So a file like this:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #e1e4e8">&#x3C;h1>The weather today is:{{todays_temperature}} degrees celcius&#x3C;/h1></span></span></code></pre>
+<p>When a user comes to the URL, let’s say <code>weather.com/today</code> then it will load the file (<code>today.jinja</code>), and then return the content back to the user as if it were a normal HTML file!</p>
+<h3 id="lookups">Lookups</h3>
+<p>In systems that have <strong>guarenteed</strong> unique values you can often specify a path to something by a value. For example let’s say we have a database of users, and every user gets assigned an ID. It starts at 0, and is increased by 1 every time. This could then be used to lookup the user in a database since the ID is right there! This can be implemented with something as simple as a function that takes in an ID to lookup, and then goes through your resources to find the one with the ID, and return it.</p>
+<h4 id="uuidulid">UUID/ULID</h4>
+<p>Adding an increasing single number seems like a good way to do lookups, but it can cause problems. For an example imagine you’re creating files with the ID numbers (<code>1.json</code>,<code>2.json</code> etc.), and then you restart your app and the counter resets. You might end up overriding the values. Not to mention sometimes you might want to identify things uniquely in a way that isn’t guessable. For example a screenshot image hosting service, don’t want people to just go through each number and harvest personal data (ahem… <a href="https://www.wired.co.uk/article/lightshot-chrome-screenshot-app">lightshot</a>).</p>
+<p>UUID’s (Universally Unique IDentifier) is a system that generates a very hard to guess, and unique ID for exactly these sorts of situations. Another option for this is UULD’s (Universally Unique Lexicographically Sortable Identifier), this works the same as UUID’s except they allow you to check which ID was created before another. This is useful if you have a lot of data, and need to sort by time created (like a ecommerce shop where you have new products coming out all the time). This also makes it more efficient for sorting, and determining if an item exists, if you can tell for example that the ID a user is requesting does not exist within a range, then you know the ID is invalid!</p>
+<h4 id="anchorjumphash-links">Anchor/jump/hash links</h4>
+<p>In URL’s you will often have Anchor/jump/hash links. These are URL’s that will include a # at the end with an indicator. This indicator can be used to find locations that are specified by <strong>unique</strong> identifiers. For example in HTML if you add an ID to an element then there should only be 1 element with that ID (making it unique). Here is an example of the syntax used to create a table of contents:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #E1E4E8">&#x3C;</span><span style="color: #85E89D">style</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #85E89D">div</span><span style="color: #E1E4E8">{</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #79B8FF">height</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">80</span><span style="color: #F97583">vh</span><span style="color: #E1E4E8">; </span><span style="color: #6A737D">/*Make divs large so you can see the page move*/</span></span>
+<span class="line"><span style="color: #E1E4E8">}</span></span>
+<span class="line"><span style="color: #E1E4E8">&#x3C;/</span><span style="color: #85E89D">style</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">&#x3C;</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    &#x3C;</span><span style="color: #85E89D">h3</span><span style="color: #E1E4E8">>Table of contents&#x3C;/</span><span style="color: #85E89D">h3</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    &#x3C;</span><span style="color: #85E89D">ul</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">        &#x3C;</span><span style="color: #85E89D">li</span><span style="color: #E1E4E8">>&#x3C;</span><span style="color: #85E89D">a</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">href</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"#section-1"</span><span style="color: #E1E4E8">>Section 1&#x3C;/</span><span style="color: #85E89D">a</span><span style="color: #E1E4E8">>&#x3C;/</span><span style="color: #85E89D">li</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">        &#x3C;</span><span style="color: #85E89D">li</span><span style="color: #E1E4E8">>&#x3C;</span><span style="color: #85E89D">a</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">href</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"#section-2"</span><span style="color: #E1E4E8">>Section 2&#x3C;/</span><span style="color: #85E89D">a</span><span style="color: #E1E4E8">>&#x3C;/</span><span style="color: #85E89D">li</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">        &#x3C;</span><span style="color: #85E89D">li</span><span style="color: #E1E4E8">>&#x3C;</span><span style="color: #85E89D">a</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">href</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"#section-3"</span><span style="color: #E1E4E8">>Section 3&#x3C;/</span><span style="color: #85E89D">a</span><span style="color: #E1E4E8">>&#x3C;/</span><span style="color: #85E89D">li</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    &#x3C;/</span><span style="color: #85E89D">ul</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">&#x3C;/</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #E1E4E8">&#x3C;</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">id</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"section-1"</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">style</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"background:red; color:white;"</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    Sunt et nisi aliquip ut consectetur laborum minim officia eu. Anim consequat sunt excepteur Lorem officia minim commodo ex fugiat culpa ipsum occaecat aute officia. Sint fugiat sit officia ullamco tempor tempor. Voluptate pariatur excepteur ex mollit irure dolore consectetur non aute veniam exercitation. Ut cillum proident enim mollit esse pariatur id aute reprehenderit. Aute cupidatat tempor quis proident commodo quis dolore non.</span></span>
+<span class="line"><span style="color: #E1E4E8">&#x3C;/</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #E1E4E8">&#x3C;</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">id</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"section-2"</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">style</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"background:blue; color:white;"</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    Sunt et nisi aliquip ut consectetur laborum minim officia eu. Anim consequat sunt excepteur Lorem officia minim commodo ex fugiat culpa ipsum occaecat aute officia. Sint fugiat sit officia ullamco tempor tempor. Voluptate pariatur excepteur ex mollit irure dolore consectetur non aute veniam exercitation. Ut cillum proident enim mollit esse pariatur id aute reprehenderit. Aute cupidatat tempor quis proident commodo quis dolore non.</span></span>
+<span class="line"><span style="color: #E1E4E8">&#x3C;/</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #E1E4E8">&#x3C;</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">id</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"section-3"</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">style</span><span style="color: #E1E4E8">=</span><span style="color: #9ECBFF">"background:orange; color:white;"</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    Sunt et nisi aliquip ut consectetur laborum minim officia eu. Anim consequat sunt excepteur Lorem officia minim commodo ex fugiat culpa ipsum occaecat aute officia. Sint fugiat sit officia ullamco tempor tempor. Voluptate pariatur excepteur ex mollit irure dolore consectetur non aute veniam exercitation. Ut cillum proident enim mollit esse pariatur id aute reprehenderit. Aute cupidatat tempor quis proident commodo quis dolore non.</span></span>
+<span class="line"><span style="color: #E1E4E8">&#x3C;/</span><span style="color: #85E89D">div</span><span style="color: #E1E4E8">></span></span></code></pre>
+<p>Clicking any of the anchor tags will append <code>#section-&#x3C;number></code> to the end of the URL, which will trigger the browser to go to the element that has that ID. You can also work with these types of links directly in javascript using <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement/hash">hash</a>. This method is used for a ton of things including tables of content, and even to link to a specific clide in web-based slideshow systems like <a href="https://webslides.tv/">webslides</a>.</p>
+<h2 id="path-finding">Path Finding</h2>
+<p>While all these encoding formats for paths are great one question you might have is how you can actually find paths. There are tons of path finding algorithms for different use cases. They are a bit too complicated to look at in this article but here are some to look into:</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=Urx87-NMm6c&#x26;vl=en">Depth first Search</a></li>
+<li><a href="https://www.youtube.com/watch?v=pVfj6mxhdMw">Dijkstra’s Shortest Path</a></li>
+<li><a href="https://www.youtube.com/watch?v=HZ5YTanv5QE">Breadth First Search</a></li>
+<li><a href="https://www.youtube.com/watch?v=P3YID7liBug">Binary Search</a></li>
+</ul>
+<h3 id="dead-ends-and-scary-characters">Dead ends and scary characters</h3>
+<p>Not all paths go somewhere, or somewhere valid. There are several common types of bugs that occur with paths (and encodings in general), that you should be aware of as well as the solutions to these bugs. This is not an exhaustive list, but it should give you enough to solve the most common problems.</p>
+<h4 id="path-invalidation">Path invalidation</h4>
+<p>Sometimes when you’re given a path you will find out it’s invalid in some way (folder doesn’t exist or is misspelled). In these dead end cases there’s not much you can do besides request the user to change the path to a correct one.</p>
+<h4 id="sanitizing-and-escaping">Sanitizing and escaping</h4>
+<p>When writing paths (especially delimiter paths) there are reserved symbols. For example <code>/</code> is reserved to indicate a folder, but what if a folder has a <code>/</code> in the name? In these cases where there are reserved characters  that mean something special, you need to sanitize and/or escape the values. Sanitization is basically a process of finding any characters that should not be there and blacklisting them. This can be done by raising an error if they’re found in the wrong spot, or by stripping them from the path when they’re not supposed to be there.</p>
+<p>Escaping on the other hand still allows you to “use” those characters, but write them in a way that guarentees they are treated as text instead of as whatever they’re used for. For example with URL’s you cannot include spaces, instead you use a % and then the <a href="https://www.rapidtables.com/code/text/ascii-table.html">hex value in ascii</a>. So for something like <code>https://example.com/my page</code> it would become <code>https://example.com/my%20page</code> instead! Escaping would be done as a step just before whatever you’re using to process the path.</p>
+<h4 id="access-errors">Access Errors</h4>
+<p>Sometimes the path can be completely valid, but the user doesn’t have access to the resource. On the web this will result in a HTTP 403 error code, or on a computer this will be an access error in the filesystem. The only thing you can do in this case is ask the user to authenticate, but if their account doesn’t have access, then they can’t access te resource!</p>
+<h2 id="variable-encoding">Variable encoding</h2>
+<p>You can also often include data in your paths that can be used to help the processing. This can be to help you locate something inside a resource (a portion of a file), or to pass information to a resource when you access it (values like your username on a webpage).</p>
+<p>For example with URL’s in the browser there are three systems where you can pass data to the system reading the path called <a href="#anchorjump-links">anchor/jump/hash links</a> (see above), <a href="#path-params">path parameters</a> and <a href="#query-params">query parameters</a>. This can be useful to have someone for example go to another section in a document, in fact if you clicked any of the links in the previous sentence they are all <em>anchor links</em> that take you to different portions of the <em>same resource</em> (this page).</p>
+<h3 id="query-params">Query params</h3>
+<p>Query Parameters are values are included after the url with ? and key-value pairs for example:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #e1e4e8">weather.com/today?city=calgary</span></span></code></pre>
+<p>Multiple parameters</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #e1e4e8">weather.com/today?city=calgary&#x26;measurements=celcius</span></span></code></pre>
+<p>These are used to provide data to the page reading them. One example is that this is used on contact pages to pre-fill infromation. For example if you have a button on a product page to contact support for help about buying a particular product you might include <code>/contact?product=product_name</code> where <code>product_name</code> is the name of the product and then on the page you read that value into the form and pre-fill the subject line!</p>
+<h3 id="path-params">Path params</h3>
+<p>Path Parameters are values that are included in the main URL. So for example <code>weather.com/calgary</code> the API will define</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #e1e4e8">weather.com/{city} </span></span></code></pre>
+<p>The <code>/calgary</code> in <code>weather.com/calgary</code> is a variable called city</p>
+<p>Multiple Parameters</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #e1e4e8">weather.com/{city}/{measurement}</span></span>
+<span class="line"><span style="color: #e1e4e8">weather.com/calgary/celcius</span></span></code></pre>
+<p>I used {} here to indicate a variable, but some systems use <code>&#x3C;></code>, like <code>/&#x3C;city></code>. These are very common for filters. On this site for example you can filter by tag if you go to <code>https://schulichignite.com/tags/{tag}</code> (i.e. <a href="https://schulichignite.com/tags/web">https://schulichignite.com/tags/web</a>)</p>
+<h2 id="multipathpattern-matching-systems">Multipath/pattern matching systems</h2>
+<p>Sometimes you don’t want a path to just 1 thing. For example you might want to look for all files that have a certain phrase in them, or that have a certain set of numbers. One example might be a folder with a bunch of text files that all have the year they were created in the name:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #e1e4e8">└── 📁/reports</span></span>
+<span class="line"><span style="color: #e1e4e8">    ├── 📃2023.txt</span></span>
+<span class="line"><span style="color: #e1e4e8">    ├── 📃2022.txt</span></span>
+<span class="line"><span style="color: #e1e4e8">    ├── 📃2021.txt</span></span>
+<span class="line"><span style="color: #e1e4e8">    ├── 📃2020.txt</span></span>
+<span class="line"><span style="color: #e1e4e8">    ├── 📃2019.txt</span></span>
+<span class="line"><span style="color: #e1e4e8">    ├── 📃2018.txt</span></span>
+<span class="line"><span style="color: #e1e4e8">    ├── 📃2017.txt</span></span>
+<span class="line"><span style="color: #e1e4e8">    ├── 📃2016.txt</span></span>
+<span class="line"><span style="color: #e1e4e8">    ├── 📃2015.txt</span></span>
+<span class="line"><span style="color: #e1e4e8">    ├── 📃2014.txt</span></span>
+<span class="line"><span style="color: #e1e4e8">    ├── 📃2013.txt</span></span>
+<span class="line"><span style="color: #e1e4e8">    ├── 📃2012.txt</span></span>
+<span class="line"><span style="color: #e1e4e8">    ├── 📃2011.txt</span></span>
+<span class="line"><span style="color: #e1e4e8">    ├── 📃2010.txt</span></span>
+<span class="line"><span style="color: #e1e4e8">    ├── 📃2009.txt</span></span>
+<span class="line"><span style="color: #e1e4e8">    ├── 📃2008.txt</span></span>
+<span class="line"><span style="color: #e1e4e8">    ├── 📃2007.txt</span></span>
+<span class="line"><span style="color: #e1e4e8">    ├── 📃2006.txt</span></span>
+<span class="line"><span style="color: #e1e4e8">    ├── 📃2005.txt</span></span>
+<span class="line"><span style="color: #e1e4e8">    ├── 📃2004.txt</span></span>
+<span class="line"><span style="color: #e1e4e8">    └── 📃2003.txt</span></span></code></pre>
+<p>You might want some way to be able to specify a pattern that the data takes, and get a set of paths that match that pattern. For example all files between 2004-2010, or all files that have a <code>.txt</code> extension.</p>
+<h3 id="regex">Regex</h3>
+<p>Regex (regular expressions) is a language for pattern matching. It let’s you define patterns that it will then match for and return the results (<a href="https://regexone.com/">guide here</a>). Regex is way to complicated to cover in this article, but essentially the way it works is you define a string, that string contains the patterns you’re looking for. Here is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions/Cheatsheet">cheat sheet</a> to show off what all the symbols mean.</p>
+<p>Here are a couple of common use cases that are easy. For all of these cases we define a list of strings we wanna search through, then we define our pattern (the r in front of a string means to treat things like \n as the text \n not a newline like a normal string), and then we create a list of matching files using the pattern and the <code>re.search</code> function (re is the regex module in python).</p>
+<p>Finding all files with <code>.txt</code>:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #F97583">import</span><span style="color: #E1E4E8"> re </span><span style="color: #6A737D"># Lets you use regex in python</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #E1E4E8">file_names </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> [</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #9ECBFF">'2003.txt'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'2004.txt'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'2005.txt'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'2006.txt'</span><span style="color: #E1E4E8">,</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #9ECBFF">'2007.txt'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'2008.txt'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'2009.txt'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'2010.txt'</span><span style="color: #E1E4E8">,</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #9ECBFF">'2011.txt'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'2012.txt'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'2013.txt'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'2014.txt'</span><span style="color: #E1E4E8">,</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #9ECBFF">'2015.txt'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'2016.txt'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'2017.txt'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'2018.txt'</span><span style="color: #E1E4E8">,</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #9ECBFF">'2019.txt'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'2020.txt'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'2021.txt'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'2022.txt'</span><span style="color: #E1E4E8">,</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #9ECBFF">'2023.txt'</span></span>
+<span class="line"><span style="color: #E1E4E8">]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #E1E4E8">pattern </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> </span><span style="color: #F97583">r</span><span style="color: #9ECBFF">"</span><span style="color: #79B8FF">.</span><span style="color: #F97583">*</span><span style="color: #85E89D; font-weight: bold">\.</span><span style="color: #DBEDFF">txt</span><span style="color: #9ECBFF">"</span></span>
+<span class="line"><span style="color: #E1E4E8">matching_files </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> [</span><span style="color: #FFAB70">file</span><span style="color: #E1E4E8"> </span><span style="color: #F97583">for</span><span style="color: #E1E4E8"> </span><span style="color: #FFAB70">file</span><span style="color: #E1E4E8"> </span><span style="color: #F97583">in</span><span style="color: #E1E4E8"> file_names </span><span style="color: #F97583">if</span><span style="color: #E1E4E8"> re.search(pattern, </span><span style="color: #FFAB70">file</span><span style="color: #E1E4E8">)]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #79B8FF">print</span><span style="color: #E1E4E8">(matching_files)</span></span></code></pre>
+<p>Find all files between 2004-2010 in python:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #F97583">import</span><span style="color: #E1E4E8"> re </span><span style="color: #6A737D"># Lets you use regex in python</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #E1E4E8">file_names </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> [</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #9ECBFF">'2003.txt'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'2004.txt'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'2005.txt'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'2006.txt'</span><span style="color: #E1E4E8">,</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #9ECBFF">'2007.txt'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'2008.txt'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'2009.txt'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'2010.txt'</span><span style="color: #E1E4E8">,</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #9ECBFF">'2011.txt'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'2012.txt'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'2013.txt'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'2014.txt'</span><span style="color: #E1E4E8">,</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #9ECBFF">'2015.txt'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'2016.txt'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'2017.txt'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'2018.txt'</span><span style="color: #E1E4E8">,</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #9ECBFF">'2019.txt'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'2020.txt'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'2021.txt'</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">'2022.txt'</span><span style="color: #E1E4E8">,</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #9ECBFF">'2023.txt'</span></span>
+<span class="line"><span style="color: #E1E4E8">]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #E1E4E8">pattern </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> </span><span style="color: #F97583">r</span><span style="color: #9ECBFF">"</span><span style="color: #79B8FF">(</span><span style="color: #DBEDFF">200</span><span style="color: #79B8FF">[4-9]</span><span style="color: #F97583">|</span><span style="color: #DBEDFF">2010</span><span style="color: #79B8FF">)</span><span style="color: #85E89D; font-weight: bold">\.</span><span style="color: #DBEDFF">txt</span><span style="color: #9ECBFF">"</span></span>
+<span class="line"><span style="color: #E1E4E8">matching_files </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> [</span><span style="color: #FFAB70">file</span><span style="color: #E1E4E8"> </span><span style="color: #F97583">for</span><span style="color: #E1E4E8"> </span><span style="color: #FFAB70">file</span><span style="color: #E1E4E8"> </span><span style="color: #F97583">in</span><span style="color: #E1E4E8"> file_names </span><span style="color: #F97583">if</span><span style="color: #E1E4E8"> re.search(pattern, </span><span style="color: #FFAB70">file</span><span style="color: #E1E4E8">)]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #79B8FF">print</span><span style="color: #E1E4E8">(matching_files)</span></span></code></pre>
+<h3 id="stateattribute-selectors">State/attribute selectors</h3>
+<p>When parsing documents (especially on the web) we can find another example of <a href="#variable-encoding">variable encoding</a> called state/attribute selectors. Most places call these attribute selectors (since that’s the official name), so I will just call them attribute selectors from here on out. Attribute selectors allow you to find elements in a document based on the attributes/state of the element. Ocassionally this is guarenteed to only find 1 result (<a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById">document.getElementByID()</a>), but most selectors will find <strong>any</strong> elements that match the provided criteria (as explained <a href="#document-parsing">here</a>). For this we will use CSS to find any element that has a link to schulichignite.com and color it orange:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #85E89D">a</span><span style="color: #E1E4E8">[</span><span style="color: #B392F0">href</span><span style="color: #F97583">^=</span><span style="color: #9ECBFF">"https://schulichignite.com"</span><span style="color: #E1E4E8">]{</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #79B8FF">color</span><span style="color: #E1E4E8">:</span><span style="color: #79B8FF">orange</span><span style="color: #E1E4E8">;</span></span>
+<span class="line"><span style="color: #E1E4E8">}</span></span></code></pre>
+<p>in this case the <code>^</code> indicates that this is the string that should be at the <strong>start</strong> of the href, but there are other options to do this sort of pattern matching, details can be found <a href="https://www.geeksforgeeks.org/wildcard-selectors-and-in-css-for-classes/">here</a>.</p>
+<p>There are other types of selectors we can use called <a href="https://www.w3schools.com/css/css_pseudo_classes.asp">pseudo classes</a> which allow us to have conditional CSS based on the element state. These are in the format of:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #E1E4E8">selector:</span><span style="color: #85E89D">pseudo-class</span><span style="color: #E1E4E8">{</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #6A737D">/*CSS rules here*/</span></span>
+<span class="line"><span style="color: #E1E4E8">}</span></span></code></pre>
+<p>Where selector is a normal CSS selector you would use. For example changing the color of text only when a user hovers over it:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #85E89D">a</span><span style="color: #B392F0">:hover</span><span style="color: #E1E4E8">{</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #79B8FF">color</span><span style="color: #E1E4E8">:</span><span style="color: #79B8FF">blue</span><span style="color: #E1E4E8">;</span></span>
+<span class="line"><span style="color: #E1E4E8">}</span></span></code></pre>
+<p>We can also select according to the state of an element relative to the document. The most common example is “tiger striping” a table. As you can see on this page, odd rows are coloured differently in the html:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>column</th><th>column</th><th>column</th></tr></thead><tbody><tr><td>row</td><td>row</td><td>row</td></tr><tr><td>row</td><td>row</td><td>row</td></tr><tr><td>row</td><td>row</td><td>row</td></tr></tbody></table>
+<p>The HTML for the above table is:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #E1E4E8">&#x3C;</span><span style="color: #85E89D">table</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    &#x3C;</span><span style="color: #85E89D">thead</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">        &#x3C;</span><span style="color: #85E89D">tr</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">            &#x3C;</span><span style="color: #85E89D">th</span><span style="color: #E1E4E8">>column&#x3C;/</span><span style="color: #85E89D">th</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">            &#x3C;</span><span style="color: #85E89D">th</span><span style="color: #E1E4E8">>column&#x3C;/</span><span style="color: #85E89D">th</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">            &#x3C;</span><span style="color: #85E89D">th</span><span style="color: #E1E4E8">>column&#x3C;/</span><span style="color: #85E89D">th</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">        &#x3C;/</span><span style="color: #85E89D">tr</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    &#x3C;/</span><span style="color: #85E89D">thead</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    &#x3C;</span><span style="color: #85E89D">tbody</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">        &#x3C;</span><span style="color: #85E89D">tr</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">            &#x3C;</span><span style="color: #85E89D">td</span><span style="color: #E1E4E8">>row&#x3C;/</span><span style="color: #85E89D">td</span><span style="color: #E1E4E8">>   </span></span>
+<span class="line"><span style="color: #E1E4E8">            &#x3C;</span><span style="color: #85E89D">td</span><span style="color: #E1E4E8">>row&#x3C;/</span><span style="color: #85E89D">td</span><span style="color: #E1E4E8">>   </span></span>
+<span class="line"><span style="color: #E1E4E8">            &#x3C;</span><span style="color: #85E89D">td</span><span style="color: #E1E4E8">>row&#x3C;/</span><span style="color: #85E89D">td</span><span style="color: #E1E4E8">>   </span></span>
+<span class="line"><span style="color: #E1E4E8">        &#x3C;/</span><span style="color: #85E89D">tr</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">        &#x3C;</span><span style="color: #85E89D">tr</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">            &#x3C;</span><span style="color: #85E89D">td</span><span style="color: #E1E4E8">>row&#x3C;/</span><span style="color: #85E89D">td</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">            &#x3C;</span><span style="color: #85E89D">td</span><span style="color: #E1E4E8">>row&#x3C;/</span><span style="color: #85E89D">td</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">            &#x3C;</span><span style="color: #85E89D">td</span><span style="color: #E1E4E8">>row&#x3C;/</span><span style="color: #85E89D">td</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">        &#x3C;/</span><span style="color: #85E89D">tr</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">        &#x3C;</span><span style="color: #85E89D">tr</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">            &#x3C;</span><span style="color: #85E89D">td</span><span style="color: #E1E4E8">>row&#x3C;/</span><span style="color: #85E89D">td</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">            &#x3C;</span><span style="color: #85E89D">td</span><span style="color: #E1E4E8">>row&#x3C;/</span><span style="color: #85E89D">td</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">            &#x3C;</span><span style="color: #85E89D">td</span><span style="color: #E1E4E8">>row&#x3C;/</span><span style="color: #85E89D">td</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">        &#x3C;/</span><span style="color: #85E89D">tr</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">    &#x3C;/</span><span style="color: #85E89D">tbody</span><span style="color: #E1E4E8">></span></span>
+<span class="line"><span style="color: #E1E4E8">&#x3C;/</span><span style="color: #85E89D">table</span><span style="color: #E1E4E8">></span></span></code></pre>
+<p>We then use the CSS rule:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #85E89D">tr</span><span style="color: #B392F0">:nth-child</span><span style="color: #E1E4E8">(</span><span style="color: #79B8FF">even</span><span style="color: #E1E4E8">) {</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #79B8FF">background-color</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">#fffbea</span><span style="color: #E1E4E8">;</span></span>
+<span class="line"><span style="color: #E1E4E8">}</span></span></code></pre>
+<p>This says that if the currentt row is an even number as a child of the tbody then change it’s colour.</p>
+<h3 id="lookups--partials">Lookups &#x26; Partials</h3>
+<p>Earlier in the <a href="#lookups">lookups</a> section I mentioned that lookups require <strong>guarenteed</strong> uniqueness. This is true if you are looking for <strong>a result</strong>, if you are fine with multiple items (like in searches), then you might not need the uniquenes constraint. For example if you are building a search system for movies and someone enters a search term like <code>"inside"</code>, you may want to return all movies that have inside in the title (which is more than 1). In these cases your search term would be used to locate multiple resources, but you would still want a unique identifier for <strong>each movie</strong> so you can find the information about the 1 movie the person is looking for.</p></article></main><script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js" integrity="sha256-mm3Re3y7xlvh+yCD+l/Zs1d+PU0AEad93MkWvljfm/s=" crossorigin="anonymous"></script></main></div><footer class="footer footer-center block mb-5 pt-10"><div class="pb-2">
+&copy; 2023 Kieran Wood
+</div><div class="inline opacity-75"><!-- Thanks for using this template. You can keep this line to support my work :) --><a href="https://astrofy-template.netlify.app/" target="_blank" class="font-bold">Astrofy Template</a> developed by
+<a href="https://manuelernestog.github.io" target="_blank" class="font-bold">Manuel Ernesto ⚡️</a></div></footer></div><div class="drawer-side z-40"><label for="my-drawer" class="drawer-overlay"></label><aside class="px-2 pt-2 h-auto min-h-full w-[19rem] bg-base-200 text-base-content flex flex-col"><div class="w-fit mx-auto mt-5 mb-6"><a href="/"><div class="avatar transition ease-in-out hover:scale-[102%] block m-auto"><div class="w-[8.5rem]"><img src="/astro-redesign/profile.jpg" class="mask mask-circle" alt="Profile image" width="300" height="300" loading="lazy" decoding="async"></div></div></a></div><ul class="menu grow shrink menu-md overflow-y-auto"><li><a class="py-3 text-base" id="home" href="/astro-redesign/">Home</a></li><li><a class="py-3 text-base" id="projects" href="/astro-redesign/projects">Projects</a></li><!-- <li><a class="py-3 text-base" id="services" href="/astro-redesign/services">Services</a></li>
+    <li><a class="py-3 text-base" id="store" href="/astro-redesign/store">Store</a></li> --><li><a class="py-3 text-base" id="blog" href="/astro-redesign/blog/">Blog</a></li><li><a class="py-3 text-base" id="cv" href="/astro-redesign/cv">CV</a></li><li><a class="py-3 text-base" href="/astro-redesign/contact">Contact</a></li></ul><script>(function(){const sideBarActiveItemID = undefined;
+const activeClass = "bg-base-300";
+
+const activeItemElem = document.getElementById(sideBarActiveItemID);
+activeItemElem && activeItemElem.classList.add(activeClass);
+})();</script><div class="block sticky pointer-events-none bottom-10 bg-base-200 justify-center h-12 [mask-image:linear-gradient(transparent,#000000)]"></div><div class="social-icons px-4 pb-5 pt-1 flex self-center justify-center sticky bottom-0 bg-base-200"><a href="https://github.com/descent098" target="_blank" class="mx-3" aria-label="Github" title="Github"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.026 2c-5.509 0-9.974 4.465-9.974 9.974 0 4.406 2.857 8.145 6.821 9.465.499.09.679-.217.679-.481 0-.237-.008-.865-.011-1.696-2.775.602-3.361-1.338-3.361-1.338-.452-1.152-1.107-1.459-1.107-1.459-.905-.619.069-.605.069-.605 1.002.07 1.527 1.028 1.527 1.028.89 1.524 2.336 1.084 2.902.829.091-.645.351-1.085.635-1.334-2.214-.251-4.542-1.107-4.542-4.93 0-1.087.389-1.979 1.024-2.675-.101-.253-.446-1.268.099-2.64 0 0 .837-.269 2.742 1.021a9.582 9.582 0 0 1 2.496-.336 9.554 9.554 0 0 1 2.496.336c1.906-1.291 2.742-1.021 2.742-1.021.545 1.372.203 2.387.099 2.64.64.696 1.024 1.587 1.024 2.675 0 3.833-2.33 4.675-4.552 4.922.355.308.675.916.675 1.846 0 1.334-.012 2.41-.012 2.737 0 .267.178.577.687.479C19.146 20.115 22 16.379 22 11.974 22 6.465 17.535 2 12.026 2z"></path></svg></a><a href="https://www.linkedin.com/in/kieran-wood" target="_blank" class="mx-3" aria-label="Linkedin" title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><circle cx="4.983" cy="5.009" r="2.188"></circle><path d="M9.237 8.855v12.139h3.769v-6.003c0-1.584.298-3.118 2.262-3.118 1.937 0 1.961 1.811 1.961 3.218v5.904H21v-6.657c0-3.27-.704-5.783-4.526-5.783-1.835 0-3.065 1.007-3.568 1.96h-.051v-1.66H9.237zm-6.142 0H6.87v12.139H3.095z"></path></svg></a><a href="https://instagram.com/descent098" target="_blank" class="mx-3" aria-label="Instagram" title="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 -5 24 24" style="fill: currentColor;transform: ;msFilter:;"><path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"></path></svg></a><a href="/rss.xml" target="_blank" class="mx-3" aria-label="RSS Feed" title="RSS Feed"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><path d="M19 20.001C19 11.729 12.271 5 4 5v2c7.168 0 13 5.832 13 13.001h2z"></path><path d="M12 20.001h2C14 14.486 9.514 10 4 10v2c4.411 0 8 3.589 8 8.001z"></path><circle cx="6" cy="18" r="2"></circle></svg></a></div></aside></div></div></body></html>

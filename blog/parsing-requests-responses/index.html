@@ -1,0 +1,304 @@
+<!DOCTYPE html><html lang="en" data-theme="lofi"><head><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" type="image/jpeg" href="/astro-redesign/profile.jpg"><meta name="generator" content="Astro v3.2.3"><!-- Primary Meta Tags --><title>HHTTPPP; Parsing HTTP requests and responses | Kieran Wood</title><meta name="title" content="HHTTPPP; Parsing HTTP requests and responses"><meta name="description" content="How to parse HTTP requests/responses with regex. HHTTPP; Writing your own HTTP server Part 3/5"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://kieranwood.ca/astro-redesign/blog/parsing-requests-responses/"><meta property="og:title" content="HHTTPPP; Parsing HTTP requests and responses"><meta property="og:description" content="How to parse HTTP requests/responses with regex. HHTTPP; Writing your own HTTP server Part 3/5"><meta property="og:image" content="https://kieranwood.ca/astro-redesign/blog/hhttpp/hero.jpg"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://kieranwood.ca/astro-redesign/blog/parsing-requests-responses/"><meta property="twitter:title" content="HHTTPPP; Parsing HTTP requests and responses"><meta property="twitter:description" content="How to parse HTTP requests/responses with regex. HHTTPP; Writing your own HTTP server Part 3/5"><meta property="twitter:image" content="https://kieranwood.ca/astro-redesign/blog/hhttpp/hero.jpg"><link rel="stylesheet" href="/astro-redesign/_astro/404.d6853b94.css" />
+<style>.time-line-container>div:last-child .education__time>.education__line{display:none}
+</style><script type="module">mermaid.initialize({securityLevel:"loose",theme:"dark"});
+</script></head><body><div class="bg-base-100 drawer lg:drawer-open"><input id="my-drawer" type="checkbox" class="drawer-toggle"><div class="drawer-content bg-base-100"><div class="sticky lg:hidden top-0 z-30 flex h-16 w-full justify-center bg-opacity-90 backdrop-blur transition-all duration-100 bg-base-100 text-base-content shadow-sm"><div class="navbar"><div class="navbar-start"><label for="my-drawer" class="btn btn-square btn-ghost"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg></label></div><div class="navbar-center"><a class="btn btn-ghost normal-case text-xl" href="/">Kieran Wood ⚡️</a></div><div class="navbar-end"></div></div></div><div class="md:flex md:justify-center"><main class="p-6 pt-10 lg:max-w-[900px] max-w-[100vw]"><main class="md:flex md:justify-center"><article class="prose prose-lg max-w-[750px] prose-img:mx-auto"><img src="/astro-redesign/blog/hhttpp/hero.jpg" alt="HHTTPPP; Parsing HTTP requests and responses" class="w-full mb-6" style="border-radius:.5em" width="750" height="422" loading="lazy" decoding="async"><h1 class="title my-2 text-4xl font-bold">HHTTPPP; Parsing HTTP requests and responses</h1><time>Sep 18, 2023</time><br><a href="/blog/tag/python" class="badge badge-outline ml-2 no-underline">python</a><a href="/blog/tag/scorch" class="badge badge-outline ml-2 no-underline">scorch</a><a href="/blog/tag/web" class="badge badge-outline ml-2 no-underline">web</a><a href="/blog/tag/theory" class="badge badge-outline ml-2 no-underline">theory</a><p class="text-lg text-italics">Crossposted from <a class="text-violet-700" target="_blank" href="https://schulichignite.com/blog/hhttpp/parsing-requests-responses/">https://schulichignite.com/blog/hhttpp/parsing-requests-responses/</a></p><div class="divider my-2"></div><p>Now that we have our basic HTTP structure we need a way to read <strong>actual</strong> http requests/responses. Currently we have hardcoded everything, so today we will focus on creating everything we need for steps 2-4:</p>
+<ol>
+<li>Recieve plaintext request</li>
+<li><strong>Parse the plaintext into a <code>Request</code> object</strong></li>
+<li><strong>Process the <code>Request</code> object and generate a <code>Reponse</code> object</strong></li>
+<li><strong>Generate a plaintext response from the <code>Response</code> object</strong></li>
+</ol>
+<h2 id="terms--concepts">Terms &#x26; Concepts</h2>
+<p>To start there are some terms we need to understand. Here’s what we need to know about, and what we’re going to cover in more detail later.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Term</th><th>Description</th><th>Example</th></tr></thead><tbody><tr><td>Parser</td><td>A piece of code that can read data in one format (usually plain text) and parse them into another format (object, different text format etc.)</td><td>A fast <a href="https://github.com/MagicStack/httptools">HTTP parser</a> in python (also anything that works with HTTP will have some sort of parser)</td></tr><tr><td>Data Sanitization</td><td>Removing parts of an input that might cause undesirable behaviour</td><td>Cleaning text that comes in from a comment that could be interpreted as HTML so it doesn’t render as HTML when people visit the comments later</td></tr></tbody></table>
+<h2 id="what-is-regex">What is regex?</h2>
+<p>Regex is a pattern matching language. It let’s you define patterns of text that it will then return the matches for. So if you wanted to extract all the numbers from some text you can define a regex pattern. The patterns are called regex expressions, and are just plain text. For example all of the below are regex patterns:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #9ECBFF">"[A-z]"</span><span style="color: #E1E4E8"> </span><span style="color: #6A737D"># Match any single uppercase or lowercase character</span></span>
+<span class="line"><span style="color: #9ECBFF">"[a-z]"</span><span style="color: #E1E4E8"> </span><span style="color: #6A737D"># Match any single lowercase character</span></span>
+<span class="line"><span style="color: #9ECBFF">"[aef]"</span><span style="color: #E1E4E8"> </span><span style="color: #6A737D"># Match any single a, e or f</span></span>
+<span class="line"><span style="color: #9ECBFF">"\d"</span><span style="color: #E1E4E8"> </span><span style="color: #6A737D"># Match any single digit (0-9)</span></span></code></pre>
+<p>Regex will usually parsed in python using the <a href="https://docs.python.org/3/library/re.html">re</a> module (but we will also use <a href="https://docs.python.org/3/library/glob.html">glob</a>), and will create <code>Match</code> objects. These <code>Match</code> objects contain each match for the pattern you define. There are lots of different ways to use regex, but we will use 2 ways, globbing and capture groups.</p>
+<p>Capture groups is essentially the idea that we define a set of “groups”, and for each <code>Match</code> in the pattern there will be “groups” of text matched. For example we might read the first line of a HTTP request we will want different groups for the method, slug and http version. To create groups you put a sub-expression into parenthesis. For example to capture a single letter, and a single digit into separate groups you do <code>([A-z])(\d)</code>. This will find any letter then digit, so for example with the string <code>"a1,b5,dt,r7"</code> would have 3 matches <code>a1, b5 and r7</code> each with 2 groups:</p>
+<ul>
+<li><code>a1</code>: Group 1 is <code>a</code>, group 2 is <code>1</code></li>
+<li><code>b5</code>: Group 1 is <code>b</code>, group 2 is <code>5</code></li>
+<li><code>r7</code>: Group 1 is <code>r</code>, group 2 is <code>7</code></li>
+</ul>
+<p>We will cover globbing in the next section, it is a bit easier to do and is used to get a list of files.There is not enough time to cover regex fully, but for each set of regex we will use there will be an image explaining each portion of the expression. You can check the <a href="#more-resources">more resources</a> section for a general introduction to regex thatgoes into more details.</p>
+<h3 id="why">Why?</h3>
+<p>Regex is great for more complex patterns you need to locate. There are a few cases, but I want to give a comparisson to an alternative first. Iterative searching is where you go line-by-line and create some code that looks for your pattern manually. For example below we have the iterative code for collecting just the words that come before “apple” in a sentence</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #E1E4E8">test_input </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> </span><span style="color: #9ECBFF">"""blah blah apple blah blah</span></span>
+<span class="line"><span style="color: #9ECBFF">blah, blah blah blah apple apple</span></span>
+<span class="line"><span style="color: #9ECBFF">blah apple</span></span>
+<span class="line"><span style="color: #9ECBFF">apple</span></span>
+<span class="line"><span style="color: #9ECBFF">blah blah blah blah</span></span>
+<span class="line"><span style="color: #9ECBFF">"""</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #F97583">def</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">get_words_before_apple</span><span style="color: #E1E4E8">(text:</span><span style="color: #79B8FF">str</span><span style="color: #E1E4E8">) -> </span><span style="color: #79B8FF">str</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">    result </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> []</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #F97583">for</span><span style="color: #E1E4E8"> line </span><span style="color: #F97583">in</span><span style="color: #E1E4E8"> test_input.split(</span><span style="color: #9ECBFF">"</span><span style="color: #79B8FF">\n</span><span style="color: #9ECBFF">"</span><span style="color: #E1E4E8">):</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #F97583">if</span><span style="color: #E1E4E8"> </span><span style="color: #9ECBFF">"apple"</span><span style="color: #E1E4E8"> </span><span style="color: #F97583">in</span><span style="color: #E1E4E8"> line:</span></span>
+<span class="line"><span style="color: #E1E4E8">            start </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> line.index(</span><span style="color: #9ECBFF">"apple"</span><span style="color: #E1E4E8">)</span></span>
+<span class="line"><span style="color: #E1E4E8">            result.append(line[:start:]) </span><span style="color: #6A737D"># Cutt off at start of apple</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #F97583">else</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">            result.append(line)</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #F97583">return</span><span style="color: #E1E4E8"> </span><span style="color: #9ECBFF">"</span><span style="color: #79B8FF">\n</span><span style="color: #9ECBFF">"</span><span style="color: #E1E4E8">.join(result)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #E1E4E8">get_words_before_apple(test_input)</span></span></code></pre>
+<p>2 points about this code:</p>
+<ol>
+<li>There are a ton of whitespace bugs, along with other logical errors</li>
+<li>A regular expression would be much smaller, and likely easier to understand (<code>^(.*)apple.*</code>)</li>
+</ol>
+<p>That being said keep in mind that pattern matching in general is not <a href="https://www.youtube.com/watch?v=DDe-S3uef2w">always super simple</a> (<a href="https://blog.cloudflare.com/details-of-the-cloudflare-outage-on-july-2-2019/">writeup on this case</a>, <a href="https://blog.codinghorror.com/regular-expressions-now-you-have-two-problems/">another relevant article</a>), and most of the code, and regex you see initially had bugs when I wrote it. Any pattern matching is a great time to write tests, because trying to find ways to break your patterns leads you to improving them!</p>
+<p><strong>Regex</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Pros</th><th>Cons</th></tr></thead><tbody><tr><td>Universal accross languages</td><td>Used in tons of applications beyond just in programming languages (file+folder organization, searching etc.)</td></tr><tr><td>Syntax stays the same, so other people can help debug if they’re familiar with it</td><td>large learning curve initially</td></tr><tr><td>It is often faster than the iterative approach because the language will optimize the module/package for regex</td><td>The more clever the pattern, usually the more difficult it is to understand</td></tr><tr><td>There are tons of tools to help you write regex</td><td>You often need tools to understand a regex pattern</td></tr></tbody></table>
+<p><em>When to use</em></p>
+<p>You can use regex whenever, but the ideal situation is when you have complex patterns that would take a lot of effort to implement with itterative approaches. For example only the uppercase letters that occur between the worlds apple and strawberry <code>^.*apple(.*)strawberry.*$</code>.</p>
+<p>Additionally it can be used for more than just pattern matching in programs, regex can be a useful skill to learn for:</p>
+<ul>
+<li>Searching with <a href="https://www.gnu.org/software/grep/manual/grep.html">grep</a></li>
+<li>Organizing files + folders</li>
+<li>Searching &#x26; replacing in text editing applications (like <a href="https://learn.microsoft.com/en-us/visualstudio/ide/using-regular-expressions-in-visual-studio?view=vs-2022">vs code</a>)</li>
+</ul>
+<p><strong>Iterative Approach</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Pros</th><th>Cons</th></tr></thead><tbody><tr><td>No special pattern-matching language knowledge required</td><td>Often slower than regex because regex modules are often highly optimized</td></tr><tr><td>For super simple patterns it’s often easier to reason about</td><td>Complex patterns become very hard to reason about often</td></tr></tbody></table>
+<p>This works fine in python, but in lots of other languages you tend to itterate <strong>per letter</strong>. Regardless of which you choose to go with in your code I will cover options for both in the rest of the article.</p>
+<h2 id="getting-file-lists">Getting file lists</h2>
+<p>There are two more attributes we have added to the <code>Server</code> class, <code>file_list</code> and <code>urls</code>. <code>file_list</code> is a list of all the paths of files in <code>Server.proxy_directory</code>, and URL’s are going to be the URL’s that correspond to each file. The code for this can be found in <code>Server.__post_init__()</code>, and in this section we will describe how we generate <code>Server.file_list</code>.</p>
+<p>We are going to use the <a href="https://docs.python.org/3/library/glob.html">glob</a> module to get a list of files. This lets us define patterns similar to regex, but it’s specifically built for files. Since this is less applicable the basics are that <code>*</code> means replace with anything. So in our case to get every single file in a folder we can do <code>glob.glob("*.*")</code>. This is great, but what about if we have subdirectories (i.e. <code>/js/file.js</code>)? Now we need a fancier pattern.</p>
+<p>The easiest way to do this is following the pattern <code>&#x3C;folder>/**/*</code>, this says all files in all folders. We then pass the recursive flag and it will find everything <code>glob.glob("&#x3C;folder>/**/*, recursive=True)</code>. For performance reasons we are going to use <code>glob.iglob()</code> (works the same), and we will replace <code>&#x3C;folder></code> with the absolute path to the proxy_directory we set on our server object.</p>
+<p>Putting it all together here is the basic idea:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #F97583">class</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">Server</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #79B8FF">...</span><span style="color: #E1E4E8"> </span><span style="color: #6A737D"># More code</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #F97583">def</span><span style="color: #E1E4E8"> </span><span style="color: #79B8FF">__post_init__</span><span style="color: #E1E4E8">(self):</span></span>
+<span class="line"><span style="color: #E1E4E8">        proxy_dir </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> os.path.abspath(</span><span style="color: #79B8FF">self</span><span style="color: #E1E4E8">.proxy_directory) </span><span style="color: #6A737D"># Making path absolute makes this easier</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #F97583">for</span><span style="color: #E1E4E8"> </span><span style="color: #FFAB70">file</span><span style="color: #E1E4E8"> </span><span style="color: #F97583">in</span><span style="color: #E1E4E8"> glob.iglob(os.path.join(proxy_dir, </span><span style="color: #9ECBFF">'**'</span><span style="color: #E1E4E8">,</span><span style="color: #9ECBFF">"*.*"</span><span style="color: #E1E4E8">), </span><span style="color: #FFAB70">recursive</span><span style="color: #F97583">=</span><span style="color: #79B8FF">True</span><span style="color: #E1E4E8">):</span></span>
+<span class="line"><span style="color: #E1E4E8">            </span><span style="color: #79B8FF">self</span><span style="color: #E1E4E8">.file_list.append(os.path.join(proxy_dir, </span><span style="color: #FFAB70">file</span><span style="color: #E1E4E8">))</span></span></code></pre>
+<p>In the actual code I did the second part with a list comprehension:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #F97583">class</span><span style="color: #E1E4E8"> </span><span style="color: #B392F0">Server</span><span style="color: #E1E4E8">:</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #79B8FF">...</span><span style="color: #E1E4E8"> </span><span style="color: #6A737D"># More code</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #F97583">def</span><span style="color: #E1E4E8"> </span><span style="color: #79B8FF">__post_init__</span><span style="color: #E1E4E8">(self):</span></span>
+<span class="line"><span style="color: #E1E4E8">        proxy_dir </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> os.path.abspath(</span><span style="color: #79B8FF">self</span><span style="color: #E1E4E8">.proxy_directory)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #79B8FF">self</span><span style="color: #E1E4E8">.file_list </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> [</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #F97583">f</span><span style="color: #9ECBFF">"</span><span style="color: #79B8FF">{</span><span style="color: #E1E4E8">os.path.join(proxy_dir, </span><span style="color: #FFAB70">file</span><span style="color: #E1E4E8">)</span><span style="color: #79B8FF">}</span><span style="color: #9ECBFF">"</span><span style="color: #E1E4E8"> </span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #F97583">for</span><span style="color: #E1E4E8"> </span><span style="color: #FFAB70">file</span><span style="color: #E1E4E8"> </span><span style="color: #F97583">in</span><span style="color: #E1E4E8"> glob.iglob(os.path.join(proxy_dir, </span><span style="color: #9ECBFF">'**'</span><span style="color: #E1E4E8">,</span><span style="color: #9ECBFF">"*.*"</span><span style="color: #E1E4E8">), </span><span style="color: #FFAB70">recursive</span><span style="color: #F97583">=</span><span style="color: #79B8FF">True</span><span style="color: #E1E4E8">)</span></span>
+<span class="line"><span style="color: #E1E4E8">        ]</span></span></code></pre>
+<h3 id="creating-urls-from-file-list">Creating URL’s from file list</h3>
+<p>Now that we have the files, we want to make sure that we can match URL’s when they come in. For example if we recieve a GET request with <code>/about</code> as the slug we need to know what file to grab. In our case the only two extra rules we will have are:</p>
+<ul>
+<li>That HTML files will get their regular filenames, and their file with no extensions as valid URL’s. For example <code>/about</code> and <code>/about.html</code> will point to the same file. To do this we need a dictionary mapping of these URL’s to the files to be able to find it.</li>
+<li><code>/</code> is an alias for <code>index.html</code> (<a href="https://dpericich.medium.com/why-do-we-use-index-html-files-71cf1973e10#:~:text=The%20index%20is%20the%20root,specific%20location%20on%20the%20server.">this is just the norm in webdev</a>)</li>
+</ul>
+<p>So for example some simplified code might look like this:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"></span>
+<span class="line"><span style="color: #E1E4E8">proxy_directory </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> </span><span style="color: #9ECBFF">"/site"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #E1E4E8">files </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> [</span><span style="color: #9ECBFF">"/site/about.html"</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">"/site/js/main.js"</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">"/site/index.html"</span><span style="color: #E1E4E8">]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #E1E4E8">urls </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> </span><span style="color: #79B8FF">dict</span><span style="color: #E1E4E8">()</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span></span>
+<span class="line"><span style="color: #F97583">for</span><span style="color: #E1E4E8"> </span><span style="color: #FFAB70">file</span><span style="color: #E1E4E8"> </span><span style="color: #F97583">in</span><span style="color: #E1E4E8"> files:</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #F97583">if</span><span style="color: #E1E4E8"> </span><span style="color: #FFAB70">file</span><span style="color: #E1E4E8">.endswith(</span><span style="color: #9ECBFF">"index.html"</span><span style="color: #E1E4E8">): </span><span style="color: #6A737D"># Homepage</span></span>
+<span class="line"><span style="color: #E1E4E8">        urls[</span><span style="color: #9ECBFF">"/"</span><span style="color: #E1E4E8">] </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> </span><span style="color: #FFAB70">file</span></span>
+<span class="line"><span style="color: #E1E4E8">        urls[</span><span style="color: #9ECBFF">"/index.html"</span><span style="color: #E1E4E8">] </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> </span><span style="color: #FFAB70">file</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #F97583">elif</span><span style="color: #E1E4E8"> </span><span style="color: #FFAB70">file</span><span style="color: #E1E4E8">.endswith(</span><span style="color: #9ECBFF">".html"</span><span style="color: #E1E4E8">): </span><span style="color: #6A737D"># HTML files</span></span>
+<span class="line"><span style="color: #E1E4E8">        urls[</span><span style="color: #FFAB70">file</span><span style="color: #E1E4E8">.replace(proxy_directory, </span><span style="color: #9ECBFF">""</span><span style="color: #E1E4E8">)] </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> </span><span style="color: #FFAB70">file</span><span style="color: #E1E4E8"> </span><span style="color: #6A737D"># filename (i.e. /about.html)</span></span>
+<span class="line"><span style="color: #E1E4E8">        urls[</span><span style="color: #FFAB70">file</span><span style="color: #E1E4E8">.replace(proxy_directory, </span><span style="color: #9ECBFF">""</span><span style="color: #E1E4E8">)[:</span><span style="color: #F97583">-</span><span style="color: #79B8FF">5</span><span style="color: #E1E4E8">:]] </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> </span><span style="color: #FFAB70">file</span><span style="color: #E1E4E8"> </span><span style="color: #6A737D"># remove extension (i.e. /about)</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #F97583">else</span><span style="color: #E1E4E8">: </span><span style="color: #6A737D"># Non-html files</span></span>
+<span class="line"><span style="color: #E1E4E8">        urls[</span><span style="color: #FFAB70">file</span><span style="color: #E1E4E8">.replace(proxy_directory, </span><span style="color: #9ECBFF">""</span><span style="color: #E1E4E8">)] </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> </span><span style="color: #FFAB70">file</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #79B8FF">print</span><span style="color: #E1E4E8">(urls) </span><span style="color: #6A737D"># {'/about.html': '/site/about.html', '/about': '/site/about.html', '/js/main.js': '/site/js/main.js', '/': '/site/index.html', '/index.html': '/site/index.html'}</span></span></code></pre>
+<p>The actual implementation can be found in <code>Server.__post_init__()</code>.</p>
+<h2 id="matching-headers">Matching headers</h2>
+<p>Our first task is to create a pattern to match headers, this will be important for requests and responses, here is the regex for doing this:</p>
+<p><img src="/blog/hhttpp/Post%202/regex-http-headers.png" alt=""></p>
+<p><a href="https://regex101.com/r/9IHYxj/2">Link to regex101</a></p>
+<p>So essentially for each match group 1 is the header name, and group 2 is the header value. We can then assign that into a dictionary using group 1 as the key, and group 2 as the value. You can do this with normal strings in python like this:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #E1E4E8">response </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> </span><span style="color: #9ECBFF">"""HTTP/1.1 200 OK</span></span>
+<span class="line"><span style="color: #9ECBFF">Content-Type: text/html; charset=utf-8</span></span>
+<span class="line"><span style="color: #9ECBFF">Server: hhttpp</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #9ECBFF">&#x3C;!DOCTYPE HTML></span></span>
+<span class="line"><span style="color: #9ECBFF">&#x3C;html>&#x3C;body></span></span>
+<span class="line"><span style="color: #9ECBFF">&#x3C;h1>Hello, World!&#x3C;/h1></span></span>
+<span class="line"><span style="color: #9ECBFF">&#x3C;/body>&#x3C;/html></span></span>
+<span class="line"><span style="color: #9ECBFF">"""</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #6A737D"># Convert response to list of each line and skip the first line</span></span>
+<span class="line"><span style="color: #E1E4E8">response </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> response.split(</span><span style="color: #9ECBFF">"</span><span style="color: #79B8FF">\n</span><span style="color: #9ECBFF">"</span><span style="color: #E1E4E8">)[</span><span style="color: #79B8FF">1</span><span style="color: #E1E4E8">::]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #E1E4E8">headers </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> </span><span style="color: #79B8FF">dict</span><span style="color: #E1E4E8">()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #F97583">for</span><span style="color: #E1E4E8"> line </span><span style="color: #F97583">in</span><span style="color: #E1E4E8"> response:</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #F97583">if</span><span style="color: #E1E4E8"> </span><span style="color: #F97583">not</span><span style="color: #E1E4E8"> line: </span><span style="color: #6A737D"># Empty line means content starts</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #F97583">break</span><span style="color: #E1E4E8"> </span><span style="color: #6A737D"># end loop</span></span>
+<span class="line"><span style="color: #E1E4E8">    line </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> line.split(</span><span style="color: #9ECBFF">":"</span><span style="color: #E1E4E8">)</span></span>
+<span class="line"><span style="color: #E1E4E8">    headers[line[</span><span style="color: #79B8FF">0</span><span style="color: #E1E4E8">]] </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> line[</span><span style="color: #79B8FF">1</span><span style="color: #E1E4E8">]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #79B8FF">print</span><span style="color: #E1E4E8">(headers) </span><span style="color: #6A737D"># {'Content-Type': ' text/html; charset=utf-8', 'Server': ' hhttpp'}</span></span></code></pre>
+<p>But keep in mind this iterative approach can have bugs if someone sends a header to the server that is malformed.</p>
+<h2 id="parse-content">Parse content</h2>
+<p>For requests and responses we will need the content if it’s there. Luckily this is pretty easy. Content comes after headers and <strong>must</strong> have at least 1 empty line between the headers and content.</p>
+<p>With this one we will need a flag. A flag lets you change the functionality of regex, in our case we must set the <code>/s</code> flag, which will allow us to select multiple lines of content. Here is the regex that works to get this content:</p>
+<p><img src="/blog/hhttpp/Post%202/regex-http-response-content.png" alt=""></p>
+<p><a href="https://regex101.com/r/YDue2M/1">Link to regex101</a></p>
+<p>You can do this with normal strings in python like this:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #E1E4E8">response </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> </span><span style="color: #9ECBFF">"""HTTP/1.1 200 OK</span></span>
+<span class="line"><span style="color: #9ECBFF">Content-Type: text/html; charset=utf-8</span></span>
+<span class="line"><span style="color: #9ECBFF">Server: hhttpp</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #9ECBFF">&#x3C;!DOCTYPE HTML></span></span>
+<span class="line"><span style="color: #9ECBFF">&#x3C;html>&#x3C;body></span></span>
+<span class="line"><span style="color: #9ECBFF">&#x3C;h1>Hello, World!&#x3C;/h1></span></span>
+<span class="line"><span style="color: #9ECBFF">&#x3C;/body>&#x3C;/html></span></span>
+<span class="line"><span style="color: #9ECBFF">"""</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #6A737D"># Convert response to list of each line and skip the first line</span></span>
+<span class="line"><span style="color: #E1E4E8">response </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> response.split(</span><span style="color: #9ECBFF">"</span><span style="color: #79B8FF">\n</span><span style="color: #9ECBFF">"</span><span style="color: #E1E4E8">)[</span><span style="color: #79B8FF">1</span><span style="color: #E1E4E8">::]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #F97583">for</span><span style="color: #E1E4E8"> index, line </span><span style="color: #F97583">in</span><span style="color: #E1E4E8"> </span><span style="color: #79B8FF">enumerate</span><span style="color: #E1E4E8">(response):</span></span>
+<span class="line"><span style="color: #E1E4E8">    </span><span style="color: #F97583">if</span><span style="color: #E1E4E8"> </span><span style="color: #F97583">not</span><span style="color: #E1E4E8"> line: </span><span style="color: #6A737D"># Empty line means content starts</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #6A737D"># Recreate HTML joining each line with a newline at the end</span></span>
+<span class="line"><span style="color: #E1E4E8">        content </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> </span><span style="color: #9ECBFF">"</span><span style="color: #79B8FF">\n</span><span style="color: #9ECBFF">"</span><span style="color: #E1E4E8">.join(response[index</span><span style="color: #F97583">+</span><span style="color: #79B8FF">1</span><span style="color: #E1E4E8">::])</span></span>
+<span class="line"><span style="color: #E1E4E8">        </span><span style="color: #F97583">break</span><span style="color: #E1E4E8"> </span><span style="color: #6A737D"># end loop</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #79B8FF">print</span><span style="color: #E1E4E8">(content)</span></span></code></pre>
+<h2 id="parsing-requests">Parsing Requests</h2>
+<p>The main thing we will have to deal with is parsing a request and generating responses. So let’s look at how we will do this.</p>
+<h3 id="parsing-first-line-of-request">Parsing first line of request</h3>
+<p>The first line of a request is incredibly important, it contains information about the method used, the slug and the HTTP version. So we need a regex pattern to capture all this information:</p>
+<p><img src="/blog/hhttpp/Post%202/regex-first-line-of-http-request.png" alt=""></p>
+<p><a href="https://regex101.com/r/5UF0Re/1">Link to regex 101</a></p>
+<p>You can do this with normal strings in python like this:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #E1E4E8">request </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> </span><span style="color: #9ECBFF">"""GET /low-poly-ice-caps.jpg HTTP/1.1</span></span>
+<span class="line"><span style="color: #9ECBFF">Content-Type: text/html; charset=utf-8</span></span>
+<span class="line"><span style="color: #9ECBFF">Server: hhttpp</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #9ECBFF">&#x3C;!DOCTYPE HTML></span></span>
+<span class="line"><span style="color: #9ECBFF">&#x3C;html></span></span>
+<span class="line"><span style="color: #9ECBFF">    &#x3C;body></span></span>
+<span class="line"><span style="color: #9ECBFF">        &#x3C;h1>Hello, World!&#x3C;/h1></span></span>
+<span class="line"><span style="color: #9ECBFF">    &#x3C;/body></span></span>
+<span class="line"><span style="color: #9ECBFF">&#x3C;/html></span></span>
+<span class="line"><span style="color: #9ECBFF">"""</span></span>
+<span class="line"><span style="color: #6A737D"># Convert response to list of each line</span></span>
+<span class="line"><span style="color: #E1E4E8">request </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> request.split(</span><span style="color: #9ECBFF">"</span><span style="color: #79B8FF">\n</span><span style="color: #9ECBFF">"</span><span style="color: #E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #6A737D"># Split the first line by spaces, and assign to variables</span></span>
+<span class="line"><span style="color: #E1E4E8">method, slug, version </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> request[</span><span style="color: #79B8FF">0</span><span style="color: #E1E4E8">].split(</span><span style="color: #9ECBFF">" "</span><span style="color: #E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #6A737D"># Convert values to different types (this will throw errors if mistakes are made in the response)</span></span>
+<span class="line"><span style="color: #E1E4E8">version </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> </span><span style="color: #79B8FF">float</span><span style="color: #E1E4E8">(version.replace(</span><span style="color: #9ECBFF">"HTTP/"</span><span style="color: #E1E4E8">,</span><span style="color: #9ECBFF">""</span><span style="color: #E1E4E8">))</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #79B8FF">print</span><span style="color: #E1E4E8">(</span><span style="color: #F97583">f</span><span style="color: #9ECBFF">"</span><span style="color: #79B8FF">{</span><span style="color: #E1E4E8">method</span><span style="color: #F97583">=</span><span style="color: #79B8FF">}</span><span style="color: #9ECBFF">, </span><span style="color: #79B8FF">{</span><span style="color: #E1E4E8">slug</span><span style="color: #F97583">=</span><span style="color: #79B8FF">}</span><span style="color: #9ECBFF">, </span><span style="color: #79B8FF">{</span><span style="color: #E1E4E8">version</span><span style="color: #F97583">=</span><span style="color: #79B8FF">}</span><span style="color: #9ECBFF">"</span><span style="color: #E1E4E8">)</span></span></code></pre>
+<h2 id="parsing-responses">Parsing Responses</h2>
+<p>Now that we can parse headers, content, and requests, let’s look at how we should interpret responses. This won’t really matter for our features, but it will be handy for testing later.</p>
+<h3 id="check-first-line-of-response">Check first line of response</h3>
+<p>The first line of the response will have details about a response. As I mentioned this has no purpose in our code, but here is what you would need to do it:</p>
+<p><img src="/blog/hhttpp/Post%202/regex-first-line-of-http-response.png" alt=""></p>
+<p><a href="https://regex101.com/r/707uYq/1">Link to regex101</a></p>
+<p>You can do this with normal strings in python like this:</p>
+<pre class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #E1E4E8">response </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> </span><span style="color: #9ECBFF">"""HTTP/1.1 200 OK</span></span>
+<span class="line"><span style="color: #9ECBFF">Content-Type: text/html; charset=utf-8</span></span>
+<span class="line"><span style="color: #9ECBFF">Server: hhttpp</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #9ECBFF">&#x3C;!DOCTYPE HTML></span></span>
+<span class="line"><span style="color: #9ECBFF">&#x3C;html>&#x3C;body></span></span>
+<span class="line"><span style="color: #9ECBFF">&#x3C;h1>Hello, World!&#x3C;/h1></span></span>
+<span class="line"><span style="color: #9ECBFF">&#x3C;/body>&#x3C;/html></span></span>
+<span class="line"><span style="color: #9ECBFF">"""</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #6A737D"># Convert response to list of each line</span></span>
+<span class="line"><span style="color: #E1E4E8">response </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> response.split(</span><span style="color: #9ECBFF">"</span><span style="color: #79B8FF">\n</span><span style="color: #9ECBFF">"</span><span style="color: #E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #6A737D"># Split the first line by spaces, and assign to variables</span></span>
+<span class="line"><span style="color: #E1E4E8">header_version, status_code, response_description </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> response[</span><span style="color: #79B8FF">0</span><span style="color: #E1E4E8">].split(</span><span style="color: #9ECBFF">" "</span><span style="color: #E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #6A737D"># Convert values to different types (this will throw errors if mistakes are made in the response)</span></span>
+<span class="line"><span style="color: #E1E4E8">header_version </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> </span><span style="color: #79B8FF">float</span><span style="color: #E1E4E8">(header_version.split(</span><span style="color: #9ECBFF">"/"</span><span style="color: #E1E4E8">)[</span><span style="color: #F97583">-</span><span style="color: #79B8FF">1</span><span style="color: #E1E4E8">])</span></span>
+<span class="line"><span style="color: #E1E4E8">status_code </span><span style="color: #F97583">=</span><span style="color: #E1E4E8"> </span><span style="color: #79B8FF">int</span><span style="color: #E1E4E8">(status_code)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #79B8FF">print</span><span style="color: #E1E4E8">(</span><span style="color: #F97583">f</span><span style="color: #9ECBFF">"</span><span style="color: #79B8FF">{</span><span style="color: #E1E4E8">header_version</span><span style="color: #F97583">=</span><span style="color: #79B8FF">}</span><span style="color: #9ECBFF">, </span><span style="color: #79B8FF">{</span><span style="color: #E1E4E8">status_code</span><span style="color: #F97583">=</span><span style="color: #79B8FF">}</span><span style="color: #9ECBFF">, </span><span style="color: #79B8FF">{</span><span style="color: #E1E4E8">response_description</span><span style="color: #F97583">=</span><span style="color: #79B8FF">}</span><span style="color: #9ECBFF">"</span><span style="color: #E1E4E8">)</span></span></code></pre>
+<h2 id="more-resources">More resources</h2>
+<ul>
+<li><a href="https://regexone.com/lesson/introduction_abcs">Interactive introduction to regex</a></li>
+<li><a href="https://regex101.com/">regex 101; Great tool for writing regex</a></li>
+<li><a href="https://regexper.com/">Regexper; online visualizer for regex</a></li>
+<li><a href="https://www.debuggex.com/">debuggex; An online debugger for regex</a></li>
+</ul></article></main><script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js" integrity="sha256-mm3Re3y7xlvh+yCD+l/Zs1d+PU0AEad93MkWvljfm/s=" crossorigin="anonymous"></script></main></div><footer class="footer footer-center block mb-5 pt-10"><div class="pb-2">
+&copy; 2023 Kieran Wood
+</div><div class="inline opacity-75"><!-- Thanks for using this template. You can keep this line to support my work :) --><a href="https://astrofy-template.netlify.app/" target="_blank" class="font-bold">Astrofy Template</a> developed by
+<a href="https://manuelernestog.github.io" target="_blank" class="font-bold">Manuel Ernesto ⚡️</a></div></footer></div><div class="drawer-side z-40"><label for="my-drawer" class="drawer-overlay"></label><aside class="px-2 pt-2 h-auto min-h-full w-[19rem] bg-base-200 text-base-content flex flex-col"><div class="w-fit mx-auto mt-5 mb-6"><a href="/"><div class="avatar transition ease-in-out hover:scale-[102%] block m-auto"><div class="w-[8.5rem]"><img src="/astro-redesign/profile.jpg" class="mask mask-circle" alt="Profile image" width="300" height="300" loading="lazy" decoding="async"></div></div></a></div><ul class="menu grow shrink menu-md overflow-y-auto"><li><a class="py-3 text-base" id="home" href="/astro-redesign/">Home</a></li><li><a class="py-3 text-base" id="projects" href="/astro-redesign/projects">Projects</a></li><!-- <li><a class="py-3 text-base" id="services" href="/astro-redesign/services">Services</a></li>
+    <li><a class="py-3 text-base" id="store" href="/astro-redesign/store">Store</a></li> --><li><a class="py-3 text-base" id="blog" href="/astro-redesign/blog/">Blog</a></li><li><a class="py-3 text-base" id="cv" href="/astro-redesign/cv">CV</a></li><li><a class="py-3 text-base" href="/astro-redesign/contact">Contact</a></li></ul><script>(function(){const sideBarActiveItemID = undefined;
+const activeClass = "bg-base-300";
+
+const activeItemElem = document.getElementById(sideBarActiveItemID);
+activeItemElem && activeItemElem.classList.add(activeClass);
+})();</script><div class="block sticky pointer-events-none bottom-10 bg-base-200 justify-center h-12 [mask-image:linear-gradient(transparent,#000000)]"></div><div class="social-icons px-4 pb-5 pt-1 flex self-center justify-center sticky bottom-0 bg-base-200"><a href="https://github.com/descent098" target="_blank" class="mx-3" aria-label="Github" title="Github"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.026 2c-5.509 0-9.974 4.465-9.974 9.974 0 4.406 2.857 8.145 6.821 9.465.499.09.679-.217.679-.481 0-.237-.008-.865-.011-1.696-2.775.602-3.361-1.338-3.361-1.338-.452-1.152-1.107-1.459-1.107-1.459-.905-.619.069-.605.069-.605 1.002.07 1.527 1.028 1.527 1.028.89 1.524 2.336 1.084 2.902.829.091-.645.351-1.085.635-1.334-2.214-.251-4.542-1.107-4.542-4.93 0-1.087.389-1.979 1.024-2.675-.101-.253-.446-1.268.099-2.64 0 0 .837-.269 2.742 1.021a9.582 9.582 0 0 1 2.496-.336 9.554 9.554 0 0 1 2.496.336c1.906-1.291 2.742-1.021 2.742-1.021.545 1.372.203 2.387.099 2.64.64.696 1.024 1.587 1.024 2.675 0 3.833-2.33 4.675-4.552 4.922.355.308.675.916.675 1.846 0 1.334-.012 2.41-.012 2.737 0 .267.178.577.687.479C19.146 20.115 22 16.379 22 11.974 22 6.465 17.535 2 12.026 2z"></path></svg></a><a href="https://www.linkedin.com/in/kieran-wood" target="_blank" class="mx-3" aria-label="Linkedin" title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><circle cx="4.983" cy="5.009" r="2.188"></circle><path d="M9.237 8.855v12.139h3.769v-6.003c0-1.584.298-3.118 2.262-3.118 1.937 0 1.961 1.811 1.961 3.218v5.904H21v-6.657c0-3.27-.704-5.783-4.526-5.783-1.835 0-3.065 1.007-3.568 1.96h-.051v-1.66H9.237zm-6.142 0H6.87v12.139H3.095z"></path></svg></a><a href="https://instagram.com/descent098" target="_blank" class="mx-3" aria-label="Instagram" title="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 -5 24 24" style="fill: currentColor;transform: ;msFilter:;"><path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"></path></svg></a><a href="/rss.xml" target="_blank" class="mx-3" aria-label="RSS Feed" title="RSS Feed"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><path d="M19 20.001C19 11.729 12.271 5 4 5v2c7.168 0 13 5.832 13 13.001h2z"></path><path d="M12 20.001h2C14 14.486 9.514 10 4 10v2c4.411 0 8 3.589 8 8.001z"></path><circle cx="6" cy="18" r="2"></circle></svg></a></div></aside></div></div></body></html>
