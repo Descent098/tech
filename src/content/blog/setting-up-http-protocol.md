@@ -33,7 +33,7 @@ To start there are some terms we need to understand. Here are some of the basics
 
 Some of the most important terms we need to understand are what makes up a URL. A URL is what we type into a browser bar to get to a site (i.e. https://schulichignite.com). Here is a diagram breaking apart the different peices:
 
-![](/blog/hhttpp/Post%201/url-anatomy.png)
+![](/astro-redesign/blog/hhttpp/Post%201/url-anatomy.png)
 
 For those of you that can't read the image, this is the basic anatomy of a URL:
 
@@ -68,7 +68,7 @@ Let's look at the theory of how  HTTP works, and the steps made in the protocol.
 HTTP is a request to response protocol. This means the client will create a request that is sent to the host server which is then processed and a response is sent. You can think of this like mailing a letter to where you add in the contact details, send a letter and recieve a response:
 
 
-![](/blog/hhttpp/Post%201/http-request-response.png)
+![](/astro-redesign/blog/hhttpp/Post%201/http-request-response.png)
 
 Requests must have:
 
@@ -244,15 +244,15 @@ The easiest way to do this is right in your browser. If you are using a chromium
 
 For me I need to open the developer tools and then head to the network tab. 
 
-![](/blog/hhttpp/Post%201/ignite-network-tab.png)
+![](/astro-redesign/blog/hhttpp/Post%201/ignite-network-tab.png)
 
 Now that I have it open I can go to https://schulichignite.com and will see the network requests come in. There are a bunch of requests and responses. The one we care about for now is one that has the type of `document` (this is the initial request response):
 
-![](/blog/hhttpp/Post%201/initial-request.png)
+![](/astro-redesign/blog/hhttpp/Post%201/initial-request.png)
 
 We can now inspect this request directly by double clicking on it:
 
-![](/blog/hhttpp/Post%201/inspecting-headers.gif)
+![](/astro-redesign/blog/hhttpp/Post%201/inspecting-headers.gif)
 
 
 ### httpie
@@ -265,7 +265,7 @@ We can now inspect this request directly by double clicking on it:
 4. See the raw form of your request
 5. See your response
 
-![](/blog/hhttpp/Post%201/httpie-diagram.png)
+![](/astro-redesign/blog/hhttpp/Post%201/httpie-diagram.png)
 
 There is also a CLI version of httpie, but a much more robust CLI alternative is `Curl`
 
@@ -423,7 +423,7 @@ This approach of creating tests that expect the correct result, and then making 
 
 Essentially code wise we will have a single `Server` object. This server object will process incoming requests into `Request` objects, parse them, then generate a `Response` object and send back the correctly formatted response:
 
-![](/blog/hhttpp/Post%201/hhttpp-model.png)
+![](/astro-redesign/blog/hhttpp/Post%201/hhttpp-model.png)
 
 ### Additional features
 

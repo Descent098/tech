@@ -48,24 +48,24 @@ So to actually run the model there's a few options to do this (you will need to 
 1. If you only have 1 prompt you want to give; Use `ollama run <model name> "<prompt>"`. This will install the model if you don't have it, run the prompt and print the result
 2. If you want a conversation; Use `ollama run <model name>` and then you will be prompted once everything is setup to chat, and you can continue the chat as long as you want
 
-![](/blog/ai-at-home/ollama-run.png)
+![](/astro-redesign/blog/ai-at-home/ollama-run.png)
 
 So if you wanted to run llama2 you can run `ollama run llama2`, then give it prompts. For any model on the [ollama library](https://ollama.ai/library) you can check the tags for other versions. For example with llama2 there's a 7b, a 13b and a 70b version, as well as some other flavors. Each will have their own hardware requirements. For example to use the 13b variant you can run `ollama run llama2:13b`.
 
 Here is what it would look like on a windows machine (you don't need `wsl` on linux/macos):
 
-![](/blog/ai-at-home/ollama-running.gif)
+![](/astro-redesign/blog/ai-at-home/ollama-running.gif)
 
 ##### Running the web server
 
 If you run `ollama serve`, and then leave a model running you will get a message in the terminal running the server with a URL you can go to. In the terminal window that has `ollama serve` running, you can go and run a server (i.e. `ollama run llama2`), and you will see a message saying `llama server listening at http://127.0.0.1:<PORT>`. You can then head to that location to work with ollama over the web:
 
-![](/blog/ai-at-home/ollama-native-ui.gif)
+![](/astro-redesign/blog/ai-at-home/ollama-native-ui.gif)
 
 While this works, the UI kinda sucks. There's a ton of options that the ollama team [suggests in their readme file](https://github.com/jmorganca/ollama?tab=readme-ov-file#web--desktop), the nicest looking I've found is [ollama webui](https://github.com/ollama-webui/ollama-webui). To run this you will need to install [docker](https://www.docker.com/), then run the command in their readme (as of writing the command is `docker run -d -p 3000:8080 --add-host=host.docker.internal:host-gateway --name ollama-webui --restart always ghcr.io/ollama-webui/ollama-webui:main`). This will start the web ui at [http://localhost:3000](http://localhost:3000):
 
 
-![](/blog/ai-at-home/ollama-web-ui.gif)
+![](/astro-redesign/blog/ai-at-home/ollama-web-ui.gif)
 
 
 ## Image Generative AI's
@@ -80,7 +80,7 @@ Fooocus is one of the easiest to use image generators. It's a free and open sour
 
 Here is an example of a few images generated using Fooocus, which we will show you how to setup (keep in mind these are compressed versions):
 
-![](/blog/ai-at-home/example-images-fooocus.png)
+![](/astro-redesign/blog/ai-at-home/example-images-fooocus.png)
 
 #### Installation
 
@@ -111,27 +111,27 @@ You can pass `--preset realistic` for the realistic model, and `--preset anime` 
 
 You can then access the web interface at [http://localhost:7865/](http://localhost:7865/)
 
-![](/blog/ai-at-home/fooocus.gif)
+![](/astro-redesign/blog/ai-at-home/fooocus.gif)
 
 #### Additional examples
 
 Here are some additional examples using all the default settings:
 
-![](/blog/ai-at-home/space-example-fooocus.png)
+![](/astro-redesign/blog/ai-at-home/space-example-fooocus.png)
 
 ```yaml
 Prompt: Space station orbiting a planet with dust rings and a nebula in the background
 Style: Fooocus V2, Fooocus Sharp, Fooocus Photograph, Fooocus Enhance, Fooocus Cinematic, MRE Surreal Painting, SAI Fantasy Art, MRE Space ART
 ```
 
-![](/blog/ai-at-home/cabin-example-fooocus.png)
+![](/astro-redesign/blog/ai-at-home/cabin-example-fooocus.png)
 
 ```yaml
 Prompt: Spooky wood cabin with moss overgrown in a swamp
 Style: Fooocus V2, Fooocus Sharp, Fooocus Photograph, Fooocus Enhance, Fooocus Cinematic, Misc Horror, MRE Gloomy Art, Dark Moody Atmosphere
 ```
 
-![](/blog/ai-at-home/cowboy-example-fooocus.png)
+![](/astro-redesign/blog/ai-at-home/cowboy-example-fooocus.png)
 
 ```yaml
 Prompt: A steampunk cowboy in a western town pixel art style
@@ -140,14 +140,14 @@ Style: SAI Pixel Art, Artstyle Steampunk
 
 Because it was available I decided to test the anime optimized model as well:
 
-![](/blog/ai-at-home/cyberpunk-example-fooocus.png)
+![](/astro-redesign/blog/ai-at-home/cyberpunk-example-fooocus.png)
 
 ```yaml
 Prompt: Girl with robot arm in a hoodie in front of a window at night in a city
 Style: Fooocus V2, SAI Anime, SAI Digital Art, SAI Enhance, Futuristic Cyberpunk Cityscape, Game Cyberpunk Game
 ```
 
-![](/blog/ai-at-home/anime-cowboy-example-fooocus.png)
+![](/astro-redesign/blog/ai-at-home/anime-cowboy-example-fooocus.png)
 
 ```yaml
 Prompt: Cowboy on a black horse in a town with the sun setting behind them
@@ -159,7 +159,7 @@ Style: Fooocus V2, SAI Anime, SAI Digital Art, SAI Enhance, Artstyle Steampunk, 
 
 Invoke AI is a more configurable image generation system that gives you more manual control. Here is an example of a few images generated using invoke ai, which we will show you how to setup (keep in mind these are compressed versions):
 
-![](/blog/ai-at-home/example-images.png)
+![](/astro-redesign/blog/ai-at-home/example-images.png)
 
 Before we bother getting started the requirements to run the software are **very high**. You can find them [here](https://invoke-ai.github.io/InvokeAI/installation/INSTALLATION/#hardware-requirements), but the basics are that you will need a LOT of RAM, and a powerful GPU. You will also need quite a bit of disk space ~100GB at minimum. This is not something that most laptops can run unfortunately.
 
@@ -173,13 +173,13 @@ In order to run invoke you will first need to install python 3.10+. As of writin
 
 Once you have installed invoke using the automated installer you can go to it's install location and run `invoke.bat` (windows) or `invoke.sh` (macos/linux). By default it will install the standard stable diffusion models, if you want to install more run the script and then enter `5` at the menu. From there you can select which models to install, then select "Apply changes and Exit":
 
-![](/blog/ai-at-home/install-invoke-models.gif)
+![](/astro-redesign/blog/ai-at-home/install-invoke-models.gif)
 
 #### Usage
 
 You can run invoke very similarly to configuring it. Go to Invoke's install location and run `invoke.bat` (windows) or `invoke.sh`, then hit enter (or type 1 and hit enter). This will open the web UI and you can interact via the website that will be launched (at [http://localhost:9090](http://localhost:9090)):
 
-![](/blog/ai-at-home/invoke-ui.gif)
+![](/astro-redesign/blog/ai-at-home/invoke-ui.gif)
 
 Image generation is a bit more finicky and complicated than text generation. Instead of trying to explain what all the knobs and dials do, I would suggest looking at the invoke AI resources that are actually quite useful for learning (especially their [youtube channel](https://www.youtube.com/@invokeai)).
 
@@ -187,7 +187,7 @@ Image generation is a bit more finicky and complicated than text generation. Ins
 
 Invoke AI is a bit more difficult to use than foocus, but it does work well, all the below examples were using sdxl:
 
-![](/blog/ai-at-home/space-example-invoke.png)
+![](/astro-redesign/blog/ai-at-home/space-example-invoke.png)
 
 ```yaml 
 Prompt: Space station orbiting a planet with dust rings and a nebula in the background
@@ -196,7 +196,7 @@ Negative Prompt: out of frame, duplicate, watermark, signature, text
 Negative Style Prompt: city, electronics
 ```
 
-![](/blog/ai-at-home/cabin-example-invoke.png)
+![](/astro-redesign/blog/ai-at-home/cabin-example-invoke.png)
 
 ```yaml 
 Prompt: Spooky wood cabin with moss overgrown in a swamp
@@ -207,7 +207,7 @@ Negative Style Prompt: city, electronics
 
 SDXL can be a bit finicky, but sometimes there are combinations of prompts that work really well. You can find examples of these sorts of prompts [here](https://aituts.com/sdxl-prompts/#SDXL_v10_Prompt_Styles):
 
-![](/blog/ai-at-home/night-tokyo-example-invoke.png)
+![](/astro-redesign/blog/ai-at-home/night-tokyo-example-invoke.png)
 
 ```yaml 
 Prompt: breathtaking night street of Tokyo
@@ -218,7 +218,7 @@ Negative Style Prompt: anime, cartoon, graphic, text, painting, crayon, graphite
 
 As we can see SDXL does not do as well with pixel art and some other styles...
 
-![](/blog/ai-at-home/cowboy-example-invoke.png)
+![](/astro-redesign/blog/ai-at-home/cowboy-example-invoke.png)
 
 ```yaml 
 Prompt: A steampunk cowboy in a western town pixel art style

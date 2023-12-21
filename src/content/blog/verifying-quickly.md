@@ -199,11 +199,11 @@ So the insertion would take the steps:
 4. Create a node which contains the value and the key
 5. Insert the node into the index you calculated from the key
 
-![](/blog/hashing/hashtable-example.png)
+![](/astro-redesign/blog/hashing/hashtable-example.png)
 
 After insertion:
 
-![](/blog/hashing/ht-2.png)
+![](/astro-redesign/blog/hashing/ht-2.png)
 
 For searching/finding we would have the following algorithm:
 
@@ -213,11 +213,11 @@ For searching/finding we would have the following algorithm:
 
 So for steps 1-2:
 
-![](/blog/hashing/ht-find.png)
+![](/astro-redesign/blog/hashing/ht-find.png)
 
 Now we have the index we can do step 3
 
-![](/blog/hashing/ht-find2.png)
+![](/astro-redesign/blog/hashing/ht-find2.png)
 
 The code for the whole HashTable can be found here:
 
@@ -405,7 +405,7 @@ We see 2 distinct cases. In the first we have a script tag with attributes, no i
 
 So our `<script (.*)>` says, look for the text `"<script "` then put everything that comes afterwards **until** the `>` into a group (the parethesis `()` indicate a group). This group would be our attributes, and then the `(.*)</script>` says all the content after the opening tag and until the end tag will be placed in a second group (our inner content). 
 
-![](/blog/hashing/regex-match.png)
+![](/astro-redesign/blog/hashing/regex-match.png)
 
 Regex can do a lot of cool stuff, and you can see a great intro [here](https://www.youtube.com/watch?v=rhzKDrUiJVk), but for us I used [regex101](https://regex101.com/) to generate our code and modified it from there. The basics would be:
 

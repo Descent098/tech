@@ -38,7 +38,7 @@ You **do not have to be contributing to projects every day** for this advice to 
 
 This might seem obvious but the first step to building a good github profile is using your github account. The contribution graph on the homepage is often what shows who works on software, and who just talks about software:
 
-![](/blog/vcs/contrib-graph.png)
+![](/astro-redesign/blog/vcs/contrib-graph.png)
 
 I don't want this to just be platitudes, so let's talk about ways you can start using your account you may not have considered:
 
@@ -49,7 +49,7 @@ I don't want this to just be platitudes, so let's talk about ways you can start 
 
 It is common in software development to do [kanban boards](https://en.wikipedia.org/wiki/Kanban_board), basically it's software that lets you break up tasks into "tickets". You can then place these tickets in todo, and are able to see what you need to work on, while having columns for in-progress and done, so you can see what you're working on now, and what you've finished:
 
-![](/blog/vcs/kanban-board.png)
+![](/astro-redesign/blog/vcs/kanban-board.png)
 
 Planning your project is handy for a few reasons. But the main one is that if you are someone who picks up projects then wants to put them down for a while breaking things up into project boards helps you step in and out of a project. All your ideas about how to proceed and what to do when you pick it back up are stored for you!
 
@@ -107,11 +107,11 @@ A readme is the first thing people see when they hit your project. A good readme
 
 Here is an example of a bad readme:
 
-![](/blog/vcs/glass-portfolio.png)
+![](/astro-redesign/blog/vcs/glass-portfolio.png)
 
 Here is a better one:
 
-![](/blog/vcs/ahd.png)
+![](/astro-redesign/blog/vcs/ahd.png)
 
 Which would you be willing to rely on? There are other fancy things you can add if you want like a logo, a live demo etc. But the above considerations should be on every repo you want other people to use.
 

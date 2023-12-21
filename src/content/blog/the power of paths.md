@@ -94,23 +94,23 @@ There are many different standards that people use to encode locations. Encoding
 
 First, for a simple example let's create an encoding for telling someone how to get out of a maze by telling them to turn left or right at a junction. We could encode this data by having "L" for left, then "R" for right and then string them together (i.e. "LRLRRRL" is left, right, left, right, right, right, left). As they move through the maze when they come up on a junction they take the leftmost letter in a string, go the direction it specifies, and then remove the letter. So starting with this:
 
-![](/blog/paths/path-start.png)
+![](/astro-redesign/blog/paths/path-start.png)
 
 You can then start to walk the path by going straight until you come upon a junction:
 
-![](/blog/paths/junction-1.png)
+![](/astro-redesign/blog/paths/junction-1.png)
 
 At this point you take the leftmost letter of the string, follow what direction it says, remove it from the string and then go straight until the next junction:
 
-![](/blog/paths/junction-1-complete.png)
+![](/astro-redesign/blog/paths/junction-1-complete.png)
 
 At this junction you then take the leftmost letter of the string, follow what direction it says, remove it from the string and then go straight until the next junction:
 
-![](/blog/paths/junction-2.png)
+![](/astro-redesign/blog/paths/junction-2.png)
 
 You then end with an empty string and the following solution:
 
-![](/blog/paths/complete.png)
+![](/astro-redesign/blog/paths/complete.png)
 
 This was our own custom system, but now let's look at some common ways people use to do resource location.
 
@@ -118,7 +118,7 @@ This was our own custom system, but now let's look at some common ways people us
 
 Cells are a common system used to specify a location in grid-like systems (chess, spreadsheets, Bingo, tables etc.). These encodings work by specifying locations in rows (green) and columns (red):
 
-![](/blog/paths/rows-columns.png)
+![](/astro-redesign/blog/paths/rows-columns.png)
 
 So the rows going from top to bottom would be `A B C`, `D E F`, and `G H I`, The columns are `A D G`, `B E H`, and `C F I`. With that knowledge let's look at an example.
 
@@ -126,15 +126,15 @@ So the rows going from top to bottom would be `A B C`, `D E F`, and `G H I`, The
 
 For example let's use the game Tic-Tac-Toe, one player is "X" and another is "O", each player is aiming to create a line of 3 of their assigned character. This can be horizontal, vertical, or diagonal. There are 9 squares in a grid to start with:
 
-![](/blog/paths/cells1.png)
+![](/astro-redesign/blog/paths/cells1.png)
 
 We can then add labels to the rows and columns to be able to label where each player puts their marks. In this case the X player puts their mark in the center, which is B2:
 
-![](/blog/paths/cell-labels.png)
+![](/astro-redesign/blog/paths/cell-labels.png)
 
 Now as the game goes on X eventually wins. We can now record this game by writing down how X won. In this case they won with a line at `A1 B2 C3`:
 
-![](/blog/paths/tic-tac-toe-done.png)
+![](/astro-redesign/blog/paths/tic-tac-toe-done.png)
 
 ##### Code
 
@@ -207,29 +207,29 @@ Delimiters are an incredibly useful encoding for paths. They are used in situati
 
 For example on your computer file system you have drives & folders (containers), which hold files (items):
 
-![](/blog/paths/delimiter1.png)
+![](/astro-redesign/blog/paths/delimiter1.png)
 
 With this we could then have a drive on a computer with the following structure:
 
-![](/blog/paths/fp.png)
+![](/astro-redesign/blog/paths/fp.png)
 
 If we then wanted `file.txt` we could encode the path with `C://project/file.txt`. Effectively we start with `C://` since that's the drive that has the file we need, from there we basically use `/` to say "look inside here". So if we wanted `lake.png` we would do `C://project/images/lake.png` as the path. In this case `/` is our *delimiter*, which means it's what we use to make decisions about where to look inside. 
 
 We can walkthrough the steps a program would take using the `C://project/images/lake.png` path. At the beginning we can just look for a drive, in our case `C://` (as we go I will strikethrough the current step):
 
-![](/blog/paths/fp-2.png)
+![](/astro-redesign/blog/paths/fp-2.png)
 
 Now that we have the drive we can just read the remaining path from left to right until we encounter a delimiter (`/`), when we do we take the text to the left of the delimiter, find the folder, enter it and then look inside it using the rest of the path:
 
-![](/blog/paths/fp-3.png)
+![](/astro-redesign/blog/paths/fp-3.png)
 
 Now the same process again to go inside the images folder:
 
-![](/blog/paths/fp-4.png)
+![](/astro-redesign/blog/paths/fp-4.png)
 
 Then finally we have the file:
 
-![](/blog/paths/fp-5.png)
+![](/astro-redesign/blog/paths/fp-5.png)
 
 \*In the real world windows uses `\` linux and MacOS use `/` as path delimiters!
 
@@ -538,7 +538,7 @@ You can play around with Xpath using utilities like [xpather](http://xpather.com
 
 URL's are what you use to access websites. For examplle this page is on `https://schulichignite.com/blog/the-power-of-paths` and this looks pretty familiar! It's very similar to file paths, and in the old days it actually was. Old servers used to just *proxy* a folder. What that means is you would have some domain like `example.com`, that domain would then act like a [current working directory](#relative-vs-absolute-paths) from which people would then specify the HTML file they wanted to see! So if we had something like this, where the proxy is on `/site`:
 
-![](/blog/paths/proxy.png)
+![](/astro-redesign/blog/paths/proxy.png)
 
 Then when users go to `example.com` they would get `index.html` (reserved name for historical purposes), then if they went to `example.com/about` they would get `about.html`!
 

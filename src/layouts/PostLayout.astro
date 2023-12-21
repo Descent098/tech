@@ -15,8 +15,8 @@ import { Image } from "astro:assets";
 <BaseLayout title={title} description={description} image={heroImage}>
   <main class="md:flex md:justify-center">
     <article class="prose prose-lg max-w-[750px] prose-img:mx-auto">
-      {heroImage && <Image width={750} height={422} format="webp" src={heroImage} alt={title} class="w-full mb-6" style="border-radius:.5em" />}
-      <h1 class="title my-2 text-4xl font-bold">{title}</h1>
+      {heroImage && <Image width={750} height={422} format="webp" transition:name={heroImage} transition:animate="initial" src={heroImage} alt={title} class="w-full mb-6" style="border-radius:.5em" />}
+      <h1 class="title my-2 text-4xl font-bold" transition:name={title} transition:animate="initial">{title}</h1>
       {pubDate && <time>{displayDate}</time>}
       <br />
       {badge && <div class="badge badge-secondary my-1">{badge}</div>}
