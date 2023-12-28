@@ -4,7 +4,7 @@ subtitle: Using other people's code
 description: "Ever wondered what open source software is? What about how to use other people's code appropriately? We cover the basics of licensing and vendoring in this article!"
 pubDate: 2023-03-13T00:00:00-06:00
 modified_date: 2023-03-13T00:00:00-06:00
-heroImage: /astro-redesign/blog/stealing.jpg
+heroImage: /tech/blog/stealing.jpg
 crosspostURL: https://schulichignite.com/blog/stealing-like-a-developer/
 tags:
   - scorch

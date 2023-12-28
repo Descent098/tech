@@ -4,7 +4,7 @@ subtitle: "Taking git repositories online"
 description: "Now we know how to use git we can look at the social aspects of coding. Intro to VCS Part 3/4"
 pubDate: 2023-10-30T00:00:00-06:00
 modified_date: ""
-heroImage: /astro-redesign/blog/vcs/hero.jpg
+heroImage: /tech/blog/vcs/hero.jpg
 crosspostURL: https://schulichignite.com/blog/vcs/intro-to-github/
 tags:
   - theory
@@ -40,11 +40,11 @@ To use github you will need an account, you can create one [here](https://github
 
 1. Once we have created an account we can initialize a repository directly on github by hitting the plus (+) in the top corner and hitting *New Repository*
  
-![](/astro-redesign/blog/vcs/remote-init.png)
+![](/tech/blog/vcs/remote-init.png)
 
 2. We now just have to fill out some fields to finish creating the repository
  
-![](/astro-redesign/blog/vcs/remote-init-2.png)
+![](/tech/blog/vcs/remote-init-2.png)
 
 3. To get our code locally we can use `git clone <URL>`, so in my case I can use `git clone https://descent098/ezcv`
 
@@ -54,7 +54,7 @@ You're now all setup with a git repo that is tied to github. This means every ti
 
 If you do not like the command line you can also visually manage your git repositories using [github desktop](https://desktop.github.com/). This is a handy tool for managing your git repos, and comes with extra features on github. 
 
-![](/astro-redesign/blog/vcs/github-desktop.png)
+![](/tech/blog/vcs/github-desktop.png)
 
 ### Additional github features
 
@@ -62,11 +62,11 @@ On top of allowing you an easy way to visualize your git repo and versions, ther
 
 - Seeing analytics for your code (lines added, lines removed etc.) 
 
-![](/astro-redesign/blog/vcs/node-contribs.png)
+![](/tech/blog/vcs/node-contribs.png)
 
 - Run [CI/CD](https://www.cisco.com/c/en/us/solutions/data-center/data-center-networking/what-is-ci-cd.html) and automations (through [github actions](https://docs.github.com/en/actions))
 
-![](/astro-redesign/blog/vcs/actions.png)
+![](/tech/blog/vcs/actions.png)
 
 
 - [code analysis](https://github.blog/2020-09-30-code-scanning-is-now-available/) and [quick-jumping](https://github.blog/2023-05-08-github-code-search-is-generally-available/)
@@ -90,16 +90,16 @@ To fork a repository on GitHub, follow these steps:
 1. Log in to your GitHub account and navigate to the repository you want to fork.
 2. In the top-right corner of the repository's page, click the "Fork" button. This action will create a duplicate of the repository under your account.
 
-![](/astro-redesign/blog/vcs/forking-1.png)
+![](/tech/blog/vcs/forking-1.png)
 
 3. Once the forking process is complete, you'll be redirected to your forked repository's page. You can now clone the forked repository to your local machine using Git, make changes, and commit them.
 4. After making your changes, you can create a pull request from your forked repository to the original repository. This allows you to propose your changes to the original project's maintainers for review and potential inclusion.
 
-![](/astro-redesign/blog/vcs/pr.png)
+![](/tech/blog/vcs/pr.png)
 
 **Here is a visualization of the steps:**
 
-![](/astro-redesign/blog/vcs/fork-process.png)
+![](/tech/blog/vcs/fork-process.png)
 
 Once your changes have been forked you can open pull requests to have your changes from your branch "upstreamed" to the main/master branch of the original project. Once accepted you can then pull the changes into **your** main/master branch in your fork!
 

@@ -4,7 +4,7 @@ subtitle: Taxonomies, and how to use them
 description: "How to set up categories for your content and make filtering easy!"
 pubDate: 2023-04-24T00:00:00-06:00
 modified_date: 2023-04-27T00:00:00-06:00
-heroImage: /astro-redesign/blog/taxonomies.png
+heroImage: /tech/blog/taxonomies.png
 crosspostURL: https://schulichignite.com/blog/taxonomical-ordering/
 language: [python]
 tags:

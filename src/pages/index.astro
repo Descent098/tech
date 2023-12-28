@@ -37,7 +37,7 @@ const projects = (await getCollection("projects")).slice(0,3);
           title={post.data.title}
           img={post.data.heroImage}
           desc={post.data.description}
-          url={"/astro-redesign/"+post.data.url}
+          url={"/tech/"+post.data.url}
           target="_blank"
           badge={post.data.badge}
         />
@@ -58,7 +58,7 @@ const projects = (await getCollection("projects")).slice(0,3);
           title={post.data.title}
           img={post.data.heroImage}
           desc={post.data.description}
-          url={"/astro-redesign/blog/" + post.slug}
+          url={"/tech/blog/" + post.slug}
           target="_self"
           subtitle={post.data.subtitle}
           badge={post.data.badge}

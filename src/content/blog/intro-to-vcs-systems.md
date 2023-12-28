@@ -4,7 +4,7 @@ subtitle: "How to version software"
 description: "How to create versions for your software. Intro to VCS Part 1/4"
 pubDate: 2023-10-16T00:00:00-06:00
 modified_date: ""
-heroImage: /astro-redesign/blog/vcs/hero.jpg
+heroImage: /tech/blog/vcs/hero.jpg
 crosspostURL: https://schulichignite.com/blog/vcs/intro-to-vcs-systems/
 tags:
   - theory
@@ -20,7 +20,7 @@ Things change fast, and keeping track of those changes is not an easy task. Vers
 
 This comes up in a ton of places, but the most common you will see is a different "version" of software for new features in a project:
 
-![](/astro-redesign/blog/vcs/vs-code.png)
+![](/tech/blog/vcs/vs-code.png)
 
 We see this happen in many major projects, but why do people do this? and how? This series will try to answer these questions and more!
 
@@ -34,7 +34,7 @@ When I was younger I loved to mod games. Specifically I used to do what's called
 
 So with the help of google translate I started getting to work. But multiple times along the way I ended up breaking the game to where it would no longer load, and I would have to start over from scratch. At some point I got annoyed with this, and I decided that every day I would copy the folder with the files I was working on, and keep a backup of the files from each day!
 
-![](/astro-redesign/blog/vcs/jank-vcs.png)
+![](/tech/blog/vcs/jank-vcs.png)
 
 So now when I broke things I had a "checkpoint" I could go back to so I wouldn't have to start from scratch after crashes!
 
@@ -60,7 +60,7 @@ Most of the time people think of versions as being something that starts at a lo
 
 But VCS systems do not only allow you to manage versions that are chronological. There are tons of different types of versions you might want to have. For example it might be split by OS where you might have different code for windows vs macos vs linux vs android etc (like [vs code](https://code.visualstudio.com/Download)). 
 
-![](/astro-redesign/blog/vcs/vs-code-platforms.png)
+![](/tech/blog/vcs/vs-code-platforms.png)
 
 They can also help you maintain a whole new version/flavour of a project. Let's take for example a project that on version 2.0 it drops support for windows XP. Someone then takes the code and decides to manage another version of the software (a "compatibilty" version) that intends to maintain all backwards compatability. You can then release versions of "normal" and "compatibility" separate:
 

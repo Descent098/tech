@@ -4,7 +4,7 @@ subtitle: How to use sockets to communicate over the internet
 description: "Doing the socket communication for HTTP. HHTTPP; Writing your own HTTP server Part 4/5"
 pubDate: 2023-09-25T00:00:00-06:00
 modified_date: ""
-heroImage: /astro-redesign/blog/hhttpp/hero.jpg
+heroImage: /tech/blog/hhttpp/hero.jpg
 crosspostURL: https://schulichignite.com/blog/hhttpp/implementing-the-networking-portion/
 tags:
   - python

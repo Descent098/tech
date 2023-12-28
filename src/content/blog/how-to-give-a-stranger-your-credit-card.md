@@ -3,7 +3,7 @@ title: How to give a stranger your credit card
 subtitle: An intro to encryption & public-key encryption
 description: "How do we pay for things safely online? How does encryption happen safely over a network. How does public key encryption work?"
 pubDate: 2023-11-13T00:00:00-06:00
-heroImage: /astro-redesign/blog/cc.jpg
+heroImage: /tech/blog/cc.jpg
 crosspostURL: https://schulichignite.com/blog/how-to-give-a-stranger-your-credit-card/
 tags:
   - security

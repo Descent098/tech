@@ -3,7 +3,7 @@ title: How to cheat at CSS
 subtitle: Making design easier
 description: "Write better CSS, by not writing CSS"
 pubDate: 2023-02-20T00:00:00-06:00
-heroImage: /astro-redesign/blog/hal-gatewood-tzc3vjpck-q-unsplash.jpg
+heroImage: /tech/blog/hal-gatewood-tzc3vjpck-q-unsplash.jpg
 crosspostURL: https://schulichignite.com/blog/how-to-cheat-at-css/
 tags:
   - scorch

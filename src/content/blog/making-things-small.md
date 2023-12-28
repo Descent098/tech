@@ -6,7 +6,7 @@ pubDate: 2023-07-03T00:00:00-06:00
 modified_date: ""
 crosspostURL: https://schulichignite.com/blog/making-things-small/
 language: [python]
-heroImage: /astro-redesign/blog/compression/hero.jpeg
+heroImage: /tech/blog/compression/hero.jpeg
 
 tags:
   - optimization
@@ -118,7 +118,7 @@ There are a few assumptions we're making for this to work somewhat well:
 
 With this the main idea is that we can use the indicies of a list to replace words. So if we have the list `words = ["orange", "apple", "mango"]` then we can take text like `text = "I love oranges, they are about on par with apples, but they are much better than mangos"` and replace each occurance of the word with it's index in the list. So the text would become ``text = "I love 0s, they are about on par with 1s, but they are much better than 3s"``, **each letter and number is a byte** (8 bits), so we saved 13 bytes of space in this example.
 
-![](/astro-redesign/blog/compression/io-example.png)
+![](/tech/blog/compression/io-example.png)
 
 The problem is that most people don't just talk about fruit, so we need to create a list of words that is useful to us. To keep it simple we can just take the 100 most common words in english and hope most text will have them. So the algorithm we're going to use is this:
 
@@ -191,7 +191,7 @@ Length of compressed text = 2808
 
 AAAAHHH, why is the "compressed" version longer? Well this is part of why compression algorithms are a bit complicated. Our method works, except we made 1 mistake, we ordered our list of common words by length. In theory this should save the most space because the longest words have the shortest indicies (i.e. compression is index 0 which should save 10 bytes per occurance). The problem is short words. For example "a" is index 207, this means we're actually adding 2 bytes for every occurance of "a".
 
-![](/astro-redesign/blog/compression/a.png)
+![](/tech/blog/compression/a.png)
 
 ### Some improvements
 
@@ -357,11 +357,11 @@ There's still a major problem; How can we tell which numbers are part of the com
 
 Let's talk about a quick scheme to compress images. First we need to make up a fake encoding for storing image data. When we are looking at images they are broken up into little squares called pixels. Each pixel in our format will have 3 numbers between 0-255 representing the amount of red, green and blue. So for example if we had (255, 0, 0) that would be 100% red, (0, 255, 0) would be 100% Green and (0, 0, 255) would be 100% blue. Then also something like (127, 127, 127) would be a medium grey (0,0,0) would be pure black, and (255,255,255) would be pure white. 
 
-![](/astro-redesign/blog/compression/colours.png)
+![](/tech/blog/compression/colours.png)
 
 We can then have a list of these tuples of 3 to represent pixels in an image. So for example this 5 pixel by 5 pixel image of the letter T (added white around the black to make the pixel lines clearer):
 
-![](/astro-redesign/blog/compression/pixel-image.png)
+![](/tech/blog/compression/pixel-image.png)
 
 We end up with the following representation in code:
 
@@ -377,7 +377,7 @@ image_values = [
 
 Here is a visual representation of the mapping:
 
-![](/astro-redesign/blog/compression/values.png)
+![](/tech/blog/compression/values.png)
 
 
 ### The algorithm
@@ -392,11 +392,11 @@ The first step will make our algorithm lossy, we can be up to 12 bytes inaccurat
 
 So if we have the example of:
 
-![](/astro-redesign/blog/compression/image-mapping.png)
+![](/tech/blog/compression/image-mapping.png)
 
 We could compress using:
 
-![](/astro-redesign/blog/compression/image-mapping-compressed.png)
+![](/tech/blog/compression/image-mapping-compressed.png)
 
 Then when we decode we just look for tuples of length 1 (like `(1)` instead of length 3 like `(255,255,255)`)
 

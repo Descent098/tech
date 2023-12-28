@@ -3,7 +3,7 @@ title: My Trip Through Tech
 subtitle: How I got good
 description: My journey from but a wee imigrant child with a gameboy, to a fullstack developer comfortable in multiple frameworks with a ton of open source projects
 pubDate: 2023-12-13T00:00:00-06:00
-heroImage: /astro-redesign/blog/trip-through-tech.png
+heroImage: /tech/blog/trip-through-tech.png
 authors:
   - Kieran Wood
 tags:

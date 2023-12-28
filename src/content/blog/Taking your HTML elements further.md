@@ -4,7 +4,7 @@ subtitle: Using attributes more effectively
 description: "How to use HTML attributes effectively in your web pages"
 pubDate: 2023-02-13T00:00:00-06:00
 modified_date: ""
-heroImage: /astro-redesign/blog/ferenc-almasi-eypcldxhvb0-unsplash.jpg
+heroImage: /tech/blog/ferenc-almasi-eypcldxhvb0-unsplash.jpg
 crosspostURL: https://schulichignite.com/blog/taking-your-html-elements-further/
 tags:
   - scorch

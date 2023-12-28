@@ -4,7 +4,7 @@ subtitle: HHTTPP creation Series Introduction & Setup
 description: "Ever wanted to write your own HTTP server? This series will show you how to do it. HHTTPP; Writing your own HTTP server Part 1/5"
 pubDate: 2023-08-28T00:00:00-06:00
 modified_date: ""
-heroImage: /astro-redesign/blog/hhttpp/hero.jpg
+heroImage: /tech/blog/hhttpp/hero.jpg
 crosspostURL: https://schulichignite.com/blog/hhttpp/series-introduction/
 tags:
   - python
@@ -36,7 +36,7 @@ To start there are some terms we need to understand in order to understand HTTP 
 
 Some of the most important terms we need to understand are what makes up a URL. A URL is what we type into a browser bar to get to a site (i.e. https://schulichignite.com). Here is a diagram breaking apart the different peices:
 
-![](/astro-redesign/blog/hhttpp/Post%201/url-anatomy.png)
+![](/tech/blog/hhttpp/Post%201/url-anatomy.png)
 
 For those of you that can't read the image, this is the basic anatomy of a URL:
 
@@ -75,7 +75,7 @@ A proxy server in this context is a server that will allow you to access the fil
 
 Then if it's proxied to `ignite.com` if you go to `ignite.com/about` it will send you the contents of `proxy_folder/about.html` over HTTP. Essentially `ignite.com` becomes an alias for `proxy_folder` and users are basically typing in glorified file paths to get your content. Same thing if you went to `ignite.com/blog/how-to-make-alfredo.html` would give you the content of `proxy_folder/blog/how-to-make-alfredo.html` via HTTP: 
 
-![](/astro-redesign/blog/hhttpp/proxy-basics.png)
+![](/tech/blog/hhttpp/proxy-basics.png)
 
 The functionality for hhttpp is based of the built in `http.server` module in python (in functionality, **not approach**). To see what this might look like open up a terminal inside `/example_site` and then run `python -m http.server 8118` from there go to your browser and type in [http://localhost:8118](http://localhost:8118). You will be able to access all the pages inside the folder from your browser!
 
@@ -274,7 +274,7 @@ Pip works with specially formatted python packages to install them to be used on
 
 This format has a bunch of stuff that goes into it, so instead of going through everything we're going to use a template. Specifically we're going to use [this template](https://github.com/canadian-coding/python-package-template) I created a while back. It's a bit older, but works well for projects like this. If you are following along (or just interested), you can either download a zip of the code, or if you have a github account you can copy the files as a template directly by hitting `Use this Template`:
 
-![](/astro-redesign/blog/hhttpp/package_templates.png)
+![](/tech/blog/hhttpp/package_templates.png)
 
 ### Customizing the template
 

@@ -4,7 +4,7 @@ subtitle: "Using a dedicated VCS"
 description: "Learning how to use git, the most popular VCS system in the world. Intro to VCS Part 2/4"
 pubDate: 2023-10-23T00:00:00-06:00
 modified_date: ""
-heroImage: /astro-redesign/blog/vcs/hero.jpg
+heroImage: /tech/blog/vcs/hero.jpg
 video: NwASRGFz5Wg
 crosspostURL: https://schulichignite.com/blog/vcs/intro-to-git/
 tags:
@@ -54,7 +54,7 @@ Git has a standard set of steps to use it locally:
 3. Commit (save) our changes
 4. Repeat steps 2 - 3 as you develop your project
 
-![](/astro-redesign/blog/vcs/local-git-flow.png)
+![](/tech/blog/vcs/local-git-flow.png)
 
 So we will now create our example from the [How does git work?](#how-does-git-work) section. 
 
@@ -87,7 +87,7 @@ nothing added to commit but untracked files present (use "git add" to track)
 
 If we read the message it tells us we need to add our changes. This in git is called "staging". You can think about this like telling git which files you want to save your changes to. You don't always want to commit to changing all the files you're working on, and so this intermediate step lets you pick which parts are part of the changes you want to make:
 
-![](/astro-redesign/blog/vcs/staging.png)
+![](/tech/blog/vcs/staging.png)
 
 We use `git add <file>` and then point to a file path to add them. It also supports [globbing](https://stackoverflow.com/questions/30229465/what-is-file-globbing), and if you just want to add everything you can just use `git add .` (which is what I will run). We can then re-run our git status:
 
@@ -243,7 +243,7 @@ We've looked at using git repos locally, but you can also use them over the inte
 4. Push our commit
 5. Repeat steps 2 - 4 as you develop your project
 
-![](/astro-redesign/blog/vcs/remote-git-flow.png)
+![](/tech/blog/vcs/remote-git-flow.png)
 
 Since we're familiar with 2,3 and 5 we won't cover them again. We will be walking through how to do this using [github](https://github.com) in the next article.
 
@@ -251,13 +251,13 @@ Since we're familiar with 2,3 and 5 we won't cover them again. We will be walkin
 
 You can choose to start your git repo the same way using `git init` if you want, but this is much more complicated. I would highly recommend whichever service you're using you should setup a repo on their service, and then run `git clone <URL>`. For example with my project `ezcv` I can run `git clone https://github.com/descent098/ezcv` which will pull down everything and set it up for me:
 
-![](/astro-redesign/blog/vcs/clone.png)
+![](/tech/blog/vcs/clone.png)
 
 #### After committing
 
 After you do steps 2 and 3 you have your changes saved **locally**, in order for them to show up **remotely** you need to push your commits by running `git push`:
 
-![](/astro-redesign/blog/vcs/pushing.png)
+![](/tech/blog/vcs/pushing.png)
 
 
 ### Using branches

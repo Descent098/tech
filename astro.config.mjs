@@ -6,6 +6,6 @@ import tailwind from "@astrojs/tailwind";
 // https://astro.build/config
 export default defineConfig({
   site: 'https://kieranwood.ca',
-  base: '/astro-redesign',
+  base: '/tech',
   integrations: [mdx(), sitemap(), tailwind()]
 });

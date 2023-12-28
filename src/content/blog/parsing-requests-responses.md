@@ -4,7 +4,7 @@ subtitle: Using pattern matching to create objects
 description: "How to parse HTTP requests/responses with regex. HHTTPP; Writing your own HTTP server Part 3/5"
 pubDate: 2023-09-18T00:00:00-06:00
 modified_date: ""
-heroImage: /astro-redesign/blog/hhttpp/hero.jpg
+heroImage: /tech/blog/hhttpp/hero.jpg
 crosspostURL: https://schulichignite.com/blog/hhttpp/parsing-requests-responses/
 tags:
   - python
@@ -183,7 +183,7 @@ The actual implementation can be found in `Server.__post_init__()`.
 
 Our first task is to create a pattern to match headers, this will be important for requests and responses, here is the regex for doing this: 
 
-![](/astro-redesign/blog/hhttpp/Post%202/regex-http-headers.png)
+![](/tech/blog/hhttpp/Post%202/regex-http-headers.png)
 
 [Link to regex101](https://regex101.com/r/9IHYxj/2)
 
@@ -222,7 +222,7 @@ For requests and responses we will need the content if it's there. Luckily this 
 
 With this one we will need a flag. A flag lets you change the functionality of regex, in our case we must set the `/s` flag, which will allow us to select multiple lines of content. Here is the regex that works to get this content:
 
-![](/astro-redesign/blog/hhttpp/Post%202/regex-http-response-content.png)
+![](/tech/blog/hhttpp/Post%202/regex-http-response-content.png)
 
 [Link to regex101](https://regex101.com/r/YDue2M/1)
 
@@ -259,7 +259,7 @@ The main thing we will have to deal with is parsing a request and generating res
 
 The first line of a request is incredibly important, it contains information about the method used, the slug and the HTTP version. So we need a regex pattern to capture all this information:
 
-![](/astro-redesign/blog/hhttpp/Post%202/regex-first-line-of-http-request.png)
+![](/tech/blog/hhttpp/Post%202/regex-first-line-of-http-request.png)
 
 [Link to regex 101](https://regex101.com/r/5UF0Re/1)
 
@@ -297,7 +297,7 @@ Now that we can parse headers, content, and requests, let's look at how we shoul
 
 The first line of the response will have details about a response. As I mentioned this has no purpose in our code, but here is what you would need to do it:
 
-![](/astro-redesign/blog/hhttpp/Post%202/regex-first-line-of-http-response.png)
+![](/tech/blog/hhttpp/Post%202/regex-first-line-of-http-response.png)
 
 [Link to regex101](https://regex101.com/r/707uYq/1) 
 
