@@ -5,7 +5,7 @@ description: "How hashing works, and what we use it for when developing applicat
 pubDate: 2023-07-31T00:00:00-06:00
 crosspostURL: https://schulichignite.com/blog/verifying-quickly/
 language: [python]
-heroImage: "/blog/hashing/hero.jpeg"
+heroImage: "/tech/blog/hashing/hero.jpeg"
 
 tags:
   - optimization

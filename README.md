@@ -1,6 +1,8 @@
-# Astro Redesign
+# Tech
 
-An Astro Redesign of my personal site to start learning the framework. Based on [Astrofy](https://astro.build/themes/details/astrofy/).
+An Astro Redesign of my personal site to start learning the framework. Also includes my tech-related posts.
+
+Template based on [Astrofy](https://astro.build/themes/details/astrofy/).
 
 To test:
 
