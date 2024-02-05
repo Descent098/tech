@@ -364,3 +364,13 @@ What happens if two people modify the same line of the same file and then each s
 Now that we've seen how to use git there's the question of how we manage our git projects. We don't want to just have to constantly send people folders and files of our git repositories, so what can we do to make this easier. 
 
 Next time we will talk about github, an online git provider that will make it easier to interface with your git repos, be able to share them easily, and make it easier for others to help contribute!
+
+## Additional Resources
+
+- [Git Overview - Computerphile](https://www.youtube.com/watch?v=92sycL8ij-U)
+- [Inside the hidden git folder - Computerphile](https://www.youtube.com/watch?v=bSA91XTzeuA)
+- [How GIT works under the hood?](https://www.youtube.com/watch?v=RxHJdapz2p0)
+- [Teamwork and Git](https://www.youtube.com/watch?v=RzYJvSnzlMk)
+- [Git Internals by John Britton of GitHub - CS50 Tech Talk](https://www.youtube.com/watch?v=lG90LZotrpo)
+- [Git Internals - How Git Works - Fear Not The SHA!](https://www.youtube.com/watch?v=P6jD966jzlk)
+- [Under the hood of git](https://www.youtube.com/watch?v=gdY_RpY2oyU)

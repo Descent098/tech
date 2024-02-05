@@ -196,7 +196,7 @@ On top of this super simple approach it bundles some of the [harder to implement
 
 There are a ton of alternatives, but they're pretty similar, so whichever you pick largely comes down to preference. Many of these will also feature *bookmarklets*, which is a fancy function you can put in the bookmarks of your browser and drag it onto any page to apply styling to it. Essentially if you put `javascript:` in the URL of a page, you can get it to run a javascript function. Since the CSS styles default HTML, all you do is get javascript to download and apply the CSS, and it will automatically apply the CSS.
 
-![bookmarklet example](/blog/bookmarklets.gif)
+![bookmarklet example](/tech/blog/bookmarklets.gif)
 
 Here are some alternatives
 
@@ -351,7 +351,7 @@ Because they aren't component based there can often be **very long** class names
 
 Here is an example of a banner with 2 buttons on it:
 
-![tailwind banner example](/blog/chrome_qrawy7bmpa.png)
+![tailwind banner example](/tech/blog/chrome_qrawy7bmpa.png)
 
 ```html
 <div class="bg-gray-50">
