@@ -13,6 +13,8 @@ tags:
   - theory
 ---
 
+<a class="btn bg-violet-700 hover:bg-violet-500 text-white font-bold py-2 px-4 border border-violet-700 rounded" href="https://kieranwood.ca/tech/blog/setting-up-http-protocol/" target="_blank">Previous post!</a>
+
 Now that we have our basic HTTP structure we need a way to read **actual** http requests/responses. Currently we have hardcoded everything, so today we will focus on creating everything we need for steps 2-4:
 
 1. Recieve plaintext request
@@ -326,6 +328,8 @@ status_code = int(status_code)
 
 print(f"{header_version=}, {status_code=}, {response_description=}")
 ```
+
+<a class="btn bg-violet-700 hover:bg-violet-500 text-white font-bold py-2 px-4 border border-violet-700 rounded" href="https://kieranwood.ca/tech/blog/implementing-the-networking-portion/" target="_blank">Next post!</a>
 
 ## More resources
 

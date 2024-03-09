@@ -13,6 +13,8 @@ tags:
   - theory
 ---
 
+<a class="btn bg-violet-700 hover:bg-violet-500 text-white font-bold py-2 px-4 border border-violet-700 rounded" href="https://kieranwood.ca/tech/blog/implementing-the-networking-portion/" target="_blank">Previous post!</a>
+
 Now that we have our functionality, it's time to make our program more practical and easy to use. For our use case a CLI is the best tool for this!
 
 A CLI or command line interface is a program you use by calling it from a terminal in a directory. If you're not familiar with how to use the command line very effectively, here's some resources I would recommend:

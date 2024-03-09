@@ -13,6 +13,8 @@ tags:
   - theory
 ---
 
+<a class="btn bg-violet-700 hover:bg-violet-500 text-white font-bold py-2 px-4 border border-violet-700 rounded" href="https://kieranwood.ca/tech/blog/series-introduction/" target="_blank">Previous post!</a>
+
 HTTP is the protocol that runs the web, it's the way most devices talk to each other these days. It's also the protocol we are going to use, and as such we need to get everything setup for the http protocol. For this series we are taking an object-oriented aproach, so we will want to create the `Server`, `Request` and `Response` objects to house our info. This will help us model out the HTTP protocol, so we can do everything else we need to later. 
 
 ## Terms & Concepts
@@ -440,6 +442,8 @@ Response
 - is_binary flag for responses that contain binary content (i.e. images, pdf's, exe's etc.)
 - A server header that defaults to `HHTTPP`
 - `is_error` flag for responses that are errors (4xx/5xx)
+
+<a class="btn bg-violet-700 hover:bg-violet-500 text-white font-bold py-2 px-4 border border-violet-700 rounded" href="https://kieranwood.ca/tech/blog/parsing-requests-responses/" target="_blank">Next post!</a>
 
 ## More resources
 

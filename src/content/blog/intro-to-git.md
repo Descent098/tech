@@ -17,6 +17,8 @@ tags:
   - software-engineering
 ---
 
+<a class="btn bg-violet-700 hover:bg-violet-500 text-white font-bold py-2 px-4 border border-violet-700 rounded" href="https://kieranwood.ca/tech/blog/intro-to-vcs/" target="_blank">Previous post!</a>
+
 In the last article we looked at version control systems. We looked at a very manual way of building one out with file folders, and noticed a few issues with our approach:
 
 - We were using up a ton of space because we're duplicating files for every folder
@@ -365,6 +367,8 @@ Now that we've seen how to use git there's the question of how we manage our git
 
 Next time we will talk about github, an online git provider that will make it easier to interface with your git repos, be able to share them easily, and make it easier for others to help contribute!
 
+<a class="btn bg-violet-700 hover:bg-violet-500 text-white font-bold py-2 px-4 border border-violet-700 rounded" href="https://kieranwood.ca/tech/blog/intro-to-github/" target="_blank">Next post!</a>
+
 ## Additional Resources
 
 - [Git Overview - Computerphile](https://www.youtube.com/watch?v=92sycL8ij-U)
@@ -374,3 +378,4 @@ Next time we will talk about github, an online git provider that will make it ea
 - [Git Internals by John Britton of GitHub - CS50 Tech Talk](https://www.youtube.com/watch?v=lG90LZotrpo)
 - [Git Internals - How Git Works - Fear Not The SHA!](https://www.youtube.com/watch?v=P6jD966jzlk)
 - [Under the hood of git](https://www.youtube.com/watch?v=gdY_RpY2oyU)
+- [So You Think You Know Git - FOSDEM 2024](https://www.youtube.com/watch?v=aolI_Rz0ZqY)

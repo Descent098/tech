@@ -17,6 +17,8 @@ tags:
   - legal
 ---
 
+<a class="btn bg-violet-700 hover:bg-violet-500 text-white font-bold py-2 px-4 border border-violet-700 rounded" href="https://kieranwood.ca/tech/blog/intro-to-git/" target="_blank">Previous post!</a>
+
 In the last article we covered git and using it. We talked a bit about remotes, which are services that allow you to use git over the internet. Github is one of these git provider platforms that can act as a remote. This means you can upload your repositories to Github. This makes it much easier to:
 
 - Share your repositories with others
@@ -145,6 +147,8 @@ If you're interested in getting involved in some open source projects you can ch
 - [Hacktober](https://github.com/topics/hacktoberfest)
 - [How to make a pull request (walkthrough)](https://medium.com/@kevinjin/contributing-to-open-source-walkthrough-part-0-b3dc43e6b720)
 - [Finding good first issues on github ](https://github.blog/2020-01-22-browse-good-first-issues-to-start-contributing-to-open-source/#:~:text=There%20are%20several%20ways%20to%20find%20more%20information,personalized%20recommendations%20for%20projects%20you%20might%20like.%20)
+
+<a class="btn bg-violet-700 hover:bg-violet-500 text-white font-bold py-2 px-4 border border-violet-700 rounded" href="https://kieranwood.ca/tech/blog/building-a-good-github-profile/" target="_blank">Next post!</a>
 
 ## Conclusion
 

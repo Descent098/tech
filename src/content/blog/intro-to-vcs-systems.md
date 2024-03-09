@@ -125,3 +125,5 @@ We saw my version of version control, but there are a ton of issues with it incl
 
 
 In the next article we will look at [git](https://git-scm.com) the most popular version control system, and the system that will solve the issues above!
+
+<a class="btn bg-violet-700 hover:bg-violet-500 text-white font-bold py-2 px-4 border border-violet-700 rounded" href="https://kieranwood.ca/tech/blog/intro-to-git/" target="_blank">Next post!</a>

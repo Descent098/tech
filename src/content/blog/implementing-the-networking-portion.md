@@ -13,6 +13,8 @@ tags:
   - theory
 ---
 
+<a class="btn bg-violet-700 hover:bg-violet-500 text-white font-bold py-2 px-4 border border-violet-700 rounded" href="https://kieranwood.ca/tech/blog/parsing-requests-responses/" target="_blank">Previous post!</a>
+
 We have what we need to make HTTP requests and responses properly, so now let's look at adding networking so we can see the results in the browser. It's important to note we're only covering enough networking to understand **this project**, we're not covering everything there is to know about networking. So keep in mind there might be more steps and technologies in real server interactions!
 
 Another warning is that for this set of code there is no easy way to test it without a ton of boilerplate code and concepts I would need to cover, and as such there are no additional tests for this post. If you want to know if your code works then open the URL to your server in a browser and see if it loads ¯\\\_(ツ)\_/¯.
@@ -329,6 +331,9 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 ## Conclusion
 
 All this functionality was added to `Server.start_server()`, which you can see the source for [here](https://github.com/Descent098/HHTTPP/blob/master/Post%203/Handmade%20HTTP%20Project/hhttpp/classes.py#L357-L412)!
+
+
+<a class="btn bg-violet-700 hover:bg-violet-500 text-white font-bold py-2 px-4 border border-violet-700 rounded" href="https://kieranwood.ca/tech/blog/creating-the-cli/" target="_blank">Next post!</a>
 
 ## Resources
 

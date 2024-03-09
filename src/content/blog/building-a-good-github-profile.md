@@ -16,6 +16,8 @@ tags:
   - legal
 ---
 
+<a class="btn bg-violet-700 hover:bg-violet-500 text-white font-bold py-2 px-4 border border-violet-700 rounded" href="https://kieranwood.ca/tech/blog/intro-to-github/" target="_blank">Previous post!</a>
+
 So, you've signed up for github, but your profile looks incredibly bland. How do you go about improving it? Why bother?
 
 ## Why?
