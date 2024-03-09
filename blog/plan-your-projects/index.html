@@ -1,0 +1,209 @@
+<!DOCTYPE html><html lang="en" data-theme="lofi"> <head><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" type="image/jpeg" href="/tech/profile.jpg"><meta name="generator" content="Astro v4.4.15"><!-- Primary Meta Tags --><title>Plan Your F@$king Projects | Kieran Wood</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><meta name="title" content="Plan Your F@$king Projects"><meta name="description" content="How to plan your projects effectively and get them completed"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://kieranwood.ca/tech/blog/plan-your-projects/"><meta property="og:title" content="Plan Your F@$king Projects"><meta property="og:description" content="How to plan your projects effectively and get them completed"><meta property="og:image" content="https://kieranwood.ca/tech/blog/plan-your-projects.png"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://kieranwood.ca/tech/blog/plan-your-projects/"><meta property="twitter:title" content="Plan Your F@$king Projects"><meta property="twitter:description" content="How to plan your projects effectively and get them completed"><meta property="twitter:image" content="https://kieranwood.ca/tech/blog/plan-your-projects.png"><link rel="stylesheet" href="/tech/_astro/_page_.VnlgLSv6.css" />
+<style>.time-line-container>div:last-child .education__time>.education__line{display:none}.astro-route-announcer{position:absolute;left:0;top:0;clip:rect(0 0 0 0);-webkit-clip-path:inset(50%);clip-path:inset(50%);overflow:hidden;white-space:nowrap;width:1px;height:1px}
+@keyframes astroFadeInOut{0%{opacity:1}to{opacity:0}}@keyframes astroFadeIn{0%{opacity:0}}@keyframes astroFadeOut{to{opacity:0}}@keyframes astroSlideFromRight{0%{transform:translate(100%)}}@keyframes astroSlideFromLeft{0%{transform:translate(-100%)}}@keyframes astroSlideToRight{to{transform:translate(100%)}}@keyframes astroSlideToLeft{to{transform:translate(-100%)}}@media (prefers-reduced-motion){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}[data-astro-transition-scope]{animation:none!important}}
+</style><script type="module" src="/tech/_astro/hoisted.CHePpst8.js"></script><style>[data-astro-transition-scope="astro-vz7ejtmd-1"] { view-transition-name: __2ftech_2fblog_2fplan-your-projects_2epng; }</style><style>[data-astro-transition-scope="astro-frvnq75b-2"] { view-transition-name: Plan_20Your_20F_40_24king_20Projects; }</style></head> <body> <div class="bg-base-100 drawer lg:drawer-open"> <input id="my-drawer" type="checkbox" class="drawer-toggle"> <div class="drawer-content bg-base-100"> <div class="sticky lg:hidden top-0 z-30 flex h-16 w-full justify-center bg-opacity-90 backdrop-blur transition-all duration-100 bg-base-100 text-base-content shadow-sm"> <div class="navbar"> <div class="navbar-start"> <label for="my-drawer" class="btn btn-square btn-ghost"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path> </svg> </label> </div> <div class="navbar-center"> <a class="btn btn-ghost normal-case text-xl" href="/">Kieran Wood ⚡️</a> </div> <div class="navbar-end"></div> </div> </div> <div class="md:flex md:justify-center"> <main class="p-6 pt-10 lg:max-w-[900px] max-w-[100vw]">  <main class="md:flex md:justify-center"> <article class="prose prose-lg max-w-[750px] prose-img:mx-auto"> <img src="/tech/blog/plan-your-projects.png" alt="Plan Your F@$king Projects" class="w-full mb-6" style="border-radius:.5em" data-astro-transition-scope="astro-vz7ejtmd-1" width="750" height="422" loading="lazy" decoding="async"> <h1 class="title my-2 text-4xl font-bold" data-astro-transition-scope="astro-frvnq75b-2">Plan Your F@$king Projects</h1> <time>Mar 9, 2024</time> <br>  <a href="/blog/tag/opinion" class="badge badge-outline ml-2 no-underline"> opinion </a><a href="/blog/tag/open-source" class="badge badge-outline ml-2 no-underline"> open-source </a><a href="/blog/tag/teaching" class="badge badge-outline ml-2 no-underline"> teaching </a>   <div class="divider my-2"></div>  <p>Many people want to improve their coding skills, and one great way to do this is side projects. When I first started programming my first side project was a github repository where whenever I did something I thought was hard in python I just added it to the repo, put a docstring on it, and left it there. This project ended up splitting into two projects:</p>
+<ul>
+<li><a href="https://github.com/Descent098/kusu">kusu</a> (Kieran’s useful script utilities): The original spirit of the project with a bunch of randomly organized “helper functions” to do things I thought were hard. As of December 2023 it has just less than 10k downloads <sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup></li>
+<li><a href="https://github.com/Descent098/kuws">kuws</a> (Kieran’s useful web scripts): Same idea initially as kusu except I eventually turned it into a collection of scripts and a cli with options to access the important parts via an api. This package got incredibly popular and garnered shy of 30k downloads <sup><a href="#user-content-fn-2" id="user-content-fnref-2" data-footnote-ref="" aria-describedby="footnote-label">2</a></sup>.</li>
+</ul>
+<p>These two projects were literally just a hobbled together collection of functions from random tasks I needed to do. Some of them were needed for uni projects, some of them for work stuff, some of them for automation at home. All in all they both totaled less than 500 lines of source code. I first started kusu shortly after I learned what a class was, and it shows. One of my functions in the project was<sup><a href="#user-content-fn-3" id="user-content-fnref-3" data-footnote-ref="" aria-describedby="footnote-label">3</a></sup>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> save_to_json</span><span style="color:#E1E4E8">(data, file_path </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> str</span><span style="color:#E1E4E8">(os.getcwd()), file_name </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> "config.json"</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#9ECBFF">    """Takes two parameters:</span></span>
+<span class="line"><span style="color:#9ECBFF">    data: JSON formatted data (Dictionary and/or class instance with vars(&#x3C;instance>))</span></span>
+<span class="line"><span style="color:#9ECBFF">    file_path: A string representation of the path to output config.json to</span></span>
+<span class="line"><span style="color:#9ECBFF">    """</span></span>
+<span class="line"><span style="color:#F97583">    import</span><span style="color:#E1E4E8"> json</span></span>
+<span class="line"><span style="color:#6A737D">    # </span><span style="color:#F97583">TODO</span><span style="color:#6A737D">: Check for right extension in file_name</span></span>
+<span class="line"><span style="color:#F97583">    with</span><span style="color:#79B8FF"> open</span><span style="color:#E1E4E8">(os.path.join(file_path, file_name), </span><span style="color:#9ECBFF">'w'</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">as</span><span style="color:#E1E4E8"> write_file:</span></span>
+<span class="line"><span style="color:#E1E4E8">        json.dump(data, write_file)</span></span>
+<span class="line"></span></code></pre>
+<p>Or another useful classic <sup><a href="#user-content-fn-4" id="user-content-fnref-4" data-footnote-ref="" aria-describedby="footnote-label">4</a></sup>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> os</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> clear_terminal</span><span style="color:#E1E4E8">():</span></span>
+<span class="line"><span style="color:#9ECBFF">    """</span></span>
+<span class="line"><span style="color:#9ECBFF">    Clears Terminal"""</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> os.name</span><span style="color:#F97583">==</span><span style="color:#9ECBFF">'nt'</span><span style="color:#E1E4E8">: </span><span style="color:#6A737D">#Windows</span></span>
+<span class="line"><span style="color:#E1E4E8">        os.system(</span><span style="color:#9ECBFF">'cls'</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">    else</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">        os.system(</span><span style="color:#9ECBFF">'clear'</span><span style="color:#E1E4E8">)</span></span></code></pre>
+<p>When I wrote this code it was about as good as I could do. Programming entails a lot of skills you end up learning all at once, and a lot of these functions were like a “reference guide” for me to remember some of it. My background before programming was in hardware building and repairing computers, and helping my friend do one-off contracts setting up servers (mostly just installing programs and configuring settings for him). Even for me with a bit of a background, making a “useable” package has so many things besides just the code to learn, and this is what I learned with these two projects.</p>
+<p>Over the time I wrote them both outside of the actual code I wrote (and coding concepts like basic networking, design patterns etc.) I learned how to do:</p>
+<ul>
+<li>Self-documenting API’s (with <a href="https://pdoc3.github.io/pdoc/">pdoc3</a>)</li>
+<li>CI/CD (with <a href="https://nox.thea.codes/en/stable/">nox</a>, <a href="https://github.com/features/actions">Github Actions</a>, and <a href="https://deepsource.com/">deepsource</a>)</li>
+<li>testing frameworks (with <a href="https://docs.pytest.org/en/7.4.x/">pytest</a>)</li>
+<li>licensing essentials</li>
+<li>python package development (for <a href="https://www.pypa.io/en/latest/">pypa</a>/<a href="https://pypi.org/">pypi</a>/<a href="https://pypi.org/project/pip/">pip</a>)</li>
+<li>User documentation (<a href="https://www.mkdocs.org/">mkdocs</a>, <a href="https://www.sphinx-doc.org/en/master/">sphinx</a>)</li>
+<li>argument parsing (initially <a href="https://docs.python.org/3/library/argparse.html">argparse</a>, but eventually <a href="http://docopt.org/">docopt</a>)</li>
+<li>dozens of <a href="https://docs.python.org/3/library/index.html">standard libs</a> in python</li>
+<li>etc.</li>
+</ul>
+<p>This mostly came out of a challenge I set for myself to make 1 github contribution a day. With this I obviously couldn’t just code every day on these small projects, so I learned about project management and opened issues for planning things I wanted to do. Then I came back to a project months later and had no idea what was happening, and neither did people who looked at my code, so I started adding documentation (user facing and internal). Once I had done some projects I needed reliable ways of distributing and maintaining them, so I learned testing, CI/CD to run the tests on a schedule, and package management + distribution. Each thing I learned solved a problem for me, and was not just for the sake of it.</p>
+<p>These skills have made every other project I’ve done much easier, and made my projects much easier to maintain over time (though many have been neglected, but gimme a break I have a lot of them). I would argue these have honestly been more useful than A lot of my actual programming knowledge for my particular career path so far (because I change languages and environments so often), but that won’t be the case for many people. Learning to problem solve my issues, then categorizing the solutions into a “knowledge repository” for referencing has been incredibly helpful. It forces you to think not just about the code your writing, but what the actual point of your code is, how it fits into your broader knowledge, and practice creating more “generalized” solutions that are more flexible.</p>
+<p>There are definitely some mistakes, and I probably would’ve suggested to a younger me that I flag the project in the readme for what it was more clearly (experiments and semi-working solutions), but overall I would recommend doing something like this for yourself. But the interesting question is, what did I do to actually start all this instead of being stuck in tutorial hell<sup><a href="#user-content-fn-11" id="user-content-fnref-11" data-footnote-ref="" aria-describedby="footnote-label">5</a></sup>? There are two things, the first is that I learned about code, not to code. Focus on concepts when you’re learning, and understand that languages are built on the concepts not the syntax. Even if you’re in JS or python you should know about data types, and understand type coercion etc. Know the things the language is doing for you, and learn about coding in concept, not just in practice. The second pertains to building the sorts of projects that keep you interested over time.</p>
+<h2 id="the-most-important-skills">The most Important Skill(s)</h2>
+<p>I would never have completed a single larger project if I didn’t start planning before I started coding…</p>
+<p><strong>Wait</strong>, before you run away, just hear me out. I’m not here to tell you to “be more organized”. That’s way too broad. There are a few direct actions you can take at the start of a project that can help make it easier to complete.</p>
+<h3 id="dogfood-is-delicious">Dogfood is delicious</h3>
+<p>It’s very hard to get inside other people’s minds. It’s even harder to do this well. The term dogfooding refers to the practice of creating projects that you will use yourself. There are tons of reasons to do this, but the main ones are:</p>
+<ul>
+<li>It will keep you engaged since you get something out of it</li>
+<li>You get the chance to find out problems in a real use case</li>
+<li>You solve your own problems with your code</li>
+</ul>
+<p>Dogfooding your own problems is the way I came to write <a href="https://github.com/Descent098/ahd">ahd</a>, and <a href="https://github.com/Descent098/ezcv">ezcv</a>. Having your own problems, and writing them down makes planning what you need easy. Writing software is hard across multiple dimensions, some technical, but some are more soft skills. Designing something without an end in mind will result in a cluttered mess. But if you have a guiding principle (like what you think solves your problem) it becomes easy to remove some of the complexities, and focus more on the technical.</p>
+<p>By the way the name comes from a guy who tested dogfood on his own dogs to improve it<sup><a href="#user-content-fn-14" id="user-content-fnref-14" data-footnote-ref="" aria-describedby="footnote-label">6</a></sup>.</p>
+<h3 id="define-your-project">Define your project</h3>
+<p>When you are starting your project there are a few questions you need to ask (especially if you’re going to make it open source<sup><a href="#user-content-fn-12" id="user-content-fnref-12" data-footnote-ref="" aria-describedby="footnote-label">7</a></sup>). There’s a common issue people run into called the blank canvas problem <sup><a href="#user-content-fn-13" id="user-content-fnref-13" data-footnote-ref="" aria-describedby="footnote-label">8</a></sup>.  People call it different things, but essentially the principle is that when you have to many options it can become paralyzing to do anything. I was a 3d artist for years and opening a fresh file with a vague idea of a concept almost never got me to a result. Usually I would have to challenge myself to do something with a specific tool, or specific method, or else the blank file would stay blank forever.</p>
+<p>When you are programming a project the idea is ephemeral. There are infinite numbers of ways to tackle most problems, so you need to make some decisions and use them as rules to help guide you. This is much more philosophical than technical, but it will save you a ton of time in the long run. Here are a few examples of questions you should have answers for:</p>
+<ul>
+<li>Who am I building the app for?
+<ul>
+<li>If you’re <a href="#dogfood-is-delicious">dogfooding</a>, then the audience is you</li>
+<li>If you’re building for others, then ask them what they want in an app like this</li>
+</ul>
+</li>
+<li>Why am I building it?
+<ul>
+<li>Practice</li>
+<li>Money</li>
+<li>Jokes<sup><a href="#user-content-fn-15" id="user-content-fnref-15" data-footnote-ref="" aria-describedby="footnote-label">9</a></sup></li>
+</ul>
+</li>
+<li>What should it do?
+<ul>
+<li>Necessary features</li>
+<li>Should it be extensible?
+<ul>
+<li>Can people write plugins for it?</li>
+</ul>
+</li>
+<li>Challenges
+<ul>
+<li>Features that are hard, but interesting to implement</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>How will I achieve this
+<ul>
+<li>Pick a technology (or a few)
+<ul>
+<li>Unless the goal is to learn a technology don’t be married to this, but also don’t change it so often you make no progress</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>When should I have a working version by?
+<ul>
+<li>What is a reasonable timeframe and hold yourself accountable to it</li>
+<li>What do I need for an mvp (see <a href="#break-projects-up-properly">here</a>)</li>
+</ul>
+</li>
+</ul>
+<p>Once you’ve made these choices it gets much easier to move ahead with development.</p>
+<h4 id="example">Example</h4>
+<p>One of my most popular projects I’ve ever written is a projects called <a href="https://github.com/Descent098/ahd">ahd</a>. Between kuws/kusu and ahd I had written a few other projects <sup><a href="#user-content-fn-5" id="user-content-fnref-5" data-footnote-ref="" aria-describedby="footnote-label">10</a></sup> <sup><a href="#user-content-fn-6" id="user-content-fnref-6" data-footnote-ref="" aria-describedby="footnote-label">11</a></sup> <sup><a href="#user-content-fn-7" id="user-content-fnref-7" data-footnote-ref="" aria-describedby="footnote-label">12</a></sup> <sup><a href="#user-content-fn-8" id="user-content-fnref-8" data-footnote-ref="" aria-describedby="footnote-label">13</a></sup> <sup><a href="#user-content-fn-9" id="user-content-fnref-9" data-footnote-ref="" aria-describedby="footnote-label">14</a></sup> <sup><a href="#user-content-fn-10" id="user-content-fnref-10" data-footnote-ref="" aria-describedby="footnote-label">15</a></sup>, but this was one of my first “larger” projects when I wrote it (still >1000 lines of code), and was a project that solidified a lot of my current habits. I had experimented and failed at writing a few other projects (unfortunately most I deleted ☹️ ), but for each of those projects there were small annoying pieces that I had to learn (how to write a readme, how to add scripts to your system path, how to have user documentation etc.). I ended up chucking all of these learnings into a template <sup><a href="#user-content-fn-6" id="user-content-fnref-6-2" data-footnote-ref="" aria-describedby="footnote-label">11</a></sup> I could reuse. With that template starting new projects felt much easier, and all of this came together to help me write <a href="https://github.com/Descent098/ahd">ahd</a>.</p>
+<p>I ended up trying to learn linux in my first year of coding, and at the time I ended up having way too many devices I was working on (Desktop [dual boot], laptop [tri boot],  1 macbook for testing at work [was working a support desk for university websites] 3 remote linux servers, and 2 windows ones).</p>
+<p>As you can imagine I was hopping around <strong>A LOT</strong>. With that I needed ways to automate what I wanted to do, so on each machine I had a folder of scripts with a bunch of shell/batch scripts to do the same commands so I didn’t have to remember them all. This was <strong>a trash system</strong>.</p>
+<p>Not only was it hard to manage, but there were constantly issues with being out of sync configs. So I wanted a system where I could have 1 config, take it with me to different machines with a bunch of “functions” defined, and run those commands. This was the main purpose, and I was the main audience for it!</p>
+<h4 id="break-projects-up-properly">Break projects up properly</h4>
+<p>Pick a reasonable MVP (minimum viable product); Strip your project down to the bare basics you want. At most this should be 3-5 <strong>simple</strong> features. If it takes more than a sentence to describe, it’s not a simple feature.</p>
+<p>For ahd it was:</p>
+<ul>
+<li>Ability to register a new command</li>
+<li>Ability to specify the command to run</li>
+<li>Ability to specify the location(s) to run the command in</li>
+<li>Have commands store to a configuration file using configparser</li>
+</ul>
+<p>You’ll notice that this first version doesn’t actually solve a lot of my problems. I still can’t run it across operating systems, and there’s some annoyances like having to do a list of paths. Even though I knew these were problems these were the features I cut myself off with on v0.1.0, why?</p>
+<p>A few reasons:</p>
+<ol>
+<li>I had planned version 2, and once I release v0.1.0 there’s nothing stopping me from doing v0.2.0 right away, but finishing 0.1.0 means I could have tapped out then if I got busy without guilt.</li>
+<li>Version 0.2.0 is exciting because it’s still fresh, and because it (and 0.3.0) had plans I would always have something to look forward to myself for each release</li>
+<li>Sometimes you have to just have a “done” point. Being able to be finished means that when there are particularly rough features you only have a few things  to do before you can consider it “done for now”</li>
+</ol>
+<p>I was excited when I started ahd (actually have a vod of building it in one go <a href="https://www.youtube.com/watch?v=yZ2gEVUZO-w">here</a>), but even with excitement life can get in the way. Having a 0.1.0 means having a “checkpoint”. If I only completed version 0.1.0, got busy and then came back in a year I would still have everything ready to go to dive back in. The re-entry into the project is seamless, and ditching it after v0.1.0 was <em>inconsequential</em>. I ended up ripping through v0.2.0 <strong>but I didn’t have to</strong>. There was enough functionality to be useful enough for me to start using it and solving problems.</p>
+<h2 id="other-tips">Other tips</h2>
+<p>Here are some other tips about building out projects that didn’t fit elsewhere.</p>
+<h3 id="tutorials-are-useless">Tutorials are useless</h3>
+<p>Being someone who writes tutorials this one hurts to write, but it’s also true. There are tons of problems with tutorials including:</p>
+<ul>
+<li>They focus on just doing a thing and rarely on why</li>
+<li>They’re often specific to a given framework/technology</li>
+<li>The debugging that would require you to actually learn and research is done for you and avoided for brevity</li>
+</ul>
+<p>Fundamentally these issues occur because a lot of them are driven by wanting clicks, which means the incentive is to give you something quick and fast that feels good. As such any actual learning is incidental and not necessary to the success of a tutorial in the creators eyes. This misalignment means that most tutorials you complete will be completely useless unless you just so happened to already want to <strong>only</strong> do <strong>exactly</strong> what they’re teaching.</p>
+<p>Tutorials themselves <strong>can</strong> be handy in a few possible ways:</p>
+<ol>
+<li>You use them to kickstart a project; Instead of following a tutorial exactly use the tutorial to build something you want. For example if it’s a Django tutorial about building a blog use the information they give you to build a fitness app instead of following 1:1. This means you <strong>must actively engage</strong> with the content, and understand it to complete the work.</li>
+<li>They teach a concept that happens to have a project attached; This tends to be the type of “tutorials” I write. For example instead of teaching people how to use an existing HTTP framework for networking I wrote a series implementing a simple one myself <a href="https://kieranwood.ca/tech/blog/series-introduction/">here</a></li>
+</ol>
+<p>Tutorials can be a handy way to kickstart something, but they’re not an end in themselves, or “actual development”. They are a tool that when utilized well can help kickstart certain projects and do the actual development. One last point on this note is that no one is an expert when they first start building. Lots of people stick to tutorials to feel better about their lack of knowledge and feel a superficial sense of progress. If you don’t have experience, you wont have knowledge, <strong>and that’s fine</strong>. You build knowledge over time, but if you rely on others to do the thinking for you, then you will never gain it in the first place. Get lost in a project, and if it’s irrecoverable then start over. I’ve had to do this dozens of times throwing out hundreds of hours of work.</p>
+<h3 id="care-about-finishing">Care about finishing</h3>
+<p>The reality is with most side projects it doesn’t actually matter if you finish a version or not. No one’s going to fire you, you aren’t going to fail a course, and it’s unlikely someone will castigate you for it. The worst part of not finishing a project comes in what surrounds not finishing a project. I teach programming courses and so I am exposed to many developers as they’re getting started. Tons of them learn a little about programming, get really excited, pick out a project, then fail on feature 2 of 25. I can anecdotally think of at least 15 people who had this issue.</p>
+<p>The problem with this isn’t that someone failed (can actually be a good learning opportunity), the problem is people’s perception of failure. When you set your standards astronomically high and fail then people see no reason to try again. It’s one thing to fail meeting a deadline barely, but being 6 months off feels awful. That anxiety sticks around and people start feeling like they <strong>can’t</strong> succeed. Especially with new programmers I find that the first 1-3 projects set a lot of the tone for what sort of programmers people want to be. Getting people to dial it back, finish a few versions, get into the swing and go from there is effective at making people want to continue. So treat <strong>some</strong> of your projects like real work, and finish them. This way you know what it’s like to fully finish a project, and you have something to be proud of at the end.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>This was a long article to say that project work is great. It can give you a lot of knowledge, can solve your real problems, and make you more confident. Do what you can to finish projects, and don’t be afraid to move on after a few versions/iterations of a project. Good luck!</p>
+<section data-footnotes="" class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
+<ol>
+<li id="user-content-fn-1">
+<p><a href="https://www.pepy.tech/projects/kusu">kusu download stats (pepy.tech)</a> <a href="#user-content-fnref-1" data-footnote-backref="" aria-label="Back to reference 1" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-2">
+<p><a href="https://www.pepy.tech/projects/kuws">kuws download stats (pepy.tech)</a> <a href="#user-content-fnref-2" data-footnote-backref="" aria-label="Back to reference 2" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-3">
+<p><a href="https://github.com/Descent098/kusu/commit/4508b39a47cea8a3fb6f246fc0f910d8c22ab293#diff-4f8ececffaac8b0b4acdcb7a1b3d54298390b89932789bdf249fcd871150c3daR76-R84">Descent098/kusu@4508b39 (github.com)</a> <a href="#user-content-fnref-3" data-footnote-backref="" aria-label="Back to reference 3" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-4">
+<p><a href="https://github.com/Descent098/kusu/commit/4508b39a47cea8a3fb6f246fc0f910d8c22ab293#diff-4f8ececffaac8b0b4acdcb7a1b3d54298390b89932789bdf249fcd871150c3daR1-R11">Descent098/kusu@4508b39 (github.com)</a> <a href="#user-content-fnref-4" data-footnote-backref="" aria-label="Back to reference 4" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-11">
+<p><a href="https://medium.com/codex/what-is-tutorial-hell-and-how-to-avoid-it-to-improve-as-a-developer-8c5376c97011">What is Tutorial Hell? - And how to avoid it to Improve as a Developer | CodeX (medium.com)</a> <a href="#user-content-fnref-11" data-footnote-backref="" aria-label="Back to reference 5" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-14">
+<p><a href="https://www.computer.org/csdl/magazine/so/2006/03/s3005/13rRUygBwg0">Eating Your Own Dog Food (computer.org)</a> <a href="#user-content-fnref-14" data-footnote-backref="" aria-label="Back to reference 6" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-12">
+<p><a href="https://opensource.com/resources/what-open-source">What is open source? | Opensource.com</a> <a href="#user-content-fnref-12" data-footnote-backref="" aria-label="Back to reference 7" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-13">
+<p><a href="https://www.themodernnomad.com/blank-canvas-paralysis/">Blank Canvas Paralysis | The Modern Nomad</a> <a href="#user-content-fnref-13" data-footnote-backref="" aria-label="Back to reference 8" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-15">
+<p><a href="https://github.com/Descent098/otp_emoji">Descent098/otp_emoji: Used to generate 🙊 one-time pads 🤐 exclusively in emojis. (github.com)</a> <a href="#user-content-fnref-15" data-footnote-backref="" aria-label="Back to reference 9" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-5">
+<p><a href="https://github.com/descent098/pystall">Descent098/pystall: A system to automate installation and configuration of resources. (github.com)</a> <a href="#user-content-fnref-5" data-footnote-backref="" aria-label="Back to reference 10" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-6">
+<p><a href="https://github.com/canadian-coding/python-package-template">canadian-coding/python-package-template: Easy to use template for great PyPi packages (github.com)</a> <a href="#user-content-fnref-6" data-footnote-backref="" aria-label="Back to reference 11" class="data-footnote-backref">↩</a> <a href="#user-content-fnref-6-2" data-footnote-backref="" aria-label="Back to reference 11-2" class="data-footnote-backref">↩<sup>2</sup></a></p>
+</li>
+<li id="user-content-fn-7">
+<p><a href="https://github.com/QU-UP/KiStFl">QU-UP/KiStFl: Quick Start Flask (github.com)</a> <a href="#user-content-fnref-7" data-footnote-backref="" aria-label="Back to reference 12" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-8">
+<p><a href="https://github.com/Descent098/FOLI-U">Descent098/FOLI-U: Personal Fork of CPSC 233 Group Project (github.com)</a> <a href="#user-content-fnref-8" data-footnote-backref="" aria-label="Back to reference 13" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-9">
+<p><a href="https://github.com/Descent098/python-web-utilities">Descent098/python-web-utilities: TODO: Integrate into SWS (github.com)</a> <a href="#user-content-fnref-9" data-footnote-backref="" aria-label="Back to reference 14" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-10">
+<p><a href="https://github.com/Descent098/Flask-Heroku">Descent098/Flask-Heroku: A quick and dirty setup of a Flask app, designed to be hosted on Heroku (github.com)</a> <a href="#user-content-fnref-10" data-footnote-backref="" aria-label="Back to reference 15" class="data-footnote-backref">↩</a></p>
+</li>
+</ol>
+</section>  </article> </main> <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js" integrity="sha256-mm3Re3y7xlvh+yCD+l/Zs1d+PU0AEad93MkWvljfm/s=" crossorigin="anonymous"></script>   </main> </div> <footer class="footer footer-center block mb-5 pt-10"> <div class="pb-2">
+&copy; 2024 Kieran Wood
+</div> <div class="inline opacity-75"> <!-- Thanks for using this template. You can keep this line to support my work :) --> <a href="https://astrofy-template.netlify.app/" target="_blank" class="font-bold">Astrofy Template</a> developed by
+<a href="https://manuelernestog.github.io" target="_blank" class="font-bold">Manuel Ernesto ⚡️</a> </div> </footer>  </div> <div class="drawer-side z-40"> <label for="my-drawer" class="drawer-overlay"></label> <aside class="px-2 pt-2 h-auto min-h-full w-[19rem] bg-base-200 text-base-content flex flex-col"> <div class="w-fit mx-auto mt-5 mb-6"> <a href="/"> <div class="avatar transition ease-in-out hover:scale-[102%] block m-auto"> <div class="w-[8.5rem]"> <img src="/tech/profile.jpg" class="mask mask-circle" alt="Profile image" width="300" height="300" loading="lazy" decoding="async"> </div> </div> </a> </div> <ul class="menu grow shrink menu-md overflow-y-auto"> <li><a class="py-3 text-base" id="home" href="/tech/">Home</a></li> <li><a class="py-3 text-base" id="projects" href="/tech/projects">Projects</a></li> <!-- <li><a class="py-3 text-base" id="services" href="/tech/services">Services</a></li>
+    <li><a class="py-3 text-base" id="store" href="/tech/store">Store</a></li> --> <li><a class="py-3 text-base" id="blog" href="/tech/blog/">Blog</a></li> <li><a class="py-3 text-base" id="cv" href="/tech/cv">CV</a></li> <li><a class="py-3 text-base" href="/tech/contact">Contact</a></li> </ul> <script>(function(){const sideBarActiveItemID = undefined;
+const activeClass = "bg-base-300";
+
+const activeItemElem = document.getElementById(sideBarActiveItemID);
+activeItemElem && activeItemElem.classList.add(activeClass);
+})();</script> <div class="block sticky pointer-events-none bottom-10 bg-base-200 justify-center h-12 [mask-image:linear-gradient(transparent,#000000)]"></div> <div class="social-icons px-4 pb-5 pt-1 flex self-center justify-center sticky bottom-0 bg-base-200"> <a href="https://github.com/descent098" target="_blank" class="mx-3" aria-label="Github" title="Github"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.026 2c-5.509 0-9.974 4.465-9.974 9.974 0 4.406 2.857 8.145 6.821 9.465.499.09.679-.217.679-.481 0-.237-.008-.865-.011-1.696-2.775.602-3.361-1.338-3.361-1.338-.452-1.152-1.107-1.459-1.107-1.459-.905-.619.069-.605.069-.605 1.002.07 1.527 1.028 1.527 1.028.89 1.524 2.336 1.084 2.902.829.091-.645.351-1.085.635-1.334-2.214-.251-4.542-1.107-4.542-4.93 0-1.087.389-1.979 1.024-2.675-.101-.253-.446-1.268.099-2.64 0 0 .837-.269 2.742 1.021a9.582 9.582 0 0 1 2.496-.336 9.554 9.554 0 0 1 2.496.336c1.906-1.291 2.742-1.021 2.742-1.021.545 1.372.203 2.387.099 2.64.64.696 1.024 1.587 1.024 2.675 0 3.833-2.33 4.675-4.552 4.922.355.308.675.916.675 1.846 0 1.334-.012 2.41-.012 2.737 0 .267.178.577.687.479C19.146 20.115 22 16.379 22 11.974 22 6.465 17.535 2 12.026 2z"></path> </svg> </a> <a href="https://www.linkedin.com/in/kieran-wood" target="_blank" class="mx-3" aria-label="Linkedin" title="Linkedin"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><circle cx="4.983" cy="5.009" r="2.188"></circle><path d="M9.237 8.855v12.139h3.769v-6.003c0-1.584.298-3.118 2.262-3.118 1.937 0 1.961 1.811 1.961 3.218v5.904H21v-6.657c0-3.27-.704-5.783-4.526-5.783-1.835 0-3.065 1.007-3.568 1.96h-.051v-1.66H9.237zm-6.142 0H6.87v12.139H3.095z"></path> </svg> </a> <a href="https://instagram.com/descent098" target="_blank" class="mx-3" aria-label="Instagram" title="Instagram"> <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 -5 24 24" style="fill: currentColor;transform: ;msFilter:;"><path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"></path> </svg> </a> <a href="/rss.xml" target="_blank" class="mx-3" aria-label="RSS Feed" title="RSS Feed"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><path d="M19 20.001C19 11.729 12.271 5 4 5v2c7.168 0 13 5.832 13 13.001h2z"></path><path d="M12 20.001h2C14 14.486 9.514 10 4 10v2c4.411 0 8 3.589 8 8.001z"></path><circle cx="6" cy="18" r="2"></circle> </svg> </a> </div> </aside> </div> </div> </body></html>
