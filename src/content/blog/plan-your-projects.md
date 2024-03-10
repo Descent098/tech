@@ -3,7 +3,7 @@ title: Plan Your F@$king Projects
 creation_date: 2023-12-12T00:00:00-06:00
 subtitle: "Getting things done"
 description: "How to plan your projects effectively and get them completed"
-pubDate: 2024-03-09T00:00:00-06:00
+pubDate: 2024-03-08T00:00:00-06:00
 heroImage: /tech/blog/plan-your-projects.png
 tags: 
     - opinion
