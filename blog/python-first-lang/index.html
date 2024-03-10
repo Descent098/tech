@@ -1,0 +1,260 @@
+<!DOCTYPE html><html lang="en" data-theme="lofi"> <head><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" type="image/jpeg" href="/tech/profile.jpg"><meta name="generator" content="Astro v4.4.15"><!-- Primary Meta Tags --><title>A defense of python as your first language | Kieran Wood</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><meta name="title" content="A defense of python as your first language"><meta name="description" content="Your first language can be a hard choice, hopefully this helps make it easier"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://kieranwood.ca/tech/blog/python-first-lang/"><meta property="og:title" content="A defense of python as your first language"><meta property="og:description" content="Your first language can be a hard choice, hopefully this helps make it easier"><meta property="og:image" content="https://kieranwood.ca/tech/blog/python-first-lang.png"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://kieranwood.ca/tech/blog/python-first-lang/"><meta property="twitter:title" content="A defense of python as your first language"><meta property="twitter:description" content="Your first language can be a hard choice, hopefully this helps make it easier"><meta property="twitter:image" content="https://kieranwood.ca/tech/blog/python-first-lang.png"><link rel="stylesheet" href="/tech/_astro/_page_.VnlgLSv6.css" />
+<style>.time-line-container>div:last-child .education__time>.education__line{display:none}.astro-route-announcer{position:absolute;left:0;top:0;clip:rect(0 0 0 0);-webkit-clip-path:inset(50%);clip-path:inset(50%);overflow:hidden;white-space:nowrap;width:1px;height:1px}
+@keyframes astroFadeInOut{0%{opacity:1}to{opacity:0}}@keyframes astroFadeIn{0%{opacity:0}}@keyframes astroFadeOut{to{opacity:0}}@keyframes astroSlideFromRight{0%{transform:translate(100%)}}@keyframes astroSlideFromLeft{0%{transform:translate(-100%)}}@keyframes astroSlideToRight{to{transform:translate(100%)}}@keyframes astroSlideToLeft{to{transform:translate(-100%)}}@media (prefers-reduced-motion){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}[data-astro-transition-scope]{animation:none!important}}
+</style><script type="module" src="/tech/_astro/hoisted.CHePpst8.js"></script><style>[data-astro-transition-scope="astro-vz7ejtmd-1"] { view-transition-name: __2ftech_2fblog_2fpython-first-lang_2epng; }</style><style>[data-astro-transition-scope="astro-frvnq75b-2"] { view-transition-name: A_20defense_20of_20python_20as_20your_20first_20language; }</style></head> <body> <div class="bg-base-100 drawer lg:drawer-open"> <input id="my-drawer" type="checkbox" class="drawer-toggle"> <div class="drawer-content bg-base-100"> <div class="sticky lg:hidden top-0 z-30 flex h-16 w-full justify-center bg-opacity-90 backdrop-blur transition-all duration-100 bg-base-100 text-base-content shadow-sm"> <div class="navbar"> <div class="navbar-start"> <label for="my-drawer" class="btn btn-square btn-ghost"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path> </svg> </label> </div> <div class="navbar-center"> <a class="btn btn-ghost normal-case text-xl" href="/">Kieran Wood ⚡️</a> </div> <div class="navbar-end"></div> </div> </div> <div class="md:flex md:justify-center"> <main class="p-6 pt-10 lg:max-w-[900px] max-w-[100vw]">  <main class="md:flex md:justify-center"> <article class="prose prose-lg max-w-[750px] prose-img:mx-auto"> <img src="/tech/blog/python-first-lang.png" alt="A defense of python as your first language" class="w-full mb-6" style="border-radius:.5em" data-astro-transition-scope="astro-vz7ejtmd-1" width="750" height="422" loading="lazy" decoding="async"> <h1 class="title my-2 text-4xl font-bold" data-astro-transition-scope="astro-frvnq75b-2">A defense of python as your first language</h1> <time>Mar 9, 2024</time> <br>  <a href="/blog/tag/web" class="badge badge-outline ml-2 no-underline"> web </a><a href="/blog/tag/teaching" class="badge badge-outline ml-2 no-underline"> teaching </a><a href="/blog/tag/opinion" class="badge badge-outline ml-2 no-underline"> opinion </a>   <div class="divider my-2"></div>  <p>I have heard many people recently complain about learning python as a first language. Namely people complain that something like javascript should be used because of it’s ubiquity. There are many reasons to learn python in general, but I think it is the best first language since:</p>
+<ol>
+<li>It has a perfect amount of abstraction to learn with</li>
+<li>It is simple to use</li>
+<li>It has (mostly) no major language mistakes</li>
+<li>It has many fields you can go into</li>
+<li>It has professional relevance</li>
+<li>It has a large community</li>
+</ol>
+<h2 id="abstraction">Abstraction</h2>
+<p>I mentioned python has a perfect amount of abstraction, what do I mean by this? Python is a very high-level language. This means the code you write is often doing a ton of things for you under the hood. All languages start being written in source code (what we read), and find some way to eventually be run as machine code. This transpillation (going from one language to another) in python follows a few steps. Since python is interpreted the language runs by:</p>
+<ol>
+<li>Converting the source code you write into an AST (abstract syntax tree see <a href="https://dev.to/balapriya/abstract-syntax-tree-ast-explained-in-plain-english-1h38">ast</a> for details, and <a href="https://docs.python.org/3/library/ast.html">this package</a>)</li>
+<li>The AST is turned into python <a href="https://www.reddit.com/r/Python/comments/1rfrfd/what_is_bytecode/">bytecode</a> video about topic <a href="https://www.youtube.com/watch?v=0IzXcjHs-P8">here</a> (you can read the bytecode with <a href="https://docs.python.org/3/library/dis.html">dis</a>)</li>
+<li>The bytecode is fed into the <strong>python runtime</strong>, which then executes it as machine code on your machine</li>
+</ol>
+<p>So there are at least 3 (but actually way more) steps between you and the computer. This allows python to do things for you, and to optimize your code automatically at various stages. Because of this python code is very easy to read for beginners, and allows people to focus more on the important concepts, and less on the language. Compare the following code between python, javascript, java, go and C:</p>
+<p><em>python</em></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color:#F97583">with</span><span style="color:#79B8FF"> open</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"myfile.txt"</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">as</span><span style="color:#E1E4E8"> my_file:</span></span>
+<span class="line"><span style="color:#E1E4E8">	contents </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> my_file.read()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF">print</span><span style="color:#E1E4E8">(contents)</span></span></code></pre>
+<p><em>javascript (requires nodeJS)</em></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> fs</span><span style="color:#F97583"> =</span><span style="color:#B392F0"> require</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'node:fs'</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">fs.</span><span style="color:#B392F0">readFile</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'/myfile.txt'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'utf8'</span><span style="color:#E1E4E8">, (</span><span style="color:#FFAB70">err</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">data</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">=></span><span style="color:#E1E4E8"> { </span></span>
+<span class="line"><span style="color:#F97583">	if</span><span style="color:#E1E4E8"> (err) { </span></span>
+<span class="line"><span style="color:#E1E4E8">		console.</span><span style="color:#B392F0">error</span><span style="color:#E1E4E8">(err); </span></span>
+<span class="line"><span style="color:#F97583">		return</span><span style="color:#E1E4E8">; </span></span>
+<span class="line"><span style="color:#E1E4E8">	} </span></span>
+<span class="line"><span style="color:#E1E4E8">	contents </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> data</span></span>
+<span class="line"><span style="color:#E1E4E8">	});</span></span></code></pre>
+<p>or</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> fs</span><span style="color:#F97583"> =</span><span style="color:#B392F0"> require</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'node:fs'</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#F97583">	try</span><span style="color:#E1E4E8"> { </span></span>
+<span class="line"><span style="color:#F97583">		const</span><span style="color:#79B8FF"> contents</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> fs.</span><span style="color:#B392F0">readFileSync</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'myfile.txt'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'utf8'</span><span style="color:#E1E4E8">); </span></span>
+<span class="line"><span style="color:#E1E4E8">		console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(contents);</span></span>
+<span class="line"><span style="color:#E1E4E8">	} </span></span>
+<span class="line"><span style="color:#F97583">	catch</span><span style="color:#E1E4E8"> (err) { </span></span>
+<span class="line"><span style="color:#E1E4E8">		console.</span><span style="color:#B392F0">error</span><span style="color:#E1E4E8">(err);</span></span>
+<span class="line"><span style="color:#E1E4E8">	}</span></span></code></pre>
+<p><em>java</em></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> java.io.File;  </span><span style="color:#6A737D">// Import the File class</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> java.io.FileNotFoundException;  </span><span style="color:#6A737D">// Import this class to handle errors</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> java.util.Scanner; </span><span style="color:#6A737D">// Import the Scanner class to read text files</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">public</span><span style="color:#F97583"> class</span><span style="color:#B392F0"> ReadFile</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#F97583">  public</span><span style="color:#F97583"> static</span><span style="color:#F97583"> void</span><span style="color:#B392F0"> main</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">String</span><span style="color:#E1E4E8">[] </span><span style="color:#FFAB70">args</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">    try</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#E1E4E8">      File myObj </span><span style="color:#F97583">=</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> File</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"filename.txt"</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#E1E4E8">      Scanner myReader </span><span style="color:#F97583">=</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> Scanner</span><span style="color:#E1E4E8">(myObj);</span></span>
+<span class="line"><span style="color:#F97583">      while</span><span style="color:#E1E4E8"> (myReader.</span><span style="color:#B392F0">hasNextLine</span><span style="color:#E1E4E8">()) {</span></span>
+<span class="line"><span style="color:#E1E4E8">        String data </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> myReader.</span><span style="color:#B392F0">nextLine</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#E1E4E8">        System.out.</span><span style="color:#B392F0">println</span><span style="color:#E1E4E8">(data);</span></span>
+<span class="line"><span style="color:#E1E4E8">      }</span></span>
+<span class="line"><span style="color:#E1E4E8">      myReader.</span><span style="color:#B392F0">close</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#E1E4E8">    } </span><span style="color:#F97583">catch</span><span style="color:#E1E4E8"> (FileNotFoundException </span><span style="color:#FFAB70">e</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#E1E4E8">      System.out.</span><span style="color:#B392F0">println</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"An error occurred."</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#E1E4E8">      e.</span><span style="color:#B392F0">printStackTrace</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span></code></pre>
+<p><em>go</em></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color:#F97583">package</span><span style="color:#B392F0"> main</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> (</span></span>
+<span class="line"><span style="color:#9ECBFF">    "</span><span style="color:#B392F0">iotuil</span><span style="color:#9ECBFF">"</span></span>
+<span class="line"><span style="color:#9ECBFF">    "</span><span style="color:#B392F0">fmt</span><span style="color:#9ECBFF">"</span></span>
+<span class="line"><span style="color:#E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">func</span><span style="color:#B392F0"> main</span><span style="color:#E1E4E8">() {</span></span>
+<span class="line"><span style="color:#E1E4E8">    contents, err </span><span style="color:#F97583">:=</span><span style="color:#E1E4E8"> iotuil.</span><span style="color:#B392F0">ReadFile</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"myfile.txt"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> err </span><span style="color:#F97583">!=</span><span style="color:#79B8FF"> nil</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#E1E4E8">        fmt.</span><span style="color:#B392F0">Printf</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"</span><span style="color:#79B8FF">%v</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">, err)</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">    fmt.</span><span style="color:#B392F0">Println</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">string</span><span style="color:#E1E4E8">(contents))</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<p><em>C</em> (from <a href="https://www.geeksforgeeks.org/c-program-to-read-contents-of-whole-file/">here</a>)</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF"> &#x3C;stdio.h></span></span>
+<span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF"> &#x3C;stdlib.h></span></span>
+<span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF"> &#x3C;string.h></span></span>
+<span class="line"><span style="color:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#6A737D">// Driver code</span></span>
+<span class="line"><span style="color:#F97583">int</span><span style="color:#B392F0"> main</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#E1E4E8">    FILE</span><span style="color:#F97583">*</span><span style="color:#E1E4E8"> ptr;</span></span>
+<span class="line"><span style="color:#F97583">    char</span><span style="color:#E1E4E8"> ch;</span></span>
+<span class="line"><span style="color:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#6A737D">    // Opening file in reading mode</span></span>
+<span class="line"><span style="color:#E1E4E8">    ptr </span><span style="color:#F97583">=</span><span style="color:#B392F0"> fopen</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"myfile.txt"</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">"r"</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> (</span><span style="color:#79B8FF">NULL</span><span style="color:#F97583"> ==</span><span style="color:#E1E4E8"> ptr) {</span></span>
+<span class="line"><span style="color:#B392F0">        printf</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"file can't be opened </span><span style="color:#79B8FF">\n</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#6A737D">    // Printing what is written in file</span></span>
+<span class="line"><span style="color:#6A737D">    // character by character using loop.</span></span>
+<span class="line"><span style="color:#F97583">    do</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#E1E4E8">        ch </span><span style="color:#F97583">=</span><span style="color:#B392F0"> fgetc</span><span style="color:#E1E4E8">(ptr);</span></span>
+<span class="line"><span style="color:#B392F0">        printf</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"</span><span style="color:#79B8FF">%c</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">, ch);</span></span>
+<span class="line"><span style="color:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#6A737D">        // Checking if character is not EOF.</span></span>
+<span class="line"><span style="color:#6A737D">        // If it is EOF stop reading.</span></span>
+<span class="line"><span style="color:#E1E4E8">    } </span><span style="color:#F97583">while</span><span style="color:#E1E4E8"> (ch </span><span style="color:#F97583">!=</span><span style="color:#E1E4E8"> EOF);</span></span>
+<span class="line"><span style="color:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#6A737D">    // Closing the file</span></span>
+<span class="line"><span style="color:#B392F0">    fclose</span><span style="color:#E1E4E8">(ptr);</span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#79B8FF"> 0</span><span style="color:#E1E4E8">;</span></span></code></pre>
+<p>All (but the C code) read a file called <code>myfile.txt</code> and print it’s contents, unless they get an error, in which case they print an error. But to do this requires:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Language</th><th>Concepts</th></tr></thead><tbody><tr><td>Python</td><td>file paths, context managers (<code>with</code>), calling functions, variables</td></tr><tr><td>Javascript</td><td>imports, file paths, async vs sync, creating functions, anonymous functions/callbacks, error handling, encodings, variables, calling functions, conditionals</td></tr><tr><td>java</td><td>imports, classes, methods, static classes, error handling, while loops, scanners, variables, calling functions, instances</td></tr><tr><td>Go</td><td>imports, file paths, variables, calling functions, error handling, format strings, conditionals</td></tr><tr><td>C</td><td>defines, file paths, pointers, variables, calling functions, chars vs strings, EOF’s, while loops, conditionals</td></tr></tbody></table>
+<p>I was surprised, and had forgotten how much you need to know to do something this basic in JS, and Java, and how little to do it in Go. Overall if you’re trying to learn a language python provides a nice layer of abstraction where things like this are easy, don’t get in your way, and can be scaled with better understanding. For example maybe you learned more about file paths and want to make the code run in a path relative to the file you’re in, you can learn to do:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> os</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">file_name </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> "myfile.txt"</span></span>
+<span class="line"><span style="color:#E1E4E8">file_path </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> os.path.join(os.path.dirname(</span><span style="color:#79B8FF">__file__</span><span style="color:#E1E4E8">), file_name)</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">with</span><span style="color:#79B8FF"> open</span><span style="color:#E1E4E8">(file_path) </span><span style="color:#F97583">as</span><span style="color:#E1E4E8"> my_file:</span></span>
+<span class="line"><span style="color:#E1E4E8">	contents </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> my_file.read()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF">print</span><span style="color:#E1E4E8">(contents)</span></span></code></pre>
+<p>and continue to scale from there. Maybe you turn it into a function, and now you started learning about type safety, you can add that in to:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> os</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> sys</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> open_file</span><span style="color:#E1E4E8">(file_name:</span><span style="color:#79B8FF">str</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"myfile.txt"</span><span style="color:#E1E4E8">) -> </span><span style="color:#79B8FF">str</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#F97583">	if</span><span style="color:#F97583"> not</span><span style="color:#79B8FF"> type</span><span style="color:#E1E4E8">(file_name) </span><span style="color:#F97583">==</span><span style="color:#79B8FF"> str</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#F97583">		try</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">			file_name </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> str</span><span style="color:#E1E4E8">(file_name)</span></span>
+<span class="line"><span style="color:#F97583">		except</span><span style="color:#F97583"> as</span><span style="color:#E1E4E8"> e:</span></span>
+<span class="line"><span style="color:#E1E4E8">			error_type, msg, traceback </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> sys.exc_info()</span></span>
+<span class="line"><span style="color:#79B8FF">			print</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">str</span><span style="color:#E1E4E8">(traceback))</span></span>
+<span class="line"><span style="color:#79B8FF">			print</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"Could not convert </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">file_name</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF"> to a string with error: </span><span style="color:#79B8FF">\n\t{</span><span style="color:#E1E4E8">error_type</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">:</span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">msg</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">			sys.exit(</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">			</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">	file_path:</span><span style="color:#79B8FF">str</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> os.path.join(os.path.dirname(</span><span style="color:#79B8FF">__file__</span><span style="color:#E1E4E8">), file_name)</span></span>
+<span class="line"><span style="color:#F97583">	with</span><span style="color:#79B8FF"> open</span><span style="color:#E1E4E8">(file_path) </span><span style="color:#F97583">as</span><span style="color:#E1E4E8"> my_file:</span></span>
+<span class="line"><span style="color:#E1E4E8">		contents </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> my_file.read()</span></span>
+<span class="line"><span style="color:#F97583">	return</span><span style="color:#E1E4E8"> contents</span></span>
+<span class="line"></span>
+<span class="line"></span></code></pre>
+<p>Most other categories of code are similar. Python provides you with tooling to get a handle on what you’re doing, and focus on structure of the code and problem solving, not API details and intricacies. If someone wants a program to open a file, read it, and replace some text, then python let’s them focus on the task, the others make them focus on the language more than the task itself for a beginner.</p>
+<h2 id="simple-to-use">Simple to use</h2>
+<p>I’m actually not talking about syntax here, I just mean actually using python. In order to run python you need to install python, and then run it from the command line. This is easy across the board on linux, windows and macOS. From there you use the interpreter, or create a file and you’re good to go. If you want packages then pip is how you manage them. Pip is usually included, but can be installed with <a href="https://bootstrap.pypa.io/get-pip.py">a single script</a>. You then install through pip (<code>pip install &#x3C;package></code>), or use a <a href="https://docs.python.org/3/library/venv.html">venv</a>. With this knowledge you can run (basically) every python script and package you want.</p>
+<p>JavaScript on the other hand requires you to decide your runtime. NodeJS, Bun, Deno, what about the browser? Before you can even start teaching JS there’s a whole background set of conversations to have to explain how to run it. This may not sound like a big deal to developers, but to <strong>first time</strong> programmers the additional complexity is just annoying. Then we get on to packages and it’s a nightmare. Do you want npm, pnpm, some tutorials say to use npx, or yarn, which to use? For your own projects this is fine, but if you’re following along in a tutorial who knows which one they will use.</p>
+<p>Java is even worse than JavaScript. Initially if you google it will recommend you use oracle java. There are lots of issues with this and instead you should use <a href="https://openjdk.org/">openJDK</a>. Once you have that up and running you just need to compile with <code>javac</code> and run with <code>java</code>. But now comes the nightmare worse than writing the code, packages. Maven, Gradle, Ant and the tons of other mutually exclusive package management systems that make java a nightmare. Someone once joked that java is just the language <a href="https://eclipseide.org/">eclipse</a> happened to run, and I think this is true more and more each day. You <strong>can’t just write a java app</strong>, you <strong>need an IDE</strong>.</p>
+<p>Go is surprisingly good here. I used it years ago and hated it, but now it’s so simple to use. Install via one of their guides on <a href="https://go.dev/doc/install">their site</a>, and run <code>go run &#x3C;file>.go</code>, to build instead do <code>go buid &#x3C;file>.go</code> and then run the resulting binary. Likewise go package management is very good now. One tool, and everything all built in. I would say go is actually better than python for it’s simplicity these days. This is before mentioning tools like <a href="https://pkg.go.dev/golang.org/x/tools/gopls"><code>gopls</code></a> or the testing frameworks.</p>
+<p>C is and always will be a nightmare for all of this. It was not made for the likes of mere mortals like beginner programmers. On Linux, C development has built in tools like gcc and is a first-class citizen. On windows C is a nightmare. Setting up a C environment on windows for a beginner programmer isn’t worth the effort and time. Likewise most package management systems aren’t worth it, and vendoring code (copy-pasting into your project) is just more reliable and easier.</p>
+<h2 id="language-mistakes">Language mistakes</h2>
+<p>This is directly a shot at Javascript. Javascript has <strong>mistakes</strong> in it’s language definition. Because of how quickly it was written Javascript has inconsistencies these inconsistencies will break your understanding of programming and give you a bad indication of how concepts work. For example consider some issues with array’s (from <a href="https://www.youtube.com/watch?v=D5xh0ZIEUOE">here</a>):</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color:#E1E4E8">data </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> []</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(data[</span><span style="color:#79B8FF">2</span><span style="color:#E1E4E8">]) </span><span style="color:#6A737D">// undefined</span></span></code></pre>
+<p>So I can access non-existent keys without an error and I can assign random slots out of order:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color:#E1E4E8">data[</span><span style="color:#79B8FF">4</span><span style="color:#E1E4E8">] </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> "q"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">data.</span><span style="color:#79B8FF">length</span><span style="color:#6A737D"> // 5</span></span></code></pre>
+<p>and I can access using string indices that will be auto-converted to <code>int</code>s:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color:#E1E4E8">data[</span><span style="color:#9ECBFF">"4"</span><span style="color:#E1E4E8">] </span><span style="color:#6A737D">// "q"</span></span></code></pre>
+<p>Likewise At this point data is 3 <code>undefined</code>’s then a “q” <code>data = [undefined, undefined, undefined, "q"]</code> so if I wipe out the q and make it undefined the list should be empty right?</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color:#E1E4E8">data </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> []</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">data[</span><span style="color:#79B8FF">4</span><span style="color:#E1E4E8">] </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> "q"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">data.</span><span style="color:#79B8FF">length</span><span style="color:#6A737D"> // 5</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">data[</span><span style="color:#79B8FF">4</span><span style="color:#E1E4E8">] </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> undefined</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">data.</span><span style="color:#79B8FF">length</span><span style="color:#6A737D"> // 5</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">data </span><span style="color:#6A737D">// [empty × 4, undefined]</span></span></code></pre>
+<p>But that’s ok, javascript is mutable so we can just correct it ourselves ;)</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color:#E1E4E8">data.</span><span style="color:#79B8FF">length</span><span style="color:#F97583"> =</span><span style="color:#79B8FF"> 0</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">data.</span><span style="color:#79B8FF">length</span><span style="color:#6A737D"> // 0</span></span></code></pre>
+<p>and in case your wondering, yes that actually removed all the values from the array and it’s actually empty now.</p>
+<p>This is just one type of issues with arrays, issues exist with type coercisons, operations, and even things as simple as [if you need a semicolon](<a href="https://lucumr.pocoo.org/2011/2/6/automatic-semicolon-insertion/#:~:text=Virtual%20Semicolons%20in,are%20missing%20(7.9.2)">https://lucumr.pocoo.org/2011/2/6/automatic-semicolon-insertion/#:~:text=Virtual%20Semicolons%20in,are%20missing%20(7.9.2)</a> or not. These errors will fundamentally change how people program, and are <strong>exclusive to javascript</strong>. Python offers the same dynamic typing, but properly errors when it’s supposed to, and doesn’t have those weird syntax bugs (though you can use semicolons in python for <a href="https://docs.python.org/3/using/cmdline.html#cmdoption-c">-c mode</a>).</p>
+<p>There is only 1 thing I would consider broken in python and even though it has a justification I think it was a potential mistake:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> foo</span><span style="color:#E1E4E8">(l </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> []):</span></span>
+<span class="line"><span style="color:#E1E4E8">	l.append(</span><span style="color:#9ECBFF">"q"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">	return</span><span style="color:#E1E4E8"> l</span></span></code></pre>
+<p>What do you think happens with this code:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color:#79B8FF">print</span><span style="color:#E1E4E8">(foo())</span></span>
+<span class="line"><span style="color:#79B8FF">print</span><span style="color:#E1E4E8">(foo())</span></span>
+<span class="line"><span style="color:#79B8FF">print</span><span style="color:#E1E4E8">(foo())</span></span>
+<span class="line"><span style="color:#79B8FF">print</span><span style="color:#E1E4E8">(foo())</span></span>
+<span class="line"><span style="color:#79B8FF">print</span><span style="color:#E1E4E8">(foo([]))</span></span>
+<span class="line"><span style="color:#79B8FF">print</span><span style="color:#E1E4E8">(foo())</span></span></code></pre>
+<p>Unfortunately because we specified an empty list python created an object with a reference to it, and assigned the reference to the default value <code>l</code>, this means each call operates on <strong>the same</strong> default value:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color:#79B8FF">print</span><span style="color:#E1E4E8">(foo()) </span><span style="color:#6A737D"># ['q']</span></span>
+<span class="line"><span style="color:#79B8FF">print</span><span style="color:#E1E4E8">(foo()) </span><span style="color:#6A737D"># ['q', 'q']</span></span>
+<span class="line"><span style="color:#79B8FF">print</span><span style="color:#E1E4E8">(foo()) </span><span style="color:#6A737D"># ['q', 'q', 'q']</span></span>
+<span class="line"><span style="color:#79B8FF">print</span><span style="color:#E1E4E8">(foo()) </span><span style="color:#6A737D"># ['q', 'q', 'q', 'q']</span></span>
+<span class="line"><span style="color:#79B8FF">print</span><span style="color:#E1E4E8">(foo([])) </span><span style="color:#6A737D"># ['q']</span></span>
+<span class="line"><span style="color:#79B8FF">print</span><span style="color:#E1E4E8">(foo()) </span><span style="color:#6A737D"># ['q', 'q', 'q', 'q','q']</span></span></code></pre>
+<h2 id="fields--professional-relevance">Fields &#x26; professional relevance</h2>
+<p>Python has a wide range of fields that you can use it for. It has industry-ready packages for machine learning, web development, data science, scripting/devops, enterprise low-code platforms and tons of other fields. Javascript and java potentially have more jobs overall in web development and enterprise respectively, but they don’t have anywhere near the breadth of options.</p>
+<p>In python alone I have had jobs in data science, distributed computing, enterprise application development, low-code development, and web-dev. JavaScript realistically has front-end development, <strong>some</strong> native app dev, and some UI work for games. While companies use it for other things, this is much less common than python. Java likewise has found it’s footing firmly in enterprise, and very little else. Go and C both have their niche’s also, but again python just has a wide range of fields you can grow into compared to the other alternatives proposed.</p>
+<p>With companies like <a href="https://www.databricks.com/">databricks</a>, and <a href="https://azure.microsoft.com/en-ca/products/power-platform">azure</a> choosing them as interfaces for most of their projects, and projects like <a href="https://jupyter.org/">jupyter</a>, <a href="https://pytorch.org/">pytorch</a> etc. there’s a lot of relevance.</p>
+<h2 id="it-has-a-large-community">It has a large community</h2>
+<p>JavaScript likely is even bigger, but python has a big enough community that there are <strong>so many</strong> resources about it.  Additionally the common behaviors in the community I find are better than what you get in other communities. For example the python community is less likely to be willing to break functionality in packages compared to JavaScript. Likewise the python community often has better resources and docs available for most packages than languages like C. Also because python is so often a “beginner language” there’s a lot of beginner friendly content.</p>
+<h2 id="dont-be-stuck-in-one-language">Don’t be stuck in one language</h2>
+<p>This article argues what should be your first language, not your last. I hope you choose python for the reasons I argued above, but python should not be your only language. I think it gives you a good footing to go off and learn the others mentioned as well. I write 3 of the 5 languages mentioned on this list on a weekly basis. Once you start getting your footing shop around. My personal suggestion for different orders would be:</p>
+<ol>
+<li>Web focused:</li>
+</ol>
+<p><code>python --> JavaScript --> go --> Java --> C</code></p>
+<ol start="2">
+<li>Theoretical, meaning you want to know how computers work:</li>
+</ol>
+<p><code>python --> C --> go --> JavaScript --> Java</code></p>
+<ol start="3">
+<li>Enterprise, meaning you want highest likelihood of a job:</li>
+</ol>
+<p><code>python --> JavaScript --> Java --> C --> go</code></p>
+<p>I would also recommend learning Typescript after starting to learn JavaScript. It can help avoid <strong>some</strong> issues of JavaScript.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Learn whatever language you want, but I would recommend starting with python. On top of everything mentioned above I also think it’s good to start with python because it’s syntax is more uncommon. This means understanding what happens in your code is more decoupled from the syntax as you add additional languages as well. But whichever language you choose, I wish you well on your coding journey!</p>  </article> </main> <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js" integrity="sha256-mm3Re3y7xlvh+yCD+l/Zs1d+PU0AEad93MkWvljfm/s=" crossorigin="anonymous"></script>   </main> </div> <footer class="footer footer-center block mb-5 pt-10"> <div class="pb-2">
+&copy; 2024 Kieran Wood
+</div> <div class="inline opacity-75"> <!-- Thanks for using this template. You can keep this line to support my work :) --> <a href="https://astrofy-template.netlify.app/" target="_blank" class="font-bold">Astrofy Template</a> developed by
+<a href="https://manuelernestog.github.io" target="_blank" class="font-bold">Manuel Ernesto ⚡️</a> </div> </footer>  </div> <div class="drawer-side z-40"> <label for="my-drawer" class="drawer-overlay"></label> <aside class="px-2 pt-2 h-auto min-h-full w-[19rem] bg-base-200 text-base-content flex flex-col"> <div class="w-fit mx-auto mt-5 mb-6"> <a href="/"> <div class="avatar transition ease-in-out hover:scale-[102%] block m-auto"> <div class="w-[8.5rem]"> <img src="/tech/profile.jpg" class="mask mask-circle" alt="Profile image" width="300" height="300" loading="lazy" decoding="async"> </div> </div> </a> </div> <ul class="menu grow shrink menu-md overflow-y-auto"> <li><a class="py-3 text-base" id="home" href="/tech/">Home</a></li> <li><a class="py-3 text-base" id="projects" href="/tech/projects">Projects</a></li> <!-- <li><a class="py-3 text-base" id="services" href="/tech/services">Services</a></li>
+    <li><a class="py-3 text-base" id="store" href="/tech/store">Store</a></li> --> <li><a class="py-3 text-base" id="blog" href="/tech/blog/">Blog</a></li> <li><a class="py-3 text-base" id="cv" href="/tech/cv">CV</a></li> <li><a class="py-3 text-base" href="/tech/contact">Contact</a></li> </ul> <script>(function(){const sideBarActiveItemID = undefined;
+const activeClass = "bg-base-300";
+
+const activeItemElem = document.getElementById(sideBarActiveItemID);
+activeItemElem && activeItemElem.classList.add(activeClass);
+})();</script> <div class="block sticky pointer-events-none bottom-10 bg-base-200 justify-center h-12 [mask-image:linear-gradient(transparent,#000000)]"></div> <div class="social-icons px-4 pb-5 pt-1 flex self-center justify-center sticky bottom-0 bg-base-200"> <a href="https://github.com/descent098" target="_blank" class="mx-3" aria-label="Github" title="Github"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.026 2c-5.509 0-9.974 4.465-9.974 9.974 0 4.406 2.857 8.145 6.821 9.465.499.09.679-.217.679-.481 0-.237-.008-.865-.011-1.696-2.775.602-3.361-1.338-3.361-1.338-.452-1.152-1.107-1.459-1.107-1.459-.905-.619.069-.605.069-.605 1.002.07 1.527 1.028 1.527 1.028.89 1.524 2.336 1.084 2.902.829.091-.645.351-1.085.635-1.334-2.214-.251-4.542-1.107-4.542-4.93 0-1.087.389-1.979 1.024-2.675-.101-.253-.446-1.268.099-2.64 0 0 .837-.269 2.742 1.021a9.582 9.582 0 0 1 2.496-.336 9.554 9.554 0 0 1 2.496.336c1.906-1.291 2.742-1.021 2.742-1.021.545 1.372.203 2.387.099 2.64.64.696 1.024 1.587 1.024 2.675 0 3.833-2.33 4.675-4.552 4.922.355.308.675.916.675 1.846 0 1.334-.012 2.41-.012 2.737 0 .267.178.577.687.479C19.146 20.115 22 16.379 22 11.974 22 6.465 17.535 2 12.026 2z"></path> </svg> </a> <a href="https://www.linkedin.com/in/kieran-wood" target="_blank" class="mx-3" aria-label="Linkedin" title="Linkedin"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><circle cx="4.983" cy="5.009" r="2.188"></circle><path d="M9.237 8.855v12.139h3.769v-6.003c0-1.584.298-3.118 2.262-3.118 1.937 0 1.961 1.811 1.961 3.218v5.904H21v-6.657c0-3.27-.704-5.783-4.526-5.783-1.835 0-3.065 1.007-3.568 1.96h-.051v-1.66H9.237zm-6.142 0H6.87v12.139H3.095z"></path> </svg> </a> <a href="https://instagram.com/descent098" target="_blank" class="mx-3" aria-label="Instagram" title="Instagram"> <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 -5 24 24" style="fill: currentColor;transform: ;msFilter:;"><path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"></path> </svg> </a> <a href="/rss.xml" target="_blank" class="mx-3" aria-label="RSS Feed" title="RSS Feed"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><path d="M19 20.001C19 11.729 12.271 5 4 5v2c7.168 0 13 5.832 13 13.001h2z"></path><path d="M12 20.001h2C14 14.486 9.514 10 4 10v2c4.411 0 8 3.589 8 8.001z"></path><circle cx="6" cy="18" r="2"></circle> </svg> </a> </div> </aside> </div> </div> </body></html>
