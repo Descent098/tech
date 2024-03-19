@@ -532,7 +532,7 @@ and we wanted to access the h2 element, we could do:
 
 This is useful for more advanced queries like state queries (select elements based on attributes, text inside them etc.), multi-option queries (if element matches A or B paths), and location-based lookups (only the 3rd element of a certain type in the document). It can be used in javascript with [evaluate()](https://developer.mozilla.org/en-US/docs/Web/XPath/Introduction_to_using_XPath_in_JavaScript), but there are better ways to do this in javascript. It's mostly useful for languages that don't run in the browser like python where you can use it to query a system that makes sense out of HTML files like [lxml](https://lxml.de/), or in cases where HTML isn't the only type of XML-like file you're going to be working with!
 
-You can play around with Xpath using utilities like [xpather](http://xpather.com/).
+You can play around with Xpath using utilities like [xpather](http://xpather.com/) or [xpathium](https://extendsclass.com/xpath-tester.html).
 
 #### URL parsing
 
