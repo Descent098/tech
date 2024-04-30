@@ -379,3 +379,12 @@ Next time we will talk about github, an online git provider that will make it ea
 - [Git Internals - How Git Works - Fear Not The SHA!](https://www.youtube.com/watch?v=P6jD966jzlk)
 - [Under the hood of git](https://www.youtube.com/watch?v=gdY_RpY2oyU)
 - [So You Think You Know Git - FOSDEM 2024](https://www.youtube.com/watch?v=aolI_Rz0ZqY)
+- [Why Facebook doesn’t use Git](https://graphite.dev/blog/why-facebook-doesnt-use-git)
+- [Scaling Git](https://devblogs.microsoft.com/bharry/scaling-git-and-some-back-story/)
+
+### Alternatives
+
+- [Subversion (SVN)](https://subversion.apache.org/)
+- [Mercurial](https://www.mercurial-scm.org/)
+- [Perforce](https://www.perforce.com/)
+
