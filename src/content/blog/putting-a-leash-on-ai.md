@@ -6,11 +6,13 @@ description: Legislation? Good Will? How do we solve today and tomorrow's proble
 pubDate: 2024-04-30
 heroImage: /tech/blog/putting-a-leash-on-ai.png
 tags: [ai]
-modified: 2024-04-30
+modified: 2024-05-07
 ---
 Ai is an exciting topic. The entire field is fraught with potential. Even in it's current infancy we see startups forming every day, not to mention the more mundane and pragmatic uses cropping up in everyday life. Quick document preparation, summarization, rough draft generation, chat bots, content thumbnail generation and many more. In our lifetime the ability to direct, narrate, score and edit an entire film in an accessible format to many people. But all this excitement comes with a looming anxiety about these technologies.
 
 Who controls them? What are the rules for accessing them? How do they screen for dangerous content? How do we screen for content produced by them? These are just the simple questions, what about questions of laying off workers to automate their work with AI, or the dangers of the inherently incestuous relationship of learning off their own generated data? These questions are important, this article seeks to bring up some of these questions in specific contexts and use cases, as well as provide current lawsuits, draft legislation, and legal precedence in various countries to address some of these anxieties.
+
+*EDIT (August 23rd 2024): MIT has since released the [AI Risk Repository](https://airisk.mit.edu/), which catalogues lots of what I talk about and more, I would recommend checking it out... after finishing this article :)*
 
 ## Deepfakes
 Starting with one of the most contentious topics, deepfakes are a system of generative AI that allows you to do face and body-swaps of people into existing footage. In it's positive uses it can be used by film companies to edit in actors to shots that could be dangerous, or even just for some fun[^1] [^10]. There are obvious concerns with this, most notably it's use to propagate fake information[^2] (I will talk about this in the [fake information section](#fake-information)), and the ability of others to create deepfake porn. 
@@ -76,6 +78,15 @@ AI poses an incredible dialectic of possibility and danger. There is so much pot
 - [Public AI Training Datasets Are Rife With Licensing Errors - IEEE Spectrum](https://spectrum.ieee.org/data-ai)
 - [OpenAI, Google, and Meta used your data to build their AI systems - Vox](https://www.vox.com/technology/2023/7/27/23808499/ai-openai-google-meta-data-privacy-nope)
 - [How We Think About Copyright and AI Art | Electronic Frontier Foundation (eff.org)](https://www.eff.org/deeplinks/2023/04/how-we-think-about-copyright-and-ai-art-0)
+
+## Relevant Articles that have come out since publication
+
+- [For Data-Guzzling AI Companies, the Internet Is Too Small](https://www.wsj.com/tech/ai/ai-training-data-synthetic-openai-anthropic-9230f8d8)
+- [These AI sites need to be shut down... | AI Docu-Dive Part 1](https://www.youtube.com/watch?v=J3YB0VvBvjs)
+- Company bans on Deepfake Porn
+  - [Google prohibits ads promoting websites and apps that generate deepfake porn](https://www.engadget.com/google-prohibits-ads-promoting-websites-and-apps-that-generate-deepfake-porn-130059324.html)
+  - [Google restricts promotion of deep fake sexual content](https://searchengineland.com/google-restricts-promotion-deep-fake-sexual-content-440141)
+  - [Updated Google Ad Policy Bans Promotion of Deepfake Porn Apps](https://www.pcmag.com/news/google-updates-its-ad-policy-to-prohibit-promoting-deepfake-porn-apps)
 
 [^1]: [A new A.I. tool replaces Iconic Lil Yachty concert video with Joaquin Phoniex’s Joker (youtube.com)](https://www.youtube.com/watch?v=bxtSsQIEDpU)
 [^2]: [Fake Obama created using AI video tool - BBC News (youtube.com)](https://www.youtube.com/watch?v=AmUC4m6w1wo)
