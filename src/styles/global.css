@@ -1,3 +1,76 @@
 .time-line-container>div:last-child .education__time>.education__line {
     display: none;
 }
+details{
+    background:#f0f0f0; 
+    padding:1rem;
+    border-radius:.7rem;
+    margin: .5rem auto; 
+    width: 100%;
+}
+
+summary{
+    cursor:pointer;
+}
+
+#TOC-list{
+    list-style:none;
+}
+
+#TOC-list li{
+    margin-top: .15rem;
+}
+
+.danger-banner{
+    display: flex;
+    flex-direction: row;
+    background: #f44336;
+    border-radius: .25rem;
+    padding: 1.1rem;
+    color: white !important;
+    flex-wrap: wrap;
+}
+
+.danger-banner strong,
+.danger-banner a{
+    color: white !important;
+}
+
+.danger-banner::before{
+    content:"!🛑 Danger 🛑!";
+    flex-basis: 100%;
+    margin-bottom:.5rem;
+    padding:.6rem;
+    border-radius: .25rem;
+    text-align: center;
+    background: red;
+    text-transform: uppercase;
+}
+
+
+.warning-banner{
+    display: flex;
+    flex-direction: row;
+    background: #fcc51e;
+    border-radius: .25rem;
+    padding: 1.1rem;
+    color: #141414 !important;
+    flex-wrap: wrap;
+}
+
+.warning-banner strong,
+.warning-banner a{
+    color: #141414 !important;
+}
+
+.warning-banner::before{
+    content:"🟡 Warning 🟡";
+    flex-basis: 100%;
+    margin-bottom:.5rem;
+    padding:.6rem;
+    border-radius: .25rem;
+    text-align: center;
+    background: #f6cb49;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 1px rgb(93, 93, 93);
+}

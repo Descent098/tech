@@ -17,7 +17,7 @@ interface Props {
 
 const { entry } = Astro.props;
 const post: BlogSchema = entry.data;
-const { Content } = await entry.render();
+const { Content, headings } = await entry.render();
 ---
 
 <PostLayout
@@ -28,7 +28,23 @@ const { Content } = await entry.render();
   updatedDate={post.updatedDate}
   badge={post.badge}
   tags={post.tags}
+  subtitle={post.subtitle}
   crosspostURL={post.crosspostURL}
 >
+
+  {headings && <div>
+    <h2>Table of contents</h2>
+    <ul id="TOC-list">
+      { headings.map((heading) =>(
+        <li>
+          <a href={`#${heading.slug}`} class="no-underline">
+                {heading.text}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+  <hr/>
+  }
   <Content />
 </PostLayout>
