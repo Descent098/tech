@@ -58,7 +58,36 @@ Component based frameworks intend to setup "components", essentially there is pr
     <h5 class="card-title">Pelican</h5>
     <p class="card-text">What a sick bird</p>
   </div>
+  <style>
+    .card{
+    --primary-transparent: #d14b3b80;
+    --secondary-transparent: #ffde5920;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+    font-size: 120%;
+    box-sizing: border-box;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    flex: 0 0 33.3333333333%;
+    max-width: 33.3333333333%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-clip: border-box;
+    border-radius: 0.4rem;
+    min-height: 200px;
+    background-color: var(--secondary-transparent);
+    }
+  </style>
 </div>
+
+    
 
 ```html
 <div class="card col-md-4">

@@ -801,14 +801,27 @@ The HTML for the above table is:
 We then use the CSS rule:
 
 ```css
-tr:nth-child(even) {
+tr:nth-child(odd) {
     background-color: #fffbea;
 }
 ```
 
-This says that if the currentt row is an even number as a child of the tbody then change it's colour. 
+This says that if the currentt row is an odd number as a child of the tbody then change it's colour. 
 
 
 ### Lookups & Partials
 
 Earlier in the [lookups](#lookups) section I mentioned that lookups require **guarenteed** uniqueness. This is true if you are looking for **a result**, if you are fine with multiple items (like in searches), then you might not need the uniquenes constraint. For example if you are building a search system for movies and someone enters a search term like `"inside"`, you may want to return all movies that have inside in the title (which is more than 1). In these cases your search term would be used to locate multiple resources, but you would still want a unique identifier for **each movie** so you can find the information about the 1 movie the person is looking for.
+
+
+<style>
+    .mermaid{
+        background:transparent;
+    }
+    tr:nth-child(odd) {
+        background-color: #fffbea;
+    }
+    thead tr{
+        background-color:transparent !important;
+    }
+</style>
