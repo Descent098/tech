@@ -74,3 +74,19 @@ summary{
     text-transform: uppercase;
     text-shadow: 1px 1px 1px rgb(93, 93, 93);
 }
+
+.level-3{
+    text-indent: 1rem;
+}
+
+.level-4{
+    text-indent: 2rem;
+}
+
+.level-5{
+    text-indent: 3rem;
+}
+
+.level-6{
+    text-indent: 4rem;
+}

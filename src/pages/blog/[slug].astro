@@ -36,7 +36,7 @@ const { Content, headings } = await entry.render();
     <h2>Table of contents</h2>
     <ul id="TOC-list">
       { headings.map((heading) =>(
-        <li>
+        <li class={`level-${heading.depth}`}>
           <a href={`#${heading.slug}`} class="no-underline">
                 {heading.text}
           </a>
