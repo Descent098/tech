@@ -89,6 +89,9 @@ AI poses an incredible dialectic of possibility and danger. There is so much pot
   - [Google prohibits ads promoting websites and apps that generate deepfake porn](https://www.engadget.com/google-prohibits-ads-promoting-websites-and-apps-that-generate-deepfake-porn-130059324.html)
   - [Google restricts promotion of deep fake sexual content](https://searchengineland.com/google-restricts-promotion-deep-fake-sexual-content-440141)
   - [Updated Google Ad Policy Bans Promotion of Deepfake Porn Apps](https://www.pcmag.com/news/google-updates-its-ad-policy-to-prohibit-promoting-deepfake-porn-apps)
+- Deepfakes in court rooms
+  - [After an Arizona man was shot, an AI video of him addresses his killer in court](https://www.npr.org/2025/05/07/g-s1-64640/ai-impact-statement-murder-victim)
+  - [Arizona man shot to death in road rage 'returns' to address his killer](https://www.bbc.com/news/articles/cq808px90wxo)
 
 [^1]: [A new A.I. tool replaces Iconic Lil Yachty concert video with Joaquin Phoniex’s Joker (youtube.com)](https://www.youtube.com/watch?v=bxtSsQIEDpU)
 [^2]: [Fake Obama created using AI video tool - BBC News (youtube.com)](https://www.youtube.com/watch?v=AmUC4m6w1wo)

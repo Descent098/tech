@@ -37,7 +37,7 @@ const projects = (await getCollection("projects")).slice(0,3);
           title={post.data.title}
           img={post.data.heroImage}
           desc={post.data.description}
-          url={"/tech/"+post.data.url}
+          url={post.data.url}
           target="_blank"
           badge={post.data.badge}
         />
