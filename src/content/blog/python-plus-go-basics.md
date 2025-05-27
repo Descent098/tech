@@ -1979,7 +1979,7 @@ print(users)
 
 ## Conclusions
 
-It's over, I'm free, almost. This was one of the longest slogs I've had programming. It isn't for the faint of heart, but it's great when it's done. This article gave you everything you need to start working with a process like this, and in the [next article](https://kieranwood.ca/tech.blog/python-plug-go-examples). I will show you some real world demos of this in action, as well as some of the higher level practical tips.
+It's over, I'm free, almost. This was one of the longest slogs I've had programming. It isn't for the faint of heart, but it's great when it's done. This article gave you everything you need to start working with a process like this, and in the [next article](https://kieranwood.ca/tech/blog/python-plus-go-examples). I will show you some real world demos of this in action, as well as some of the higher level practical tips.
 
 ## References
 
