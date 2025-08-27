@@ -184,9 +184,9 @@ Which leaves us with:
 
 <div class="body-demo">
   <div class="hero editable">
-      <h1 class="demo-editable-fields">Title</h1>
-      <h3 class="demo-editable-fields">Subtitle</h3>
-      <p class="demo-editable-fields">content</p>
+      <h1 class="demo-editable-fields" contenteditable>Title</h1>
+      <h3 class="demo-editable-fields" contenteditable>Subtitle</h3>
+      <p class="demo-editable-fields" contenteditable>content</p>
   </div>
 </div>
 
@@ -418,6 +418,10 @@ class Hero extends HTMLElement {
 
 customElements.define('hero-cta', Hero);
 ```
+
+## Rebuilding
+
+...
 
 
 <!-- Demo code -->
