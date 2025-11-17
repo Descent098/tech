@@ -40,7 +40,6 @@ Spotify solves %80 of my use case, but man, that %20 is rough. **A lot** of musi
 
 ![](/tech/blog/build-a-long/myuuze/missing-songs.png)
 
-
 There's probably some good legal reason for why to do with contracts, but honestly I don't care. As a user I just care that my music is now gone, some of which I might not be able to find again. It echos back to problems like when [sony was going to remove people's videos they "owned"](https://consumerrights.wiki/w/Sony%27s_attempted_removal_of_%22purchased%22_content). 
 
 Unlike Google Play Music (RIP), Spotify's solution for adding your own files to your library was pretty janky. You used to have to have a device connected with the files, you could then add them to a playlist, and then on another device download them while that device also had spotify open. It worked (kinda), but it was error prone, and caused a bunch of problems. Nowadays spotify will let you specify a local folder and just use it like a local folder, but the same syncing issues still apply. So, what if we become Spotify?
@@ -67,7 +66,6 @@ It's always good to start with looking at what exists to see what you like, and 
 
 #### Music Players
 
-
 Most music players are pretty same-y. I need a queue of what I'm playing, I want to be able to add/remove things, and re-order the queue. On top of that some audio controls like which audio device to output to, volume, shuffle and repeat would be nice. So, I didn't need much inspiration for the music player itself considering I basically described VLC's controls, and every other music player on my list from earlier.
 
 ![](/tech/blog/build-a-long/myuuze/ui-comparison.png)
@@ -81,7 +79,7 @@ I will need to add some stuff like a UI for seeing the queue, and a "now-playing
 
 #### File Organizers
 
-There are some planned features that took heavy inspiration from some other systems notably [Romm](https://romm.app/) and [Booklore](https://github.com/booklore-app/BookLore). Both of these apps are systems to manage your game ROM's and books respectively. 
+There are some planned features that took heavy inspiration from some other systems notably [Romm](https://romm.app/), [plex](https://www.plex.tv/) and [Booklore](https://github.com/booklore-app/BookLore). These apps are systems to manage your game ROM's, movies/TV shows, and books respectively. 
 
 [Romm](https://romm.app/) operates based on a set file/folder structure that encourages you to keep things organzied (`library/{platform}/roms/{game}` e.g. `library/gba/roms/{game}.gba` for gameboy advanced games), and provides an upload interface that also helps to do just that. [Romm](https://romm.app/) also has several built in metadata providers that allow you to quickly find the game you're looking for, and get it organized. You just add the files, and then you "scan" through them to find matches.
 
@@ -89,8 +87,9 @@ There are some planned features that took heavy inspiration from some other syst
 
 Above is a file I had called `stairs.zip` that I put in `/library/win/roms/stairs`. It's an obscure game from 2015 that was released for free, and I was able to add it's metadata by finding it's [entry](https://www.igdb.com/games/stairs) and ID on [IDGB](https://www.igdb.com/). [Romm](https://romm.app/) did the rest of the work for me, and for most games you don't even have to do that, just putting a folder or file with the game name is enough. It does store the metadata it collects in a database that is annoying to try to port away from, but overall it empowers you to make **your plain files work for you**. 
 
+[Plex](https://www.plex.tv/) is a system that allows you to self-host your own version of [netflix](https://www.netflix.com/ca)/[prime video](https://www.primevideo.com/), others like [jellyfin](https://jellyfin.org/) are similar. Plex is similar in how it uses your files + metadata matching to help you import everything, but it does have one other nice system, UI-deduplication. File based de-duplication is when you only keep 1 file that is of the same content, but what if you want different versions? Like for example full quality versions while streaming at home, and lower quality while on the go? In plex there are many different versions of a show/movie that can exist, and you can swap between them. This comes up a lot in anime if you have the subbed and dubbed versions that are separate files. Swapping between them is transparrent because the UI just makes the language option a setting you choose, and it will swap the video for you if you swap to the other audio track. I know some albums have releases in different languages, but afaik they also have different titles, so not sure how I could handle that. Long story short, I don't have any concrete UI-deduplication ideas yet, just file-based ones for saving space based on some of the plex ones, but it's in the back of my mind.
 
-[Booklore](https://github.com/booklore-app/BookLore) takes this to another level. [Booklore](https://github.com/booklore-app/BookLore) starts by giving you 2 options:
+[Booklore](https://github.com/booklore-app/BookLore) takes file organization to another level. [Booklore](https://github.com/booklore-app/BookLore) starts by giving you 2 options:
 
 ![](/tech/blog/build-a-long/myuuze/booklore-ui.png)
 
@@ -107,6 +106,27 @@ After filling it all out I went from a random file called `pg228-images.epub`, a
 ![](/tech/blog/build-a-long/myuuze/patterns-example.png)
 
 This means that my processed "libraries" go from a dump of a bunch of PDF's and EPUB's to several top level folders ("libraries", in my case `books`, `papers` and `comics`) that each contain a programmable folder structure that is automated for me, and reactive to updates I apply in the app. Essentially I can take the folder with my libraries, and copy it anywhere **without losing the effort I put int organizing it**.
+
+### List of features
+
+So after reviewing everything my wishlist includes:
+
+1. A "dump" page with the ability to directly dump files over a network, or upload through the UI. These will then go through an import process to fill out any necessary fields
+2. Some cleanup options down the road to do file based de-duplication and compression/processing based on a set of parameters (i.e. sample rate, file size targets etc.)
+3. Metadata providers to make importing everything smoother and simpler
+
+So, for version 1 (technically `0.1.0`) I would aim to:
+
+1. Have a simple dump system that allows you to automate bringing in "ready-to-go" files
+2. Have a music player that supports queing songs, and the normal stop/start, pause/play, volume control, no-repeat/repeat-queue/repeat-song, shuffle, and audio output device controls
+3. Ability to create playlists, add items to playlists, and play them
+
+For version 2 (`0.2.0`) I would:
+
+1. Iterate on the dump system in the frontend to allow you to edit files in-browser to import them
+2. Add a metadata provider to bring in suggested fields
+3. Look for optimizations around image handling
+
 
 ## Getting started
 
@@ -153,7 +173,7 @@ With these high level ideas in place I went to work setting up all the repo's, a
 
 I still had not yet figured out what I wanted to do with user docs, but I was eyeing [starlight](https://starlight.astro.build/) since it was also astro based, or [zensical](https://zensical.org/) which had just released. I'll cross that bridge when I'm ready, but for now, let's get building.
 
-## Initial attempt
+## Initial attempt; A "working" music player
 
 Because I am doing all the work for this project I needed to first start building out a backend, in order to build a frontend, to decide what I need for the frontend. So, a mini v1 was in order. This version I wanted to:
 
@@ -222,7 +242,7 @@ Actually everything works until 1000 of them, then you hit the [defined limit](h
 
 At this point in the article [this commit](https://github.com/Myuuze/frontend/tree/3464c8f602d5d9f80ab2b72b5e42e2e9696f9a58) is where I was at with the fontend.
 
-## Phase 2
+## Phase 2; An actually working music player
 
 Seeing that there was going to be a number of changes I needed to make after my first "working" demo, I consider this next section to be the second phase. I'm pretty well planned out, and know what I want to do, and how I want to do it. Now it's just a matter of getting it done.
 
@@ -280,6 +300,54 @@ Where:
 - `SongAudio` would be the ephemeral map of song audio data, it would act as a "sliding window" with a setting to define how many to keep in memory at one time
 - `Covers` Another "sliding window" that would be cached, and would contain the album covers of a bunch of a set number of albums
 
-While this might seem complicated (and it was to plan out), the actual implementation is deceptively simple. I would have my `MusicPlayer` web component (wrapped in an astro component) that would handle the `queue`, `CurrentSongIndex`, and user interactions. I would then have a `SongMetaData` and an `AlbumMetaData` class. To the code from the music player it would be interacting with just those two classes, but under the hood each of them would use [static](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static) attributes and methods to manage the `SongData`, `SongAudio`, `Covers` and the caching of all these values. This is somewhat memory and CPU wasteful because you're constantly making new objects and deleting them, but this was the nicest conceptual way I could think of for how to do this. 
+While this might seem complicated (and it was to plan out), the actual implementation is conceptually simple. I would have my `MusicPlayer` web component (wrapped in an astro component) that would handle the `queue`, `CurrentSongIndex`, and user interactions. I would then have a `SongMetaData` and an `AlbumMetaData` class. To the code from the music player it would be interacting with just those two classes, but under the hood each of them would use [static](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static) attributes and methods to manage the `SongData`, `SongAudio`, `Covers` and the caching of all these values, and reading them back through it. This is somewhat memory and CPU wasteful because you're constantly making new objects and deleting them, but this was the nicest conceptual way I could think of for how to do this. 
 
+#### The cracks begin to show
 
+While the mental model was clean and simple, the implementation was certainly not. I was running into constant problems that were driving me nuts:
+
+- Checking `undefined` values in `if` statements errors, meaning "null checks" are actually `if (value ===undefined || value ===null || !value){}` for basically every property
+- You cant add `async` to a property, which means you can't `await()` function calls when accessing them, this meant every time I wanted to access `SongMetaData.audio` I had to remember to `await SongMetadata.audio` or it would fail silently
+- Native `Map` objects can't be serialized directly to localstorage. You can serialize normal objects using `localStorage.setItem(key, JSON.stringify(object))`, this DOES NOT work for maps, and fails **silently** by just adding an empty object to localStorage instead you must do `JSON.stringify(Object.fromEntries(Map))`
+- I wanted to use typescript so I could get a chance to use it, but you can't easily inline typescript files since for astro to run client side you need to run `<script is:inline>`. This meant I had to store scripts in my `/public` directory, which does not pre-process the files at all, and does not give me intelisense in my components. I admit this one might be a skill issue, but frankly it shouldn't be this hard to choose to run **basic JS** in a **javascript** metaframework.
+- This was my 2nd real (but technically 6th) rewrite, and it was getting hard to remember which parts I had done or not yet
+
+I will be blunt, some of these are problems that frankly just should not exist. These are design **mistakes** in javascript that people have invented solutions **around**. One of the **most fundamental** functions in javascript is `fetch()` to get remote resources, and it returns a `Promise` that **must** be awaited or unwrapped. The fact that I can create getters and setters on objects, but not indicate they return an underlying `async` datatype is a design mistake. I assume this is due to legacy compatibility reasons, but it makes class-based javascript approaches a nightmare, which in turn makes me scratch my head at why the [web components](https://developer.mozilla.org/en-US/docs/Web/API/Web_components) standard relies on it so much, considering the limitations it brings. I was also struggling to keep in mind all the data I was storing in the browser, and was considering writing some sort of `StorageManager` wrapper class to handle all of this. 
+
+To make a long story short(er), I made some hard decisions. I was able to tame the complexity of the `MusicPlayer` to some extend in pure JS with web components, but going forward there's no way I would want to deal with things like the "dump" management this way, so I decided to get the basic `MusicPlayer` working for now, with very simple queue management so I could sus out the sharp edges. Once that was done, I would write the next set of components (and eventually rewrite the music player) in a reactive framework that managed some of this nonsense for me. In particular I needed to be able to have values in my component where on changes they updated their stores. I took a look at [this article](https://docs.astro.build/en/recipes/sharing-state/) and [this one](https://docs.astro.build/en/recipes/sharing-state-islands/) about [Nano Stores](https://github.com/nanostores/nanostores). This leaves the "reactivity", everyone's favourite term in web dev. 
+
+I was aware of most of the options, and ultimately it came down to either [svelte](https://svelte.dev/) or [solid](https://www.solidjs.com/). [React](https://react.dev/), [vue](https://vuejs.org/) and [all the other options](https://docs.astro.build/en/guides/integrations-guide/) were far too heavy for what I was doing. If I were planning on doing a ton of other fancy features it might make more sense, but for what I need, I just needed something simple. Svelte and Solid seemed to perform similarly (though solid is faster overal) for many tasks. Conceptually I prefer solidJS's architecture, having a whole compiler to make javascript bareable is crazy, and both had some bizzare syntax choices (like [Solid's For loops](https://docs.solidjs.com/reference/components/for), and svelte using [`$effect`](https://svelte.dev/docs/svelte/$effect) instead of [`onMount()`](https://docs.solidjs.com/reference/lifecycle/on-mount)/[`onCleanup`](https://docs.solidjs.com/reference/lifecycle/on-cleanup) like solid). Despite this I found that svelte was just much easier for me to read, and understand. Because of this I decided that I would go with svelte in the future, and axe my existing [alpineJS](https://alpinejs.dev/) code. The reason I chose to do this over using the existing alpineJS was that I realized the projects I had used alpineJS for in the past were all **fully** server rendered, using [htmx](https://htmx.org/) and a backend to work with updates, For this use case alpineJS is fantastic. Unfortunately when you're doing %90 of your markup in HTML, and %90 of your logic in JS alpineJS just gets in the way. Accessing variables between the two is awkward, and any non-ui complex data handling work is frankly annoying. 
+
+So, svelte it was, and it was a good choice. Astro does not like plain JS, and is hostile, but functional with web-components (sometimes, unless you're using [Client Router](https://docs.astro.build/en/guides/view-transitions/#differences-between-browser-native-view-transitions-and-astros-clientrouter-) like I wanted to). This is where AI does come back to save the day a bit. Telling GPT to think is a disaster, asking it to transpile from one framework to another is quite enjoyable. 20 mins to cover the first few chapers of the [interactive svelte tutorial](https://svelte.dev/tutorial/svelte/welcome-to-svelte), a robot at my side, and I was ready to vibe. I moved the peices across one by one, including the theme picker, default image generator, and server host configuration section. I got GPT to do the theme picker, and from there I redid the image generater myself by hand, and server host configuration myself. I took the time to refactor and begin moving some of my common utilities into a directory that astro will actually process instead of `/public`, which meant I got my intelisense back. I moved my old `<trackListing>` and `<albumListing>` components using AI, and those were the last two peices I needed to get rid of alpineJS entirely. All said and done this **allowed to me remove ~800 lines of code** from the frontend, and took me around a day of work. Svelte certainly helped, but also my refactoring as I was going made quite a difference. Now I know the problem space a bit better I knew what I needed/wanted, and could build around the problems.
+
+### Backend
+
+At this point there wasn't much else I needed to add to the backend until phase 3, when I was going to deal with the dump system. But one thing lingered... documentation. So before subjecting myself to more frontend work, I was going to do a bit of investigating in how to make the system comprehensible to other people. [OpenAPI](https://www.openapis.org/what-is-openapi) is the standard way to do this, I had used [swagger](https://swagger.io/) before, and decided opened up their [handy editor](https://editor.swagger.io/). I then realized this was going to be hundreds of lines of copy-pasting from my readme, and reformatting into YAML. I looked for a generator, but there was nothing nice for my setup. Luckily, we had a hit-or-miss friend who loves obnoxious nonsense like this. I wrote the first section of the config (by first section it was still like 300 lines, this standard is awful by hand), and then gave GPT my schemas to generate the components, and used my readme I wrote to generate the actual route info. The result was a 950 line monster of a YAML file. There were a handfull of errors I had to fix, but now it seemed to be sorted. I found a [swagger middlewear provider for go fiber](https://docs.gofiber.io/contrib/swagger_v1.x.x/swagger/), and tied it in with my new file. Everything was great. Only took me 20-30 mins for a file that probably would have taken 2-3 hours manually. GPT is back to neutral in my eyes after the music player debacle. 
+
+[Here's the commit if you're interested](https://github.com/Myuuze/local-server/commit/5b847c055f26960474463e9d36bd8ee8307b1e6c)
+
+Now, it was off to setup the documentation site... more frontend, yay. The frontend section was already too long, so I'm just putting this here. Basically I looked at [zensical](https://zensical.org/) and [starlight](https://starlight.astro.build/), since I was already neck-deep in astro, I figured I would just keep at it, so starlight it was. To skip the boring part, 90% of the setup was plugins fighting with each other (import order mattered aparently). I got a setup I like, and hand-wrote the themes (another L for gpt, ended up just doing it manually myself) to match the ones I did for the frontend as best as I could. I ended up with a result where I had:
+
+- separate sections for 
+  - An "overview" that just shows you how to get up and running with the basics, essentially just basic user docs
+  - Server section for info about using, configuring and developing the server
+  - Frontend section for info about building and developing the frontend
+- A blog to move posts like this to 👋 if you're on the blog right now
+
+Here's what it looked like:
+
+![](/tech/blog/build-a-long/myuuze/myuuze-docs-demo.gif)
+
+I ended up having to add more plugins than I was comfortable with, but it's fine for now. Most of them came from the same 2 people, either [HiDeoo](https://github.com/HiDeoo) or [TrueBerryless-org](https://github.com/trueberryless-org) the list was:
+
+- [Starlight Blog](https://starlight-blog-docs.vercel.app/); enable blog posts
+- [Starlight UI tweaks](https://starlight-ui-tweaks.dlcastillop.com/); Enables adding links to the main navbar (somehow not a built in feature?), and makes the theme toggler an icon instead of select
+- [Starlight Sidebar Topics Dropdown](https://starlight-sidebar-topics-dropdown.trueberryless.org/); Allows me to oranize the sidebar into separate nav's for each section (and broke the blog until I found a hacky workaround)
+- [Starlight Save File Component](https://starlight-save-file-component.trueberryless.org/); Allows me to specify files for download, I figured this would be handy for things like dockerfiles where a click-to-download is nice sometimes
+- [Starlight Sidebar Swipe](https://starlight-sidebar-swipe.trueberryless.org/); Allows you to swipe the navbar in from the side on mobile
+- [astro-mermaid](https://github.com/joesaby/astro-mermaid); Allows [mermaid diagrams](https://mermaid.js.org/) to render properly
+- [Starlight Contextual Menu](https://github.com/corsfix/starlight-contextual-menu); Adds a button at the top of the page to copy the page as markdown, see the markdown source, or copy it into GPT/claude for people who are lazy
+
+I did **not** include the [Starlight OpenAPI](https://starlight-openapi.vercel.app/) plugin. I tested it, and it worked, but it was janky. I would have to be careful about how I wrote the content to make it make sense in a local, and docs-site context. I didn't feel like doing that, so I axed it from the list. 
+
+Here was [the commit](https://github.com/Myuuze/Myuuze.github.io/commit/e4ed9f143b8967810d654de48d0fe567f51c14a9) for the initial starlight setup, and some [small tweaks](https://github.com/Myuuze/Myuuze.github.io/commit/3c113105dfacb686b7017905d3663d6bae722f46) thereafter (ignore the line counts, I redid the package-lock which was tens of thousands of lines long).
