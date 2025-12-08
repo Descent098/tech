@@ -544,7 +544,7 @@ Then when users go to `example.com` they would get `index.html` (reserved name f
 
 Most webservers do fancier things these days. For example [flask]() will allow you to write templates using [jinja](). This is basically a fancy way of generating HTML from a file on-demand, which let's you do things like update the page with the weather for the day. So a file like this:
 
-```django
+```jinja
 <h1>The weather today is:{{todays_temperature}} degrees celcius</h1>
 ```
 

@@ -32,10 +32,11 @@ const { page } = Astro.props;
               img={post.data.heroImage}
               desc={post.data.description}
               url={"/tech/blog/" + post.slug}
-              target="_self"
+              target={post.data.external?"_blank":"_self"}
               badge={post.data.badge}
               tags={post.data.tags}
               crosspostURL={post.data.crosspostURL}
+              external={post.data.external}
             />
             <div class="divider my-0" />
           </>

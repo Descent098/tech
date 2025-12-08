@@ -59,10 +59,11 @@ const projects = (await getCollection("projects")).slice(0,3);
           img={post.data.heroImage}
           desc={post.data.description}
           url={"/tech/blog/" + post.slug}
-          target="_self"
+          target={post.data.external?"_blank":"_self"}
           subtitle={post.data.subtitle}
           badge={post.data.badge}
           crosspostURL={post.data.crosspostURL}
+          external={post.data.external}
         />
         <div class="divider my-0" />
       </>

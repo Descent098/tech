@@ -1,5 +1,5 @@
 ---
-title: Good Frameowrks In Frontend
+title: Good Frameworks In Frontend
 subtitle: Is it possible? What does it take
 description: Is it possible? What does it take
 pubDate: 2025-12-01
