@@ -1,5 +1,5 @@
 ---
-const { title, img, desc, url, badge, tags, subtitle, crosspostURL="", target = "_blank" } = Astro.props;
+const { title, img, desc, url, badge, tags, subtitle, crosspostURL="", target = "_blank", external=false } = Astro.props;
 import { Image } from "astro:assets";
 const tag_url = url.split("/").slice(0, -1).join("/") + "/tag";
 ---
@@ -7,7 +7,7 @@ const tag_url = url.split("/").slice(0, -1).join("/") + "/tag";
 <div
   class="rounded-lg bg-base-100 hover:shadow-xl transition ease-in-out hover:scale-[102%]"
 >
-  <a href={url} target={target}>
+  <a href={external? crosspostURL: url} target={target}>
     <div class="hero-content flex-col md:flex-row">
       {
         img && (
@@ -26,7 +26,8 @@ const tag_url = url.split("/").slice(0, -1).join("/") + "/tag";
       <div class="grow w-full">
         <h1 class="text-xl font-bold">
           {title}
-          {crosspostURL && <div class="badge bg-violet-700 text-white mx-2">crosspost</div>}
+          {crosspostURL && <div class="badge bg-violet-700 text-white mx-1">crosspost</div>}
+          {external && <div class="badge bg-orange-700 text-white">links externally</div>}
           {badge && <div class="badge badge-secondary mx-2">{badge}</div>}
         </h1>
         <h2 class="py-1 text-1xl font-bold">{subtitle}</h2>
