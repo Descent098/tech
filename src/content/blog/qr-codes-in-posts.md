@@ -1,7 +1,7 @@
 ---
 title: QR Codes
 subtitle: A Simple Solution to Documentation Shareability
-description: A Simple Solution to Documentation Shareability
+description: QR Codes are used all over the place, and a great place to use them is documentation.
 pubDate: 2025-12-06
 heroImage: /tech/blog/qr-codes.png
 external: true
