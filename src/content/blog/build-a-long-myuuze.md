@@ -233,7 +233,7 @@ I did however come to the realization that my current approach was absolutely no
 - Theme did not persist, would choose based on OS preference and refresh on every page load
 - The queue would rebuild on every refresh
 - The queue would not support fancier features like adding "quick" items without major issues
-- I was storing a ton of crap in the browser, and it was eating memory up
+- I was storing a ton of crap in the browser (covers especially), and it was eating memory up (up to 10MB per song swap avg ~1MB), and they were never GC'd because the references never were removed. Not a big deal on short sessions, but on mobile or 200+ song sessions with no page refreshes it would be a bad time
 - I was hitting [`Audio`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/audio) limits
 
 The last point needs a bit of explanation I think. In the browser you would typically load audio in through the `Audio` object in javascript. This is actually a really slick system that allows you to do a bunch of fancy stuff like streaming data by default. Unfortunately, a major issue should start to become apparent by now... If I have 10,000 songs, what happens when you try to load them in?
@@ -354,3 +354,126 @@ I ended up having to add more plugins than I was comfortable with, but it's fine
 I did **not** include the [Starlight OpenAPI](https://starlight-openapi.vercel.app/) plugin. I tested it, and it worked, but it was janky. I would have to be careful about how I wrote the content to make it make sense in a local, and docs-site context. I didn't feel like doing that, so I axed it from the list. 
 
 Here was [the commit](https://github.com/Myuuze/Myuuze.github.io/commit/e4ed9f143b8967810d654de48d0fe567f51c14a9) for the initial starlight setup, and some [small tweaks](https://github.com/Myuuze/Myuuze.github.io/commit/3c113105dfacb686b7017905d3663d6bae722f46) thereafter (ignore the line counts, I redid the package-lock which was tens of thousands of lines long).
+
+## Phase 3; Dumps
+
+Progress feels like it has been made, I'm now writting this section officially listening to the app as I go! I actually just grabbed [tauri](https://tauri.app/), copy-pasted my frontend code, and merged the two package.json files. I ran `npx tauri build` and voila:
+
+![](/tech/blog/build-a-long/myuuze/tauri-test.png)
+
+"Native" windows app, full nice-to-use MSI installer, all for free (if you have webview installed). Interestingly in browser the tab consumes ~25MB of RAM while playing, yet in tauri while playing a song it only consumes ~3MB. I do have some extensions, so maybe they're tarnishing my memory results from before. For fun I tested opening spotify on the homepage after myuuze was sitting for ~2 hours and gone through a bunch of songs, and the results were embarrassing:
+
+![](/tech/blog/build-a-long/myuuze/tmg-compare.png)
+
+I couldn't get the details on memory usage for the server, but it was less than 20MB, meaning total was less than a single browser tab, with little-to-no CPU usage, and over 100x less RAM used. 
+
+Anywho, onto this phase. 
+
+Up until now I had intentionally been using files that had the necessary metadata, this meant that my "processing" steps were to just create the records from the files, and insert them into the "library". Now, I needed a real dump system to import files into the library in the first place. 
+
+### Backend
+
+I took a quick tangential detour before getting into the meat of this section. I decided to test accessing everything from another device... and borked everything. This ended up causing me to make some schema changes, and some changes to how I handled CORS, which is a goddamn nightmare outside of just setting it to `Allowed-Origins:*`. Anyways I [fixed](https://github.com/Myuuze/local-server/commit/3082c194c913f2d6eebdb646f832201eeef7a2bb), it and made [uri's](https://github.com/Myuuze/local-server/commit/3e6404659d05d24083308a7a09e547cd09a053e2) relative, and fixed the other bugs in the frontend related to CORS as well.
+
+
+I've glossed over some of the backend details up until now, especially around specifics of the database, and that was intentional. There were a few things I wanted to decide on, and update before I stuck with what I had:
+
+1. I needed to decide how I was going to store not-yet-imported data. I was thinking a table, but not sure of the shape yet
+2. I wasn't sure how much of the dump process should be on client vs in the backend
+3. I wasn't sure when/how I wanted to do the file data syncing. For example if I added an album and cover to a song should I sync those changes when I submitted the file as "ready-to-go", or before the 
+
+
+I ended up deciding on a shape. I would modify my existing function, and dump the records to a "dump" table. The dump table records would have the same schema as the "final" records, but without any null checks. So, for each song they would be:
+
+
+- **ID** (`uuidv7`): The ID of the song (system generated)
+- **title** (`string`): The title of the song, will be the filename if no metadata is embedded
+- **artist** (`string`): The artist name who is in the song (required, but can be different than the album artist)
+- trackNumber (`int`): 
+- **uri** (`string`): this is the URI to get the song at, typically `/library/filename`, this will exist in the `library` table, but is not necessary for the `dump` table (system generated)
+- **filepath** (`string`): The filepath to the file, this will be present in the `dump` table, but converted to the `uri` in the `library` table (system generated)
+- **album**: 
+  - **ID** (`uuidv7`): The ID of the album (system generated)
+  - **title**(`string`): The title of the album, no fallback value available
+  - image/cover(`base64URI`): The album cover (database name) is the base64 encoded URI for the image (json name)
+  - year
+  - tracks
+  - **artist**
+
+The record will fail to be added
+
+**==================================================TODO==================================================**
+
+
+### Frontend
+
+*I ended up using almost none of the code I talked about in the below accordion, but it was still interesting, so I left it in here for those curious about what failed ideas looked like, otherwise scroll on*
+
+<details><summary>A failed detour</summary>
+
+
+I completely lied. I ended up having to reimplement the whole stupid music player. After getting everything working in the plain web component (including pagination), there were too many issues:
+
+1. Web components are their own shadow-dom, so when the queue button had content that overflowed it was clipped no matter how I set `overflow-y` because the **document** ends at the element boundary
+2. I can't pass the existing `SongMetadata` or `AlbumMetadata` classes down to any svelte components because it's in the public directory, and `vite` doesn't allow that, meaning none of my components can read any information about the existing state from any of my caches
+
+So I spent a ton of time re-doing all that. Which I'm mad about, but I took the time to modify the architecture drastically. The now-playing section is it's own component that will handle the state of the progress bar, and currently playing song info this will have a 1-way binding where the music player will handle passing data to it. Each button is it's own component with a 2-way binding to the music player for shared state. I tried svelte stores, and never got them working, neither did nanostores, so it's back to manual `localStorage` instead, because I'm not wasting more time rewriting the same thing over and over. I found out `localStorage` doesn't send an event for updating values **on the same tab** (weird detail), so I decided to add a custom event to dispatch:
+
+```js
+/**
+ * Stores a value in localstorage and fires an event that can be tracked in the same window
+ * @param {string} key The key to store to
+ * @param {string} valueToStore The value to store
+ */
+export function setLocalStorageValueAndBroadcast(key, valueToStore){
+    console.log(`setLocalStorageValueAndBroadcast(): Setting ${key} to ${valueToStore}`)
+    if (typeof window === "undefined") {return} // Server rendered
+
+    if (valueToStore === undefined || valueToStore === null){
+      throw new Error(`setLocalStorageValueAndBroadcast(): Trying to set an undedfined or null value for key:${key} exiting`)
+    }
+
+    // Convert non-string types to strings to store
+    valueToStore = (typeof valueToStore === "object") 
+            ? JSON.stringify(valueToStore) 
+            : valueToStore;
+
+    // Update state
+    localStorage.setItem(key, valueToStore);
+
+    // Broadcast change manually
+    window.dispatchEvent(new CustomEvent("myuuzeDataUpdate", {
+        detail:{
+            key: key,
+            newValue: valueToStore,
+            oldValue: null,
+        }
+    }));
+}
+```
+
+Now my updates are broadcasted I can listen to them:
+
+```js
+window.addEventListener('myuuzeDataUpdate', function (event) {
+    console.log('Key changed:', event.detail.key);
+    console.log('Old value:', event.detail.oldValue);
+    console.log('New value:', event.detail.newValue);
+})
+```
+
+To keep things simple, and do avoid having a ton of random event listeners clogging everything up, I'm going to just keep **one** event listener on the music player, which will dispatch to the child items, essentially something like:
+
+![](/tech/blog/build-a-long/myuuze/data-binding.png)
+
+</details>
+
+So, my last frontend update was too optimistic. A fair number of the issues at this point stemmed from my lack of understanding what the landscape of frontend looked like these days, so I decided to try to spend some time learning. With how sufficiently complicated everything was getting I was reaching the edges of my capabilities, and needed to properly learn svelte because after looking around I had a suspicion that the code AI wrote for me was not how I should be doing things. I ended up starting a little mini project called [kieran's components](https://kieranwood.ca/components/blog/hello-world/) as an excuse to port over some of my other small experiments I've written in the past into svelte components. This was hopefully going to give me the chance to learn more about svelte, and it's astro integration without trying to do it in an app with a ton of moving parts. Doing that, and getting busy with other things there was about a month's gap between when I wrote the last section and this one. I learned a lot, and found more places where I can use **less javascript** and more browser API's, as well as the better ways to do things in svelte. As I suspected, those translations I got GPT to do will work, but they use the legacy syntax before [runes](https://svelte.dev/blog/runes).
+
+So, with my semester ending, it was time to do what was hopefully going to be my last re-write. I ran into some issues that I outlined [here](https://kieranwood.ca/components/blog/annoying-side-of-astro/), but svelte itself I'm very happy with. 
+
+**==================================================TODO==================================================**
+
+## Final Phase; Configuration & Cleanup
+
+...
