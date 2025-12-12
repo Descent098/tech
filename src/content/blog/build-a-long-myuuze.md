@@ -468,9 +468,384 @@ To keep things simple, and do avoid having a ton of random event listeners clogg
 
 </details>
 
-So, my last frontend update was too optimistic. A fair number of the issues at this point stemmed from my lack of understanding what the landscape of frontend looked like these days, so I decided to try to spend some time learning. With how sufficiently complicated everything was getting I was reaching the edges of my capabilities, and needed to properly learn svelte because after looking around I had a suspicion that the code AI wrote for me was not how I should be doing things. I ended up starting a little mini project called [kieran's components](https://kieranwood.ca/components/blog/hello-world/) as an excuse to port over some of my other small experiments I've written in the past into svelte components. This was hopefully going to give me the chance to learn more about svelte, and it's astro integration without trying to do it in an app with a ton of moving parts. Doing that, and getting busy with other things there was about a month's gap between when I wrote the last section and this one. I learned a lot, and found more places where I can use **less javascript** and more browser API's, as well as the better ways to do things in svelte. As I suspected, those translations I got GPT to do will work, but they use the legacy syntax before [runes](https://svelte.dev/blog/runes).
+So, my last frontend update was too optimistic. A fair number of the issues at this point stemmed from my lack of understanding what the landscape of frontend looked like these days, so I decided to try to spend some time learning. With how sufficiently complicated ~~everything was getting~~ I made everything, I was reaching the edges of my capabilities, and needed to properly learn svelte. 
 
-So, with my semester ending, it was time to do what was hopefully going to be my last re-write. I ran into some issues that I outlined [here](https://kieranwood.ca/components/blog/annoying-side-of-astro/), but svelte itself I'm very happy with. 
+This mainly stemmed from looking around a bit, and I had a suspicion that the code AI wrote for me was not how I should be doing things. I ended up starting a little mini project called [kieran's components](https://kieranwood.ca/components/blog/hello-world/) as an excuse to port over some of my other small experiments I've written in the past into svelte components. This was hopefully going to give me the chance to learn more about svelte, and it's astro integration without trying to do it in an app with a ton of moving parts. Doing that, and getting busy with other things there was about a month's gap between when I wrote the last section and this one. I learned a lot, and found more places where I can use **less javascript** and more browser API's, as well as the better ways to do things in svelte. Likewise, as I suspected, those translations I got GPT to do will "work", but they use the legacy syntax before [runes](https://svelte.dev/blog/runes). This means they aren't guarenteed to work in the future, and they come with a bunch of other caveats, so time for more rewriting. 
+
+So, with my semester ending, it was time to do what was hopefully going to be my last re-write. I ran into some issues that I outlined [here](https://kieranwood.ca/components/blog/annoying-side-of-astro/), but svelte itself I'm very happy with. Looking back at the vibe coded replacements, honestly they were worse than I thought. Svelte was my first time in a long time trying to do a more declarative code style, and it really showed. GPT just took a lot of my imperative code and ported it over, so I assumed that's how people did things in svelte. It is absolutely not, and there's good reasons for it. After switching my brain around, and getting more experience, I ended up just redoing them in a much more idiomatic format. There are two simpler examples below.
+
+<details><summary>Theme editor</summary>
+
+The default image generator went from the code below (139 lines, lots of DOM searching):
+
+```svelte
+<script>
+    import { onMount } from 'svelte';
+    import {getOrSetLocalStorageKey, loadDefaultAlbumImage, setLocalStorageValueAndBroadcast} from "@/scripts/utilities.js"
+
+    let defaultImageColor1 =  "#3f5efb"
+    let defaultImageColor2 = "#fc466b"
+    let defaultImageColorPercentage1 = 0
+    let defaultImageColorPercentage2 = 100
+    let defaultImageGradientType = "linear-gradient"
+    let defaultImageAngle = "166deg"
+    const originalSettings = {
+        "color1": "#3f5efb",
+        "color2": "#fc466b",
+        "colorPercentage1": 0,
+        "colorPercentage2": 100,
+        "gradientType": "linear-gradient",
+        "angle": "166deg",
+    }
+    let previewBackground = "";
+
+    onMount(()=>{
+        let currentSettings = getOrSetLocalStorageKey("defaultAlbumImage", originalSettings)
+        defaultImageColor1 = currentSettings["color1"]
+        defaultImageColor2 = currentSettings["color2"]
+        defaultImageColorPercentage1 = currentSettings["colorPercentage1"]
+        defaultImageColorPercentage2 = currentSettings["colorPercentage2"]
+        defaultImageGradientType = currentSettings["gradientType"]
+        defaultImageAngle = currentSettings["angle"].replace("deg","")
+        if (defaultImageGradientType == "linear-gradient"){
+            document.getElementById("defaultImageAngle").disabled = false
+        } else {
+            document.getElementById("defaultImageAngle").disabled = true
+        }
+
+        previewBackground = loadDefaultAlbumImage();
+        
+    })
+
+    function resetDefaultImageSettings(){
+        
+        // Update cache values
+        setLocalStorageValueAndBroadcast("defaultAlbumImage", JSON.stringify(originalSettings))
+
+        // Update local vars
+        defaultImageColor1 = originalSettings["color1"]
+        defaultImageColor2 = originalSettings["color2"]
+        defaultImageColorPercentage1 = originalSettings["colorPercentage1"]
+        defaultImageColorPercentage2 = originalSettings["colorPercentage2"]
+        defaultImageGradientType = originalSettings["gradientType"]
+        defaultImageAngle = originalSettings["angle"].replace("deg","")
+        let defaultImageAngleString = "circle"
+        if (defaultImageGradientType === "linear-gradient") defaultImageAngleString = defaultImageAngle+"deg"
+
+
+        // Update UI
+        let gradientString = `${defaultImageGradientType}(${defaultImageAngleString},${defaultImageColor1} ${defaultImageColorPercentage1}%, ${defaultImageColor2} ${defaultImageColorPercentage2}%)`
+        document.getElementById("defaultImageColor1").value = defaultImageColor1
+        document.getElementById("defaultImageColor2").value = defaultImageColor2
+        document.getElementById("defaultImageColorPercentage1").value = defaultImageColorPercentage1
+        document.getElementById("defaultImageColorPercentage2").value = defaultImageColorPercentage2
+        document.getElementById("defaultImageGradientType").value = defaultImageGradientType
+        document.getElementById("defaultImageAngle").value = defaultImageAngle
+        document.getElementById("defaultImagePreview").style.background = gradientString
+
+    }
+
+    function updateDefaultImage(){
+        defaultImageColor1 = document.getElementById("defaultImageColor1").value
+        defaultImageColor2 = document.getElementById("defaultImageColor2").value
+        defaultImageColorPercentage1 = document.getElementById("defaultImageColorPercentage1").value
+        defaultImageColorPercentage2 = document.getElementById("defaultImageColorPercentage2").value
+
+        defaultImageGradientType = document.getElementById("defaultImageGradientType").value
+        let defaultImageAngleString = "circle"
+
+        if (defaultImageGradientType == "linear-gradient"){
+            document.getElementById("defaultImageAngle").disabled = false
+            defaultImageAngle = document.getElementById("defaultImageAngle").value
+            defaultImageAngleString = document.getElementById("defaultImageAngle").value+"deg"
+        } else {
+            document.getElementById("defaultImageAngle").disabled = true
+        }
+        
+        let gradientString = `${defaultImageGradientType}(${defaultImageAngleString},${defaultImageColor1} ${defaultImageColorPercentage1}%, ${defaultImageColor2} ${defaultImageColorPercentage2}%)`
+        document.getElementById("defaultImagePreview").style.background = gradientString
+
+
+
+        setLocalStorageValueAndBroadcast("defaultAlbumImage", JSON.stringify({
+            "color1": defaultImageColor1,
+            "color2": defaultImageColor2,
+            "colorPercentage1": defaultImageColorPercentage1,
+            "colorPercentage2": defaultImageColorPercentage2,
+            "gradientType": defaultImageGradientType,
+            "angle": defaultImageAngleString,
+        }));
+    }
+</script>
+
+<fieldset class="fieldset md:flex">
+    <legend class="fieldset-legend">Start Color settings</legend>
+    <label class="input">
+        <span class="label">Color</span>
+        <input type="color" name="color1" id="defaultImageColor1" bind:value={defaultImageColor1} on:input={updateDefaultImage}>
+    </label>
+    <label class="input">
+        <span class="label">Start Percentage</span>
+        <input class="range" type="range" name="colorPercentage1" id="defaultImageColorPercentage1" bind:value={defaultImageColorPercentage1} min="0" max="100" on:change={updateDefaultImage}>
+    </label>
+</fieldset>
+<fieldset class="fieldset md:flex">
+    <legend class="fieldset-legend">End Color settings</legend>
+    <label class="input">
+        <span class="label">Color</span>
+        <input type="color" name="color2" id="defaultImageColor2" bind:value={defaultImageColor2} on:input={updateDefaultImage}>
+    </label>
+    <label class="input">
+        <span class="label">End Percentage</span>
+        <input class="range" type="range" name="colorPercentage2" id="defaultImageColorPercentage2" bind:value={defaultImageColorPercentage2} min="0" max="100" on:change={updateDefaultImage}>
+    </label>
+</fieldset>
+<fieldset class="fieldset">
+    <legend class="fieldset-legend">Gradient Angle</legend>
+    {#if defaultImageGradientType === "radial-gradient"}
+    <div>Gradient angle is irrelevant on radial gradients</div>
+    {/if}
+    <input class="range" type="range" name="angle" id="defaultImageAngle" bind:value={defaultImageAngle} max="360" min="0" on:change={updateDefaultImage}>
+
+</fieldset>
+<fieldset class="fieldset">
+    <legend class="fieldset-legend">Gradient type</legend>
+    <select name="gradientType" id="defaultImageGradientType" class="select" on:change={updateDefaultImage} bind:value={defaultImageGradientType}>
+        <option value="linear-gradient">Linear Gradient</option>
+        <option value="radial-gradient">Radial Gradient</option>
+    </select>
+</fieldset>
+<div>Preview</div>
+<div id="defaultImagePreview" class="w-24 h-24 rounded-md" style={`background:${previewBackground}`}>
+</div>
+<button id="resetDefaultImageSettingsButton" class="btn btn-primary mt-5" on:click={resetDefaultImageSettings}>Reset to default</button>
+```
+
+To the more idiomatic (93 lines, fully declarative + removed some functions and imports, and needed no ID's so less chance of a collision with any future code):
+
+```svelte
+<script>
+    import { onMount } from 'svelte';
+    import {getOrSetLocalStorageKey, setLocalStorageValueAndBroadcast} from "@/scripts/utilities.js"
+
+    let defaultImageColor1 =  $state("#3f5efb")
+    let defaultImageColor2 = $state("#fc466b")
+    let defaultImageColorPercentage1 = $state(0)
+    let defaultImageColorPercentage2 = $state(100)
+    let defaultImageGradientType = $state("linear-gradient")
+    let defaultImageAngle = $state(166)
+    const originalSettings = {
+        "color1": "#3f5efb",
+        "color2": "#fc466b",
+        "colorPercentage1": 0,
+        "colorPercentage2": 100,
+        "gradientType": "linear-gradient",
+        "angle": 166,
+    }
+    let gradientString = $derived(`${defaultImageGradientType}(${defaultImageGradientType == "linear-gradient"?defaultImageAngle+"deg":"circle"},${defaultImageColor1} ${defaultImageColorPercentage1}%, ${defaultImageColor2} ${defaultImageColorPercentage2}%)`)
+
+    onMount(()=>{
+        let currentSettings = getOrSetLocalStorageKey("defaultAlbumImage", originalSettings)
+        defaultImageColor1 = currentSettings["color1"]
+        defaultImageColor2 = currentSettings["color2"]
+        defaultImageColorPercentage1 = currentSettings["colorPercentage1"]
+        defaultImageColorPercentage2 = currentSettings["colorPercentage2"]
+        defaultImageGradientType = currentSettings["gradientType"]
+        defaultImageAngle = currentSettings["angle"]
+    })
+
+    function resetDefaultImageSettings(){
+        // Update cache values
+        setLocalStorageValueAndBroadcast("defaultAlbumImage", JSON.stringify(originalSettings))
+
+        // Update local vars
+        defaultImageColor1 = originalSettings["color1"]
+        defaultImageColor2 = originalSettings["color2"]
+        defaultImageColorPercentage1 = originalSettings["colorPercentage1"]
+        defaultImageColorPercentage2 = originalSettings["colorPercentage2"]
+        defaultImageGradientType = originalSettings["gradientType"]
+        defaultImageAngle = originalSettings["angle"]
+    }
+
+    $effect(()=>{
+        setLocalStorageValueAndBroadcast("defaultAlbumImage", JSON.stringify({
+            "color1": defaultImageColor1,
+            "color2": defaultImageColor2,
+            "colorPercentage1": defaultImageColorPercentage1,
+            "colorPercentage2": defaultImageColorPercentage2,
+            "gradientType": defaultImageGradientType,
+            "angle": defaultImageAngle,
+        }));
+    })
+</script>
+
+<fieldset class="fieldset md:flex">
+    <legend class="fieldset-legend">Start Color settings</legend>
+    <label class="input">
+        <span class="label">Color</span>
+        <input type="color" name="color1" bind:value={defaultImageColor1} >
+    </label>
+    <label class="input">
+        <span class="label">Start Percentage</span>
+        <input class="range" type="range" name="colorPercentage1" bind:value={defaultImageColorPercentage1} min="0" max="100" >
+    </label>
+</fieldset>
+<fieldset class="fieldset md:flex">
+    <legend class="fieldset-legend">End Color settings</legend>
+    <label class="input">
+        <span class="label">Color</span>
+        <input type="color" name="color2" bind:value={defaultImageColor2} >
+    </label>
+    <label class="input">
+        <span class="label">End Percentage</span>
+        <input class="range" type="range" name="colorPercentage2"bind:value={defaultImageColorPercentage2} min="0" max="100" >
+    </label>
+</fieldset>
+{#if defaultImageGradientType === "linear-gradient"}
+<fieldset class="fieldset">
+    <legend class="fieldset-legend">Gradient Angle</legend>
+    <input class="range" type="range" name="angle" id="defaultImageAngle" bind:value={defaultImageAngle} max="360" min="0" >
+</fieldset>
+ {/if}
+<fieldset class="fieldset">
+    <legend class="fieldset-legend">Gradient type</legend>
+    <select name="gradientType" id="defaultImageGradientType" class="select" bind:value={defaultImageGradientType}>
+        <option value="linear-gradient">Linear Gradient</option>
+        <option value="radial-gradient">Radial Gradient</option>
+    </select>
+</fieldset>
+<div>Preview</div>
+<div class="w-24 h-24 rounded-md" style={`background:${gradientString}`}>
+</div>
+<button class="btn btn-primary mt-5" onclick={resetDefaultImageSettings}>Reset to default</button>
+```
+
+</details>
+
+<details><summary>Server URL Editor</summary>
+
+The field to update the serer URL went from the code below (59 lines, lots of DOM searching and fighting with svelte when it tries to run):
+
+```svelte
+<script>
+    import { onMount } from 'svelte';
+    import {getOrSetLocalStorageKey, logWithFunctionName, setLocalStorageValueAndBroadcast} from "@/scripts/utilities.js"
+    import {linkIcon} from "@/consts"
+
+    let SERVERHOSTURL = $state("http://localhost:7644")
+
+
+    onMount(()=>{
+        SERVERHOSTURL = getOrSetLocalStorageKey("ServerHost", "http://localhost:7644")
+    })
+
+    function setServerHost(){
+        const serverHostInput = document.getElementById("serverHostURL")
+        if (isValidUrl(serverHostInput.value) 
+            && !serverHostInput.value.endsWith("/")
+            && (serverHostInput.value.startsWith("http://") || serverHostInput.value.startsWith("https://"))
+        ){
+            logWithFunctionName("setServerHost()", `Updating server host with value ${serverHostInput.value}`)
+            setLocalStorageValueAndBroadcast("ServerHost",serverHostInput.value)
+            SERVERHOSTURL = localStorage.getItem("ServerHost")
+            document.getElementById("serverHostURL").parentElement.classList.remove("input-error")
+            document.getElementById("serverHostURL").parentElement.classList.add("input-success")
+            document.getElementById("serverHostURL").parentNode.nextElementSibling.style = `color: green;visibility: visible;`
+        } else{
+            logWithFunctionName("setServerHost()", `Invalid value ${serverHostInput.value}`, "error")
+            document.getElementById("serverHostURL").parentElement.classList.add("input-error")
+            document.getElementById("serverHostURL").parentElement.classList.remove("input-success")
+            document.getElementById("serverHostURL").parentNode.nextElementSibling.style = `color: red;visibility: visible;`
+        }
+
+    }
+
+    function isValidUrl(string) {
+        try {
+            new URL(string);
+            return true;
+        } catch (err) {
+            return false;
+        }
+    }
+
+</script>
+
+
+<label class="input validator">
+    {@html linkIcon}
+    <input
+        id="serverHostURL"
+        type="url"
+        required
+        placeholder={SERVERHOSTURL}
+        bind:value={SERVERHOSTURL}
+        title="Must start with http:// or https:// and be a valid hostname, domain, or domain:port without a trailing slash"
+        onchange={setServerHost}
+    />
+    
+</label>
+<p class="label block">Must be valid URL</p>
+```
+
+To a more idiomatic and properly reactive 50 lines:
+
+```svelte
+<script>
+    import { onMount } from 'svelte';
+    import {getOrSetLocalStorageKey, logWithFunctionName, setLocalStorageValueAndBroadcast} from "@/scripts/utilities.js"
+    import {linkIcon} from "@/consts"
+
+    let SERVERHOSTURL = $state("http://localhost:7644")
+    let valid=$state(true)
+
+    onMount(()=>{
+        SERVERHOSTURL = getOrSetLocalStorageKey("ServerHost", "http://localhost:7644")
+    })
+
+    $effect(()=>{
+        if (isValidUrl(SERVERHOSTURL) 
+            && !SERVERHOSTURL.endsWith("/")
+            && (SERVERHOSTURL.startsWith("http://") || SERVERHOSTURL.startsWith("https://"))
+        ){
+            logWithFunctionName("setServerHost()", `Updating server host with value ${SERVERHOSTURL}`)
+            setLocalStorageValueAndBroadcast("ServerHost",SERVERHOSTURL)
+            SERVERHOSTURL = localStorage.getItem("ServerHost")
+            valid=true
+        } else{
+            logWithFunctionName("setServerHost()", `Invalid value ${SERVERHOSTURL}`, "error")
+            valid=false
+        }
+        
+    })
+
+    function isValidUrl(string) {
+        try {
+            new URL(string);
+            return true;
+        } catch (err) {
+            return false;
+        }
+    }
+
+</script>
+
+<label class={`input validator ${valid?"input-success":"input-error"}`}>
+    {@html linkIcon}
+    <input
+        type="url"
+        required
+        placeholder={SERVERHOSTURL}
+        bind:value={SERVERHOSTURL}
+        title="Must start with http:// or https:// and be a valid hostname, domain, or domain:port without a trailing slash"
+    />
+</label>
+<p class="label block" style={`${valid?"color: green;visibility: visible;":"color: red;visibility: visible"}`}>{@html valid?"Valid URL":"Must be valid URL"}</p>
+```
+
+</details>
+
+These are a microcosm of the main problem, which was that I needed to change my approach to better leverage svelte. My previous idea of 2 classes to control state was not far off what lots of people do in svelte, they just do it in a more clever way, contexts...
 
 **==================================================TODO==================================================**
 
