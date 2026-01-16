@@ -10,7 +10,7 @@ tags:
   - scorch
   - web
   - legal
-  - open source
+  - open-source
 ---
 
 No one writes all their own code. We always build on the shoulders of the people that came before us. But how do we do this responsibly, and legally? 

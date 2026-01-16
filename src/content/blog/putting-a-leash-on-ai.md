@@ -5,7 +5,7 @@ creation_date: 2024-04-18
 description: Legislation? Good Will? How do we solve today and tomorrow's problems with ai?
 pubDate: 2024-04-30
 heroImage: /tech/blog/putting-a-leash-on-ai.png
-tags: [ai]
+tags: [ai, legal]
 modified: 2024-05-07
 ---
 Ai is an exciting topic. The entire field is fraught with potential. Even in it's current infancy we see startups forming every day, not to mention the more mundane and pragmatic uses cropping up in everyday life. Quick document preparation, summarization, rough draft generation, chat bots, content thumbnail generation and many more. In our lifetime the ability to direct, narrate, score and edit an entire film in an accessible format to many people. But all this excitement comes with a looming anxiety about these technologies.
