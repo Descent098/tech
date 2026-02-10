@@ -366,3 +366,11 @@ So, while it initially looks like `sum()` is the culprit, actually most of the t
 
 So, profiling provides us with both the **what** and **why**, which is something microbenchmarks cannot. Sometimes you may want to step down to the bytecode/assembly level once you actually **know** what's causing the slowdown, but it's often not necessary. As was probably apparent in this article, microbenchmarks can be handy to get a vauge idea of **speed comparissons**, but they won't help you determine **why** one's faster than another, or how to improve your fastest option. If you've never ran a profiler before I would recommend running it on some slow-running code, and knowing **why** it's slow.
 
+## Additional Reading
+
+UPDATE Feb 9th: As I was reading a few articles today I came across 2 that are pretty topical to this post around optimization and teting, I will add more as they come up
+
+- [I got paid minimum wage to solve an impossible problem](https://tiespetersen.substack.com/p/i-got-paid-minimum-wage-to-solve)
+- [Performance Hints](https://abseil.io/fast/hints.html)
+- [napkin-math; Techniques and numbers for estimating system's performance from first-principles](https://github.com/sirupsen/napkin-math)
+- [Software Performance Engineering: The Ideas I Keep Coming Back To](https://ricomariani.medium.com/software-performance-engineering-the-ideas-i-keep-coming-back-to-6f421b6a9505)
