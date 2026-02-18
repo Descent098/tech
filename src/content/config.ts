@@ -14,12 +14,27 @@ const blogSchema = z.object({
     }).optional(),
 });
 
+const projectSchema = z.object({
+    title:z.string(),
+    description:z.string(),
+    url:z.string().url(),
+    heroImage:z.string().regex(/\/tech\/.*(\.png|\.jpg|\.webpp)/),
+    languages:z.array(z.string()).refine(items => new Set(items).size === items.length, {
+        message: 'languages must be unique',
+    }),
+    badge:z.string()
+})
+
 
 
 export type BlogSchema = z.infer<typeof blogSchema>;
+export type ProjectSchema = z.infer<typeof projectSchema>;
 
 const blogCollection = defineCollection({ schema: blogSchema });
+const projectCollection = defineCollection({schema: projectSchema});
+
 
 export const collections = {
-    'blog': blogCollection
+    'blog': blogCollection,
+    'projects': projectCollection
 }
