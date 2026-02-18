@@ -2,7 +2,7 @@
 title: "When Standard Advice Fails"
 subtitle: "When the rule of thumb stops working"
 description: "Why understanding the exceptions to the rule, and measurements are imoprtant"
-pubDate: 2026-02-11T00:00:00-06:00
+pubDate: 2026-02-18T00:00:00-06:00
 modified_date: ""
 heroImage: /tech/blog/when-standard-advice-fails/hero.png
 tags:
@@ -88,7 +88,6 @@ Every function ran `str.lower()`, `len(str)` and `str.split()` exactly the same 
 
 Now, to give the first point it's due. I don't know what black magic they're pulling to make the first two functions not have to allocate any additional memory. The semantics of `better_list()` are such that a list should be constructed containing the length of every string. Perhaps because the list is "anonymous"? I tried the below example:
 
-TODO: TEST BELOW PERFORMANCE
 ```py
 
 def better_list_worse(sentence:str) -> int:
@@ -100,7 +99,7 @@ def better_list_worse(sentence:str) -> int:
     return sum(data)
 ```
 
-Either way, as we see from the profiling, it's doing something clever to avoid doing the work that the program **implies** it should do. So, if you find that a generator function is running slowly, and **the data fits in memory**, try the list comprehension, it might be faster. But overall, it's probably still well worth the memory savings in larger applications.
+This version is actually 10% more efficient than every previous version we tested. At this point, I'm lost. Sometimes it's hard to know what optimizations are running when your code is run in modern languages (like [in this post](https://lemire.me/blog/2026/02/08/the-cost-of-a-function-call/), or [this talk about some common LLVM ones](https://www.youtube.com/watch?v=7GHXDEIMGIY)). Python is doing something clever to avoid doing the work that the program **implies** it should do. So, if you find that a generator function is running slowly, and **the data fits in memory**, try the list comprehension, or maybe even this "pre-allocation", it might be faster. But overall, it's probably still well worth the memory savings in larger applications.
 
 ### A Class of Data
 
