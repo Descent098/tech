@@ -22,6 +22,7 @@
     "sharp": "^0.33.2"
   },
   "devDependencies": {
-    "@tailwindcss/typography": "^0.5.10"
+    "@tailwindcss/typography": "^0.5.10",
+    "baseline-browser-mapping": "^2.9.19"
   }
 }
