@@ -20,11 +20,11 @@ Rules are a great tool for making things simple. There's a lot to think about wh
 
 These rules are great, and they make the majority of python code you write faster, and more memory efficient, but...
 
-## Every Rule Has it's Exceptions (TODO)
+## Every Rule Has it's Exceptions
 
 As I learned after my last post every rule has it's exceptions. The great part about computers is that you **can** test most things, and learn from your mistakes or pre-conceptions, which is why you should profile whenever you can. That being said, let's look at the example from the last article, and a much simpler one for dataclasses, to see why you shouldn't just blindly follow advice.
 
-### The Elephand Sized Generator in the Room (TODO)
+### The Elephand Sized Generator in the Room
 
 In my [last post](./performance-is-hard.md) I showed an example of a simple function that used a generator, and one that used a list to do string processing:
 
