@@ -12,7 +12,7 @@ export async function GET(context) {
       title: post.data.title,
       pubDate: post.data.pubDate,
       description: post.data.description,
-      link: `/tech/blog/${post.slug}/`,
+      link: post.data.external? post.data.crosspostURL:`/tech/blog/${post.slug}/`,
     })),
   });
 }
