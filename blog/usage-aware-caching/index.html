@@ -1,0 +1,267 @@
+<!DOCTYPE html><html lang="en" data-theme="lofi"> <head><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" type="image/jpeg" href="/tech/profile.jpg"><meta name="generator" content="Astro v5.17.2"><!-- Primary Meta Tags --><title>Usage-Aware Caching | Kieran Wood</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/tech/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CDGfc0hd.js"></script><meta name="title" content="Usage-Aware Caching"><meta name="description" content="How to help handle the data scraping hordes on content-heavy sites"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://kieranwood.ca/tech/blog/usage-aware-caching/"><meta property="og:title" content="Usage-Aware Caching"><meta property="og:description" content="How to help handle the data scraping hordes on content-heavy sites"><meta property="og:image" content="https://kieranwood.ca/tech/blog/usage-aware-caching.png"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://kieranwood.ca/tech/blog/usage-aware-caching/"><meta property="twitter:title" content="Usage-Aware Caching"><meta property="twitter:description" content="How to help handle the data scraping hordes on content-heavy sites"><meta property="twitter:image" content="https://kieranwood.ca/tech/blog/usage-aware-caching.png"><link rel="stylesheet" href="/tech/_astro/_page_.7orOsfmi.css">
+<style>.time-line-container>div:last-child .education__time>.education__line{display:none}details{background:#f0f0f0;padding:1rem;border-radius:.7rem;margin:.5rem auto;width:100%}summary{cursor:pointer}#TOC-list{list-style:none}#TOC-list li{margin-top:.15rem}.danger-banner{display:flex;flex-direction:row;background:#f44336;border-radius:.25rem;padding:1.1rem;color:#fff!important;flex-wrap:wrap}.danger-banner strong,.danger-banner a{color:#fff!important}.danger-banner:before{content:"!🛑 Danger 🛑!";flex-basis:100%;margin-bottom:.5rem;padding:.6rem;border-radius:.25rem;text-align:center;background:red;text-transform:uppercase}.warning-banner{display:flex;flex-direction:row;background:#fcc51e;border-radius:.25rem;padding:1.1rem;color:#141414!important;flex-wrap:wrap}.warning-banner strong,.warning-banner a{color:#141414!important}.warning-banner:before{content:"🟡 Warning 🟡";flex-basis:100%;margin-bottom:.5rem;padding:.6rem;border-radius:.25rem;text-align:center;background:#f6cb49;text-transform:uppercase;text-shadow:1px 1px 1px rgb(93,93,93)}.level-3{text-indent:1rem}.level-4{text-indent:2rem}.level-5{text-indent:3rem}.level-6{text-indent:4rem}.astro-route-announcer{position:absolute;left:0;top:0;clip:rect(0 0 0 0);clip-path:inset(50%);overflow:hidden;white-space:nowrap;width:1px;height:1px}
+@keyframes astroFadeInOut{0%{opacity:1}to{opacity:0}}@keyframes astroFadeIn{0%{opacity:0;mix-blend-mode:plus-lighter}to{opacity:1;mix-blend-mode:plus-lighter}}@keyframes astroFadeOut{0%{opacity:1;mix-blend-mode:plus-lighter}to{opacity:0;mix-blend-mode:plus-lighter}}@keyframes astroSlideFromRight{0%{transform:translate(100%)}}@keyframes astroSlideFromLeft{0%{transform:translate(-100%)}}@keyframes astroSlideToRight{to{transform:translate(100%)}}@keyframes astroSlideToLeft{to{transform:translate(-100%)}}@media(prefers-reduced-motion){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}[data-astro-transition-scope]{animation:none!important}}
+</style><style>[data-astro-transition-scope="astro-vz7ejtmd-1"] { view-transition-name: __2ftech_2fblog_2fusage-aware-caching_2epng; }</style><style>[data-astro-transition-scope="astro-frvnq75b-2"] { view-transition-name: Usage-Aware_20Caching; }</style></head> <body> <div class="bg-base-100 drawer lg:drawer-open"> <input id="my-drawer" type="checkbox" class="drawer-toggle"> <div class="drawer-content bg-base-100"> <div class="sticky lg:hidden top-0 z-30 flex h-16 w-full justify-center bg-opacity-90 backdrop-blur transition-all duration-100 bg-base-100 text-base-content shadow-sm"> <div class="navbar"> <div class="navbar-start"> <label for="my-drawer" class="btn btn-square btn-ghost"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path> </svg> </label> </div> <div class="navbar-center"> <a class="btn btn-ghost normal-case text-xl" href="/">Kieran Wood ⚡️</a> </div> <div class="navbar-end"></div> </div> </div> <div class="md:flex md:justify-center"> <main class="p-6 pt-10 lg:max-w-[900px] max-w-[100vw]">  <main class="md:flex md:justify-center"> <article class="prose prose-lg max-w-[750px] prose-img:mx-auto"> <img src="/tech/blog/usage-aware-caching.png" alt="Usage-Aware Caching" style="border-radius:.5em" data-astro-transition-scope="astro-vz7ejtmd-1" loading="lazy" decoding="async" fetchpriority="auto" width="750" height="422" class="w-full mb-6"> <h1 class="title my-2 text-4xl font-bold" data-astro-transition-scope="astro-frvnq75b-2">Usage-Aware Caching</h1> <time>Mar 24, 2026</time> <br>  <a href="/tech/blog/tag/web" class="badge badge-outline ml-2 no-underline"> web </a><a href="/tech/blog/tag/php" class="badge badge-outline ml-2 no-underline"> php </a><a href="/tech/blog/tag/performance" class="badge badge-outline ml-2 no-underline"> performance </a><a href="/tech/blog/tag/optimization" class="badge badge-outline ml-2 no-underline"> optimization </a><a href="/tech/blog/tag/js" class="badge badge-outline ml-2 no-underline"> js </a><a href="/tech/blog/tag/html" class="badge badge-outline ml-2 no-underline"> html </a><a href="/tech/blog/tag/frontend" class="badge badge-outline ml-2 no-underline"> frontend </a><a href="/tech/blog/tag/ui-ux" class="badge badge-outline ml-2 no-underline"> ui-ux </a><a href="/tech/blog/tag/backend" class="badge badge-outline ml-2 no-underline"> backend </a><a href="/tech/blog/tag/networking" class="badge badge-outline ml-2 no-underline"> networking </a>   <div class="divider my-2"></div> <div> <h2>Table of contents</h2> <ul id="TOC-list"> <li class="level-2"> <a href="#typical-content-heavy-cms-setup" class="no-underline"> Typical Content-Heavy CMS Setup </a> </li><li class="level-2"> <a href="#the-elephant-sized-ai-in-the-room" class="no-underline"> The Elephant-sized AI in the Room </a> </li><li class="level-2"> <a href="#existing-solutions" class="no-underline"> Existing Solutions </a> </li><li class="level-3"> <a href="#hardware" class="no-underline"> Hardware </a> </li><li class="level-3"> <a href="#firewalls--cdns" class="no-underline"> Firewalls &amp; CDN’s </a> </li><li class="level-2"> <a href="#the-idea" class="no-underline"> The Idea </a> </li><li class="level-3"> <a href="#tiering" class="no-underline"> Tiering </a> </li><li class="level-3"> <a href="#advantages" class="no-underline"> Advantages </a> </li><li class="level-4"> <a href="#outage-resilience" class="no-underline"> Outage Resilience </a> </li><li class="level-4"> <a href="#semi-deterministic-caching" class="no-underline"> Semi-deterministic Caching </a> </li><li class="level-4"> <a href="#usage-aware" class="no-underline"> Usage-aware </a> </li><li class="level-4"> <a href="#batching" class="no-underline"> Batching </a> </li><li class="level-4"> <a href="#framework-independent" class="no-underline"> Framework Independent </a> </li><li class="level-4"> <a href="#middlewear" class="no-underline"> Middlewear </a> </li><li class="level-3"> <a href="#downsides" class="no-underline"> Downsides </a> </li><li class="level-4"> <a href="#obfuscation" class="no-underline"> Obfuscation </a> </li><li class="level-4"> <a href="#framework-independence" class="no-underline"> Framework Independence </a> </li><li class="level-4"> <a href="#middlewear-1" class="no-underline"> Middlewear </a> </li><li class="level-2"> <a href="#wrap-it-up" class="no-underline"> Wrap it up </a> </li><li class="level-2"> <a href="#footnote-label" class="no-underline"> Footnotes </a> </li> </ul> </div>
+  <hr><p><a href="https://kieranwood.ca/compsci/Programming/concepts/Caching">Caching</a> is a tricky problem. It’s a constant balance of resource limits and performance. In particular when we look at websites and webapps there is a continuum of how “dynamic” they are. This continuum is mostly a short-hand for how much work we need to do to generate the final output we send to the client. When we just have plain web pages it’s easy, we dump the file contents of the HTML/CSS/JS/Images to the client when it’s requested. For highly dynamic apps like a stock-trading system, or safety monitoring system for manufacturing plants we need to be polling an API multiple times a second and re-generating the content. Lots of sites sit somewhere in the middle, and for those sites the new rules of engagement with AI companies has begun to pose a threat.</p>
+<p><em>If you are familiar with TTL-based caching, CDN’s, Firewalls and CMS systems feel free to skip to <a href="#the-idea">here</a></em></p>
+<h2 id="typical-content-heavy-cms-setup">Typical Content-Heavy CMS Setup</h2>
+<p>To be more specific, sites that would traditionally be run on a CMS (content management system, like <a href="https://en-ca.wordpress.org/">WordPress</a>) have seen their traffic spike due to AI data scraping. As companies are looking for as much data as possible to feed the unending hunger of their models, lots of sites are getting hit in the crossfire. I’ve seen jumps of up to %60 month-over-month. Many of these systems are just not designed to handle this kind of pressure. For those who have not worked with CMS sysetms much, the traditional flow for accessing data would typically include:</p>
+<ol>
+<li>Request comes into a reverse-proxy (<a href="https://nginx.org/">nginx</a>, <a href="https://traefik.io/traefik">Traefik</a>, <a href="https://caddyserver.com/">Caddy</a>, <a href="https://httpd.apache.org/">Apache</a>, etc.)</li>
+<li>If the requested slug is in cache it’s returned immediately, else it’s sent off to the app server and goes to step 3</li>
+<li>The app receives the request for the route and processes it:
+<ol>
+<li>Runs middlewear (auth checks, logs, application-level cache, etc.)</li>
+<li>Gets the associated template file</li>
+<li>Queries the database for the necessary data</li>
+<li>Renders the final result into a string combining the template and associated data</li>
+<li>Returns the result to the reverse proxy</li>
+</ol>
+</li>
+<li>Reverse proxy sends response and caches for a set TTL (time to live, usually ~5-30 mins)</li>
+</ol>
+<p>This means our best case is in green (just step 1), then the second best is green + yellow (step 1, 2, step 3 is skipped [application cache], then 4), and worst is the whole diagram (steps 1-4):</p>
+<div class="mermaid">sequenceDiagram
+    participant U as User
+    participant RP as Reverse Proxy
+    participant A as Application
+    participant DB as Database
+
+    rect rgb(183, 249, 183)
+      alt Reverse proxy cache hit
+        U->>RP: GET /page
+        RP->>RP: Check cache
+        RP-->>U: Return cached result
+    end
+    end
+
+    rect rgb(255,255,150)
+    alt Application cache hit
+        RP->>A: Request /page
+        A->>A: Check cache
+        A-->>RP: Return cached result
+        RP-->>U: Return result
+    end
+    end
+
+    rect rgb(255, 152, 152)
+    alt Full cache miss
+        A->>A: Get template file
+        A->>DB: Request data for /page
+        DB-->>A: Return data
+        A->>A: Render template
+        A-->>RP: Return result
+        RP-->>U: Return result
+    end
+    end
+</div>
+<p>I did some napkin math with a data I had from a few large sites across some diferent popular stacks (<a href="https://en-ca.wordpress.org/">WordPress</a>, <a href="https://new.drupal.org/home">Drupal</a>, <a href="https://ghost.org/">Ghost</a>). Assuming ~200k pages, and perfect networks (over <code>localhost</code>) we might get something like 5-50ms for a reverse proxy cache hit, 25-90ms for an application cache hit, and 50-500ms for a cold-cache. That’s without having to fight for bandwidth, and assuming little to no network contention on the DB side.</p>
+<p>Despite most people’s assumptions, most content-driven websites tend to be top-heavy. In general a handful of pages will account for most of your traffic. This works great because traditional simple cache systems tend to use TTL (time-to-live) caching where you just set a timeout, and during that timeout the page is constantly cached. Some systems are a bit fancier than this, and use more complicated LRU (Least Recently Used) algorithms, but many are just time-based. This means if you get 10k requests to a page in your timeout frame, the first one is slow (~40-130ms), then the rest are in caches. It will continue to do this until the timeouts are hit and the pages are evicted from the caches, or the cache goes over a set limit and clears out the oldest pages.</p>
+<div class="mermaid">sequenceDiagram
+    participant User
+    participant Cache
+    participant Server
+
+    Note over Cache: Cache initially empty
+
+    rect rgb(255,200,200)
+    User->>Cache: Request page
+    alt Cache miss
+        Cache->>Server: Fetch page
+        Server-->>Cache: Return page (~40-130ms)
+        Cache-->>User: Return page
+        Note over Cache: Store in cache with TTL
+    end
+    end
+
+    rect rgb(200,255,200)
+    loop Within TTL window (e.g., 10k requests)
+        User->>Cache: Request same page
+        alt Cache hit
+            Cache-->>User: Return cached page (fast)
+        end
+    end
+    end
+
+    rect rgb(255,165,0)
+    alt TTL expires OR cache limit reached
+        Note over Cache: Evict page (expired or oldest entry)
+    end
+    end
+
+    rect rgb(255,200,200)
+    User->>Cache: Request page again
+    alt Cache miss after eviction
+        Cache->>Server: Fetch page
+        Server-->>Cache: Return page (~40-130ms)
+        Cache-->>User: Return page
+        Note over Cache: Store in cache with new TTL
+    end
+    end
+</div>
+<h2 id="the-elephant-sized-ai-in-the-room">The Elephant-sized AI in the Room</h2>
+<p>Simple TTL-based caching has worked great for a long time, and is (relatively) easy to understand. Unfortunately, with AI scrapers in the mix, most sites have gone from being top-heavy to a much more normally distributed number of views:</p>
+<div class="mermaid">graph LR
+    %% Traditional Top-Heavy Traffic
+    subgraph "Traditional Top-Heavy Traffic"
+        direction LR
+        T1[Page 1&#x3C;br>█ █ █ █ █ █ █ █ █ █]:::high
+        T2[Page 2&#x3C;br>█ █ █ █ █]:::medium
+        T3[Page 3&#x3C;br>█ █]:::low
+        T4[Other Pages&#x3C;br> ]:::verylow
+    end
+
+    %% Arrows showing shift
+    T1 --> N1
+    T2 --> N2
+    T3 --> N3
+    T4 --> N4
+
+    %% Traffic with AI Scrapers
+    subgraph "Traffic with AI Scrapers"
+        direction LR
+        N1[Page 1&#x3C;br>█ █ █ █ █ █ █ █ █ █ █ █ █ █ █]:::medium
+        N2[Page 2&#x3C;br>█ █ █ █ █ █ █ █ █ █]:::medium
+        N3[Page 3&#x3C;br>█ █ █ █ █ █ █]:::medium
+        N4[Other Pages&#x3C;br>█ █ █ █ █]:::medium
+    end
+
+    %% Legend
+    subgraph Legend
+        L1[█ = page view]:::leg
+    end
+
+    %% Styling
+    classDef high fill:#ff9999,stroke:#cc0000,color:#000;
+    classDef medium fill:#99ccff,stroke:#003399,color:#000;
+    classDef low fill:#ffff99,stroke:#cccc00,color:#000;
+    classDef verylow fill:#dddddd,stroke:#aaaaaa,color:#000;
+    classDef leg fill:#dddddd,stroke:#aaaaaa,color:#000;
+</div>
+<p>Pages that were accessed once a year or less may be getting 10-20 hits an hour, and your traffic on the popular pages also goes up by 10-20 hits an hour. This means you’re constantly getting cold caches, you have more pressure on your most popular pages, and the slowness issues compound on each other as the pressure from old requests build. This can lead to slow pages, or in some cases a full on DOS (denial of service) where your site just keels over and dies.</p>
+<h2 id="existing-solutions">Existing Solutions</h2>
+<p>There are already a collection of existing possible ways to remedy these issues that are worth considering. Where possible you should probably try these approaches first before what I’m suggesting later.</p>
+<h3 id="hardware">Hardware</h3>
+<p>The simplest fix can often be just throwing more hardware at it. Just throw in a bit more RAM, up your caches until your whole site fits in, and you’re good to go right? Actually, not so much. This can work, but it gets worse as you scale. If we’re just talking about an HTML page, let’s take an average of ~16kb of HTML data, at 200k pages thats 3.2GB of data. Depending on usage patterns that means you will also have to pay for the operations to initially generate that data, and maintain filling/updating it. If most of your pages are barely accessed that’s a lot of memory contention.</p>
+<p>Not to mention that you’re still largely just blindly caching. Assuming you get enough hardware to keep more data in RAM, but not all of it. If your timeouts are too low for example you might find that you’re hitting cold-caches at the worst times. Likewise, if your timeouts are too large you might have a precarious situation where your most popular page is in cache, gets evicted, another route is hit first and is cached, then your popular page is out of your caches for the whole timeout. Depending on how top-heavy the traffic is, this can be disasterous and lead to high cache-misses.</p>
+<h3 id="firewalls--cdns">Firewalls &#x26; CDN’s</h3>
+<p>With the prevalence of AI scraping as an issue, several specialized firewall-adjacent solutions both open source<sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup>, and proprietary <sup><a href="#user-content-fn-2" id="user-content-fnref-2" data-footnote-ref="" aria-describedby="footnote-label">2</a></sup> have sprung up. Ideally, you would need something that can alleviate pressure, and potentially show something as a fallback. One option that is pretty good is a <a href="https://kieranwood.ca/compsci/Programming/concepts/Caching#servercdn-cache">CDN (content delivery network)</a> + firewall. A firewall to block as many bots as possible, and a CDN (like <a href="https://www.akamai.com/">Akamai</a>, <a href="https://aws.amazon.com/cloudfront/">Cloudfront</a>, <a href="https://www.fastly.com/">Fastly</a> or <a href="https://www.cloudflare.com/application-services/products/cdn/">Cloudflare</a>) to act as essentially an extra “reverse-proxy-like” layer to lower your overall pressure since it can keep things in cache. This is great since it’s no longer <strong>your problem</strong>…</p>
+<p>Until it’s not an option you can pick…</p>
+<h2 id="the-idea">The Idea</h2>
+<p><em>It’s important to note for this article that I’m writing it during the <strong>ideation</strong> phase of the project, meaning this is all just an idea. There will be an open-source version of whatever becomes of this project down the road, but for now, this is all theory. This approach has many odd side-effects and should be carefully considered before choosing it. Implement at your own risk.</em></p>
+<p>Unfortunately, I recently found myself in a situation where I had 2 different CMS systems I needed to optimize. Both had several layers of existing TTL caches (<a href="https://redis.io/">Redis</a>, <a href="https://www.varnish-software.com/products/varnish-cache/">Varnish</a>, <a href="https://nginx.org/">nginx</a>/<a href="https://traefik.io/traefik">Traefik</a>/<a href="https://httpd.apache.org/">Apache</a> caches, etc.) that weren’t cutting it. Additionally for various reasons I could not use external vendors <strong>at all</strong>. This means I needed to find a way to scale:</p>
+<ul>
+<li><strong>Without new hardware;</strong> No one wanted the hassle, or the cost. Thanks again AI bros for making everything so expensive</li>
+<li><strong>Without major application-level changes;</strong> There was no appetite to make massive overarching changes with how many people use the site, I can’t give exact numbers but think several to tens of thousands of contributors and hundreds of thousands of users</li>
+<li><strong>Without vendors;</strong> Can’t go into details, but unfortunately it wasn’t an option</li>
+</ul>
+<p>So, I needed an infrastructure-level solution that would help solve the problems and avoid the outages we were running into that didn’t need a ton of buy in on the developer side outside integrating it. We already had several TTL-based caching layers, and they were all getting exhausted regularly, so we needed a new paradigm entirely. To recap on all the background, here is the list of assumptions:</p>
+<ol>
+<li><strong>Slow backend;</strong> Something in a slow language PHP, Python, Javascript etc. Where the cost of cold caches and actually generating the result based on the template/component is relatively high</li>
+<li><strong>Top-heavy;</strong> You know your site has a set number of pages/routes that matter</li>
+<li><strong>Single-node/cluster;</strong> Buying more nodes elsewhere isn’t an option</li>
+<li><strong>Vendorless;</strong> You can’t use external vendors</li>
+<li><strong>Enough discrete pages to overwhelm your caches;</strong> You cannot comfortably fit everything in existing caches</li>
+<li><strong>No new hardware;</strong> Can’t just expand your caches with more RAM</li>
+<li><strong>No major changes to code;</strong> Everything works, and no one wants to touch it</li>
+</ol>
+<p>Enter what I call (and probably already has another name) usage-aware caching. To best explain the whole approach it’s best to start with tiering, what it means, and what it gives us.</p>
+<h3 id="tiering">Tiering</h3>
+<p>Simply put the primary mechanism that drives this system is a tiering strategy. This strategy basically organizes routes (slugs like <code>/</code> or <code>/about</code> for a site) into a heirarchy of importance. In this case we want to explicitly create 2 layers, and a third layer implicitly:</p>
+<ol>
+<li><strong>Tier 1;</strong> These are your most important pages that make up the majority of your traffic. These are <strong>manually</strong> configured by the system admin. When routes are in this tier they are stored initially on startup right away, then refreshed at a set interval (say every 5 mins). If there are any http <code>5xx</code> errors or timeouts on retrieval, then the value is not updated on the interval and the old data is retained until the next refresh cycle (since it’s indicative of a server error). If a <code>4xx</code> error or valid value is returned then the system updates the value in it’s cache. Any time this route is hit it’s always served from the cache.</li>
+<li><strong>Tier 2;</strong> This is a dynamic cache that operates similarly to traditional caches. You set a limit for the number of routes you want to include (let’s say 5,000). The system will then begin to fill up the caches with responses as it goes until it hits the limit. After hitting the limit any new routes not in Tier 1 or Tier 2 are just reverse proxied to the application itself. Any routes not in Tier 1 will have a running tally kept of how many visits a route got. At the end of a set interval (say 30 mins) the visit numbers are used to decide which routes to include in the next intervals cache, these routes are regenerated, and if the number is less than the cap it will continue procesing down the list of routes until it’s filled. At this tier <code>4xx</code> codes are considered errors, and responses containing them will not count towards the tally for that route.</li>
+<li><strong>Tier 3;</strong> Everything not in the other 2 tiers. This tier just gets reverse-proxied to the app, and has to fight out with other requests for the application resources. This is also where routes you don’t want to cache should end up (admin/editing interfaces, dynamic/live data APIs etc.)</li>
+</ol>
+<p>To further clarify an earlier point, the reason we propogate <code>4xx</code> errors in <strong>Tier 1</strong> is that they indicate a user error (malformed path, unauthorized access, etc.), meaning the route is working <strong>as intended</strong>. However, in Tier 2 we wouldn’t propogate <code>4xx</code> errors because we could open ourselves up to a DOS (denial of service) attack where people just spam nonsense links to fully fill our cache. Since we manually control Tier 1, unless the admin wants to DOS themselves we should respect the propogation.</p>
+<div class="mermaid">flowchart TD
+    A[Incoming Request] --> B{Tier 1?}
+
+    %% Tier 1
+    B -- Yes --> C[Serve from Tier 1 Cache]
+    C --> Z[Return Response]
+
+    %% Tier 2 check
+    B -- No --> D{Tier 2?}
+    D -- Yes --> E[Serve from Tier 2 Cache]
+    E --> Z
+
+    %% Not cached
+    D -- No --> F["Proxy to Origin (app server)"]
+    F --> G[Get Response]
+
+    %% Cache decision
+    G --> H{Tier 2 Full?}
+    H -- No --> I[Store in Tier 2]
+    H -- Yes --> J[Skip Cache]
+
+    I --> Z
+    J --> Z
+
+    %% Tier 1 refresh loop
+    subgraph T1[ Tier 1 Refresh ]
+        T1A[Load on Startup]
+        T1B[Fetch Data]
+        T1C{Status OK or 4xx?}
+        T1C -- Yes --> T1D[Update Cache]
+        T1C -- No --> T1E[Keep Old Data]
+        T1A --> T1B --> T1C
+    end
+
+    %% Tier 2 rebalance loop
+    subgraph T2[ Tier 2 Rebalance ]
+        T2A[Track Visits]
+        T2B[Rank Routes by Number of Visits]
+        T2C[Pick Top N]
+        T2D[Rebuild Cache]
+        T2A --> T2B --> T2C --> T2D
+    end
+</div>
+<p>So, if you manually enter 100 routes into your Tier 1, and set your Tier 2 to 5,000 then you know that at most 5,100 pages will always be in your cache (if you have that many pages), and the rest will have to be processed via the application’s processing pipelines. By default this system will also include the ability to specify static assets (images/css/js) and won’t cache them.</p>
+<h3 id="advantages">Advantages</h3>
+<p>This tiering approach provides a few advantages.</p>
+<h4 id="outage-resilience">Outage Resilience</h4>
+<p>This system helps you hedge against <strong>visible</strong> outages on your sites. Since everything lags-behind in your caches, if you have an outage the data will still be in the caches. So, as long as the cache layer doesn’t go down, it will continue serving old-content. This <em>can</em> cause problems, most notably your uptime monitors will need to hit your routes from <em>behind</em> the caches to know if your site is up. However, this also means for high visibility sites (such as those in Tier 1) the uptime goes up dramatically even when there are issues such as multi-agent crawls happening on your site.</p>
+<h4 id="semi-deterministic-caching">Semi-deterministic Caching</h4>
+<p>Since you know how many pages you are going to have within a given refresh interval, the resource usage is relatively deterministic. In fact it gets more deterministic as your priority increases (since Tier 2 is capped, and Tier 1 is manually configured). You will see I/O, memory and CPU spikes during refreshes, and besides that the only influence on resources will be the actual usage by users. This leads to more predictable idle usage than other cache systems where you can have a “caught with your pants down” moment where the caches have all been evicted after little-to-no use, and then you have a traffic spike that takes down your service. Since the caches are always at least partially warm your slowest time is at startup, and then pretty consistent after that. But, this does mean that overall there tends to be higher idle usage than other systems which have more of a ramp-down.</p>
+<p>This potentially could be mitigated by allowing more dynamic memory tier sizing over the day, where at peak usage times you have a larger tier 2 cap than at low-usage times, but this introduces it’s own set of complexities and potential issues.</p>
+<h4 id="usage-aware">Usage-aware</h4>
+<p>Both cache layers are driven by <strong>usage</strong> not time. This means you’re only caching the content you prioritize highly. In traditional TTL/LRU caching a page that happened to be visited by a crawler at the same time as the caches for a high priority page will evict the high priority page and leave you re-rendering the page, or serving it from the application-layer caches over and over again. Since this system lags behind and Tier 2 essentially generates as you go, this means you have the pages that are <strong>actually</strong> visited showing up more often in caches. There is a somewhat obvious problem with this though. What if your traffic tends to be bursty and concentrated within a set time range?</p>
+<p>As an example let’s say you get most of your traffic at 11am for 20 mins, and your tier 2 timeout is 30 mins. This means that effectively you miss the burst at your most critical time. I am currently looking into a few possible solutions to this. One of which would be to make the usage tallies for counts last longer than a single interval. For example, you could set a time each day to reset the values, or some other longer-term clearing effect. This would mean that, assuming the popular pages are the same across-days, you would already be pre-filled with content that will show up for the burst, but this isn’t guaranteed.</p>
+<p>There are more complicated heuristics I’ve considered, but this is just a hard problem, and will likely come down to providing configuration options to adjust this behaviour more granularly for each sites use cases.</p>
+<h4 id="batching">Batching</h4>
+<p>In general, your application server will now instead of getting ad-hoc requests, will get a batch of requests at the set interval. This means depending on your refresh time budget you can choose exactly how much resource usage you want to use by pooling your refresh into sub-batches. For example, let’s say you have 100 routes in your Tier 1 cache, you can now set a rate limit to say on refresh you only want to process 20 at a time. This means you can spread out the resource cost of the refresh over a given time interval, serving “stale” content in the meantime. This means that in cases that might overwhelm your server, like say a refresh of 5,000 pages for your Tier 2, you can set a timeout per request and only ever have 50 requests in-flight at a time. You can tweak these numbers for <strong>your use case</strong>, to get the right balance of server load for resource cost.</p>
+<h4 id="framework-independent">Framework Independent</h4>
+<p>While not true in the strictest sense, this system has very little framework coupling. Since it’s just HTML pages being cached it works the same across any framework that produces HTML. In my initial exploratory testing I’ve found this to be a good and bad thing (more on that in a second). This does mean this approach can be re-used for essentially any system that produces HTML, meaning you can re-use it in many different systems without having to learn separate technologies.</p>
+<h4 id="middlewear">Middlewear</h4>
+<p>Many CMS’s have different routes for authorization vs public facing routes. Even on these public facing routes the CMS will check if you’re logged in to retain the admin UI. While this is a nice UX for editors, it also means every cold-cache hit has to be processed through the middlewear. Being able to skip all these checks (or amortize them to only the cost on refreshes) means you can find out quickly if the middlewear is a bottleneck or not for you.</p>
+<h3 id="downsides">Downsides</h3>
+<p>Like everything in life, there are tradeoffs even in theory with this approach. I am only mentioning a few of the less obvious ones I can think of, but there are many others depending on your use-case.</p>
+<h4 id="obfuscation">Obfuscation</h4>
+<p>This approach massively obfuscates your insights into usage outside the network. Because the cache-layer is now intercepting more of the traffic it can hide outages you would typically catch. Likewise this can obfuscate KPI metrics that might cause you to re-adjust your infrastructure. For example if requests from your application take 300ms, but your cache layer takes 20-30ms, and the majority is served from your cache, you may mistakingly assume that 20-30ms is how long it takes your app to respond. This can be dangerous in that you might only catch how slow your underlying applciation is when something goes wrong in your cache layer and you have to operate without it.</p>
+<h4 id="framework-independence">Framework Independence</h4>
+<p>While being framework agnostic might seem like a positive, it leaves a lot of performance on the table. Many optimizations become impossible to do. Another experimental approach I looked at a while back involved turning the CMS into a more headless system for editing, and then just generating the HTML in a faster language. This works well in circumstances where you’re doing actual data processing, and are not just I/O bound to the database. Likewise, depending on what’s actually costing you the most amount of time, these deeper integrations can have more of an impact.</p>
+<p>Additionally, being a network proxy I’ve found some CMS’s have weird behaviors you might not expect depending on how you modify the incoming requests. WordPress for example has odd behaviors around dynamically changing its site address based on incoming requests’ <code>Host</code> header that left me scratching my head for a bit when doing some testing. This gets weirder and weirder depending on how many infrastructure layers you stack on top.</p>
+<h4 id="middlewear-1">Middlewear</h4>
+<p>As I said earlier because the request is handled at the cache layer middlewear is skipped. This potentially helps performance, but it means that you can lose functionality that requires that middlewear. For example, if your CMS supports going to “live” pages to edit them, which requires you to be logged in, it will break with this system since the auth is skipped completely.</p>
+<h2 id="wrap-it-up">Wrap it up</h2>
+<p>I’m sure this pattern already has a name I’ve never heard of. The solution is as simple as I could come up with under the constraints, but as I mentioned the best option overall would be to just fix the underlying issues, and using a CDN. But for those of you who are like me and don’t have that option, this is an interesting possible solution, and when there is an open-source implementation available I will update this post to try it out.</p>
+<section data-footnotes="" class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
+<ol>
+<li id="user-content-fn-1">
+<p><a href="https://github.com/TecharoHQ/anubis">https://github.com/TecharoHQ/anubis</a> <a href="#user-content-fnref-1" data-footnote-backref="" aria-label="Back to reference 1" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-2">
+<p><a href="https://developers.cloudflare.com/bots/">https://developers.cloudflare.com/bots/</a> <a href="#user-content-fnref-2" data-footnote-backref="" aria-label="Back to reference 2" class="data-footnote-backref">↩</a></p>
+</li>
+</ol>
+</section>  </article> </main> <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js" integrity="sha256-mm3Re3y7xlvh+yCD+l/Zs1d+PU0AEad93MkWvljfm/s=" crossorigin="anonymous"></script> <script type="module">mermaid.initialize({securityLevel:"loose",theme:"light"});</script>  </main> </div> <footer class="footer footer-center block mb-5 pt-10"> <div class="pb-2">
+&copy; 2026 Kieran Wood
+</div> <div class="inline opacity-75"> <!-- Thanks for using this template. You can keep this line to support my work :) --> <a href="https://astrofy-template.netlify.app/" target="_blank" class="font-bold">Astrofy Template</a> developed by
+<a href="https://manuelernestog.github.io" target="_blank" class="font-bold">Manuel Ernesto ⚡️</a> </div> </footer>  </div> <div class="drawer-side z-40"> <label for="my-drawer" class="drawer-overlay"></label> <aside class="px-2 pt-2 h-auto min-h-full w-[19rem] bg-base-200 text-base-content flex flex-col"> <div class="w-fit mx-auto mt-5 mb-6"> <a href="/"> <div class="avatar transition ease-in-out hover:scale-[102%] block m-auto"> <div class="w-[8.5rem]"> <img src="/tech/profile.jpg" alt="Profile image" loading="lazy" decoding="async" fetchpriority="auto" width="300" height="300" class="mask mask-circle"> </div> </div> </a> </div> <ul class="menu grow shrink menu-md overflow-y-auto"> <li><a class="py-3 text-base" id="home" href="/tech/">Home</a></li> <li><a class="py-3 text-base" id="projects" href="/tech/projects">Projects</a></li> <!-- <li><a class="py-3 text-base" id="services" href="/tech/services">Services</a></li>
+    <li><a class="py-3 text-base" id="store" href="/tech/store">Store</a></li> --> <li><a class="py-3 text-base" id="blog" href="/tech/blog/">Blog</a></li> <li><a class="py-3 text-base" id="cv" href="/tech/cv">CV</a></li> <li><a class="py-3 text-base" href="/tech/contact">Contact</a></li> </ul> <script>(function(){const sideBarActiveItemID = undefined;
+const activeClass = "bg-base-300";
+
+const activeItemElem = document.getElementById(sideBarActiveItemID);
+activeItemElem && activeItemElem.classList.add(activeClass);
+})();</script> <div class="block sticky pointer-events-none bottom-10 bg-base-200 justify-center h-12 [mask-image:linear-gradient(transparent,#000000)]"></div> <div class="social-icons px-4 pb-5 pt-1 flex self-center justify-center sticky bottom-0 bg-base-200"> <a href="https://github.com/descent098" target="_blank" class="mx-3" aria-label="Github" title="Github"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.026 2c-5.509 0-9.974 4.465-9.974 9.974 0 4.406 2.857 8.145 6.821 9.465.499.09.679-.217.679-.481 0-.237-.008-.865-.011-1.696-2.775.602-3.361-1.338-3.361-1.338-.452-1.152-1.107-1.459-1.107-1.459-.905-.619.069-.605.069-.605 1.002.07 1.527 1.028 1.527 1.028.89 1.524 2.336 1.084 2.902.829.091-.645.351-1.085.635-1.334-2.214-.251-4.542-1.107-4.542-4.93 0-1.087.389-1.979 1.024-2.675-.101-.253-.446-1.268.099-2.64 0 0 .837-.269 2.742 1.021a9.582 9.582 0 0 1 2.496-.336 9.554 9.554 0 0 1 2.496.336c1.906-1.291 2.742-1.021 2.742-1.021.545 1.372.203 2.387.099 2.64.64.696 1.024 1.587 1.024 2.675 0 3.833-2.33 4.675-4.552 4.922.355.308.675.916.675 1.846 0 1.334-.012 2.41-.012 2.737 0 .267.178.577.687.479C19.146 20.115 22 16.379 22 11.974 22 6.465 17.535 2 12.026 2z"></path> </svg> </a> <a href="https://www.linkedin.com/in/kieran-wood" target="_blank" class="mx-3" aria-label="Linkedin" title="Linkedin"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><circle cx="4.983" cy="5.009" r="2.188"></circle><path d="M9.237 8.855v12.139h3.769v-6.003c0-1.584.298-3.118 2.262-3.118 1.937 0 1.961 1.811 1.961 3.218v5.904H21v-6.657c0-3.27-.704-5.783-4.526-5.783-1.835 0-3.065 1.007-3.568 1.96h-.051v-1.66H9.237zm-6.142 0H6.87v12.139H3.095z"></path> </svg> </a> <a href="https://instagram.com/descent098" target="_blank" class="mx-3" aria-label="Instagram" title="Instagram"> <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 -5 24 24" style="fill: currentColor;transform: ;msFilter:;"><path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"></path> </svg> </a> <a href="/tech/rss.xml" target="_blank" class="mx-3" aria-label="RSS Feed" title="RSS Feed"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;"><path d="M19 20.001C19 11.729 12.271 5 4 5v2c7.168 0 13 5.832 13 13.001h2z"></path><path d="M12 20.001h2C14 14.486 9.514 10 4 10v2c4.411 0 8 3.589 8 8.001z"></path><circle cx="6" cy="18" r="2"></circle> </svg> </a> </div> </aside> </div> </div> </body></html>
