@@ -41,11 +41,13 @@ import { Image } from "astro:assets";
       <slot />
     </article>
   </main>
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js" integrity="sha256-mm3Re3y7xlvh+yCD+l/Zs1d+PU0AEad93MkWvljfm/s=" crossorigin="anonymous"></script>
-  <script>
-    mermaid.initialize({
-      securityLevel: 'loose',
-      theme: 'light',
+  <script type="module">
+    import "https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"
+    window.addEventListener('load', function() {
+        mermaid.initialize({
+        securityLevel: 'loose',
+        theme: 'light',
+      });
     });
   </script>
 </BaseLayout>
