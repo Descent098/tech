@@ -7,7 +7,7 @@ export async function GET(context) {
 
   const sortedBlogPosts = blog.sort(
     (a, b) => new Date(b.data.pubDate) - new Date(a.data.pubDate)
-  );
+  ).filter((post)=>!post.data.external);
 
   return rss({
     title: SITE_TITLE,
