@@ -1,8 +1,8 @@
 ---
 title: My New Site is Nearly A Gig, and Its Never Been Faster
-subtitle: ...
-description: ...
-pubDate: 2026-03-27
+subtitle: Building and optimizing a site all about me
+description: The weird ways I made astro work for my terrible ideas
+pubDate: 2026-03-28
 heroImage: /tech/blog/my-new-site/hero.png
 tags:
   - astro
@@ -35,9 +35,9 @@ This approach served me suprisingly well. I haven't touched my personal website 
 
 I really haven't needed anything more from it, and by how irrelevant the current content is, it's clear it hasn't been a priorty. So, what changed?
 
-## Why Rebuild
+## Why Rebuild?
 
-As much as I don't like making a site about myself, there are tons of benefits to having one. Namely, having a kind of hub to point people to get information about myself, which has come up a lot at events recently. For most people I just tend to send them to github, or linkedin, but as I'm sure is suprising to some, I don't just code. I have other interests, and those have come up in conversations several times with no good way to share them with people. Likewise, these days I don't just have a few projects, I have a lot, and I have no idea which ones people care about. So, I basically needed a site to:
+As much as I don't like making a site about myself, there are tons of benefits to having one. Namely, being able to point people to a "hub" to find information about me, which has come up a lot at events recently. For most people I just tend to send them to Github, or Linkedin, but as I'm sure is suprising to some, I don't just code. I have other interests, and those have come up in conversations several times with no good way to share them with people. Likewise, these days I don't just have a few projects, I have a lot, and I have no idea which ones people care about. So, I basically needed a site to:
 
 1. Make it easy for potential employers to get a work history about me
 2. Act as an aggregator for various educational blogs and wiki-style projects I run
@@ -55,15 +55,15 @@ In the same vein, I wanted my site to be as **low effort to maintain** and updat
 
 To get started there were a few easy choices to make. I don't want a server. I want static files that I can build once and deploy anywhere. I have heard people complain about static site generation and it's limitations. Having built well into the 100s of sites I have yet to actually see their complaints pan out, so static site generation it is. It will be a suprise to no one who has read any of my other work that I went with [Astro](https://astro.build/). [Sveltekit](https://svelte.dev/docs/kit/introduction) with the static adapter was a close second, but Astro is hands-down the best SSG for content-driven sites I've used. 
 
-From there my plan is to build/rebuild it once every week or two via a CI/CD pipeline. This is basically going to be to refresh my planned RSS feed aggregation. Obviously I could do this aggregation client-side, but there's something I find appealing about something **really** being static, and frankly if someone wants a more real-time update than that they can just subscribe to the RSS feeds on each site themselves.
+From there my plan is to build/rebuild it once every week or two via a CI/CD pipeline. This is basically just to refresh my planned RSS feed aggregation. Obviously I could do this aggregation client-side, but there's something I find appealing about something **really** being static, and frankly if someone wants a more real-time update than that they can just subscribe to the RSS feeds on each site themselves.
 
-One probably odd choice I made is to **re-use as much of my exsting design** as I can. Ideally at a first glance I don't want it to be obvious I rebuilt the site at all. Part of my reason for doing this is speed, but another is that I tend to work a lot with legacy systems. I like being able to breathe new life into something that exists, and the creative challenge of revitalizing something instead of just throwing it out. As I'm building this site I am also going to try to keep my components more design neutral. This will let me easily shift into a new design if inspiration strikes me for a design I really like down the road and decide to go another direction.
+One probably odd choice I made is to **re-use as much of my existing design** as I can. Ideally at a first glance I don't want it to be obvious I rebuilt the site at all. Part of my reason for doing this is speed, but another is that I tend to work a lot with legacy systems. I like being able to breathe new life into something that exists, and the creative challenge of revitalizing something instead of just throwing it out. As I'm building this site I am also going to try to keep my components more design neutral. This will let me easily shift into a new design if inspiration strikes me for a design I really like down the road and decide to go another direction.
 
-Performance might seem odd to talk about with a static site, but you would be surprised what I've seen. So, to start out with on any site my general principle is that no pages should go over 2MB total payload unless you have a very good reason. In particular **you should almost never be cracking 1MB initial page load** unless you're doing something very media heavy. If your JS bundle is over a few hundred kilobytes you really need to look deeper at what's going on. Likewise, this is a static site, it should not be eating your resources. In general there probably should be little-to-no processing being done at all, which is why even though I love [svelte](https://svelte.dev/), it, or any other UI framework is wholly unnecessary for this project. 
+Performance might seem odd to talk about with a static site, but you would be surprised what I've seen. So, to start out with on any site my general principle is that no pages should go over 2MB total payload unless you have a very good reason. In particular **you should almost never be cracking 1MB initial page load** unless you're doing something very media heavy. If your JS bundle is over a few hundred kilobytes you really need to look deeper at what's going on. Likewise, this is a static site, it should not be eating your resources. In general there probably should be little-to-no processing being done at all, which is why even though I love [Svelte](https://svelte.dev/), it, or any other UI framework is wholly unnecessary for this project. 
 
 ## The Process
 
-So, decisions have been made, and what matters is more clear, let's get to building. I started by firing up a new Astro project, and dumping what existed into it. The design of the old site is a single page with 5 tabs that open a modal-style screen with content on it when you click the nav links:
+So, now that decisions have been made, and what matters is more clear, let's get to building. I started by firing up a new Astro project, and dumping what existed into it. The design of the old site is a single page with 5 tabs that open a modal-style screen with content on it when you click the nav links:
 
 ![screenshot of the site](/tech/blog/my-new-site/existing-site.png)
 
@@ -71,7 +71,7 @@ So, decisions have been made, and what matters is more clear, let's get to build
 
 I went through each tab, and decided what I was going to keep or remove:
 
-- Canadian Coding; This is no longer necessary. This was the brand name I used to use to create content under, and would use as a funnel for freelance work. I haven't been actively taking contracts for years now, and haven't been posting enough content to justify it having it's own section.
+- Canadian Coding; This is no longer necessary. This was the brand name I used to create content under, and would use as a funnel for freelance work. I haven't been actively taking contracts for years now, and haven't been posting enough content to justify it having it's own section
 - Work; I will probably keep this section, but with major changes, right now it's a combination of open-source and professional work, and I want to split the two more cleanly
 - About; This section contains no real useful or up-to-date information. Frankly I don't think I need anything like this in the updated site
 - Contact; This one's actually pretty good outside of some UI bugs. I think this is the only section that will have essentially no changes
@@ -89,29 +89,30 @@ Before breaking down the building of each section I wanted to identify my main m
 
 Now I had some numbers. The initial page load is 2.6MB the breakdown of which was:
 
-- ~1.2MB was split between just 3 images which are the heading images of some of the sections in total there are 11 images
-- The next two most expensive resources were the two fonts being loaded at ~75KB each
-- The most expensive scripts were the google analytics script at ~120KB and jquery at ~30KB
+- ~1.2MB was split between just 3 images which are the heading images of some of the sections
+- 11 images in total that make up the majority of the bundle size
+- ~75KB each for two fonts
+- ~120KB for [google analytics](https://developers.google.com/analytics), and 30KB for [JQuery](https://jquery.com/)
 
-Additionally, some of the scripts and assets were taking up to half a second to process. I made a few quick choices based on this data:
+This is the most expensive items in each category, there are then also a bunch of other little things that make up the rest of the bundle size. Additionally, some of the scripts and assets were taking up to half a second to process (parse and run). I made a few quick choices based on this data:
 
-1. I hadn't looked at my analytics dashboard in years. It's baked into cloudflare these days to get view stats, so that was removed. 
+1. I hadn't looked at my analytics dashboard in years. It's baked into Cloudflare these days to get view stats, so that was removed
 2. I needed to fix the font situation, it shouldn't take that long to process a font
-3. I needed to do better with image optimization. One of my main hobbies is photography and 3d-modeling, so I wanted to show off some of my images on my site. 
-4. I needed to see if I really needed JQuery. The template was older when I got it, and many people from that era used it long after [query selectors](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector) existed to do functionally the same job. After digging, no I did not need JQuery anymore.
+3. I needed to do better with image optimization. One of my main hobbies is photography and 3D-modeling, so I wanted to show off some of my images on my site
+4. I needed to see if I really needed JQuery. The template was older when I got it, and many people from that era used it long after [query selectors](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector) existed to do functionally the same job. After digging, no I did not need JQuery anymore
 
-So, before even touching any content, just removing JQuery, analytics and the three heading images I didn't want to use took us from 2.6MB down to a bit over 1.5MB. I completely forgot about the font issue until the end of the site build, which luckily right as I started this project [version 6 of Astro](https://astro.build/blog/astro-6/) was recently released, and I tried out their new [font API](https://docs.astro.build/en/guides/fonts/), which fixed everything. I also removed [font-awesome](https://fontawesome.com/) entirely and swapped over to [bootstrap icons](https://icons.getbootstrap.com/) + [svgrepo](https://www.svgrepo.com/) for all my icons. I left the `main.css` file fully intact other than the changes to remove and update the fonts. Lastly I moved the remaining JS files into imports on the page, which means they will be processed by [vite](https://vite.dev/) and properly minified + [treeshook](https://developer.mozilla.org/en-US/docs/Glossary/Tree_shaking). Astro takes this a step further actually, any file that is importable without a [script directive](https://docs.astro.build/en/reference/directives-reference/#script--style-directives) will be compiled away at build time. 
+So, before even touching any content, just removing JQuery, analytics and the three heading images I didn't want to use took us from 2.6MB down to a bit over 1.5MB. I completely forgot about the font issue until the end of the site build, which luckily right as I started this project [version 6 of Astro](https://astro.build/blog/astro-6/) was recently released, and I tried out their new [font API](https://docs.astro.build/en/guides/fonts/), which fixed everything. I also removed [FontAwesome](https://fontawesome.com/) entirely and swapped over to [Bootstrap Icons](https://icons.getbootstrap.com/) + [SVGRepo](https://www.svgrepo.com/) for all my icons. I left the `main.css` file fully intact other than the changes to remove and update the fonts. Lastly I moved the remaining JS files into imports on the page, which means they will be processed by [Vite](https://vite.dev/) and properly minified + [treeshook](https://developer.mozilla.org/en-US/docs/Glossary/Tree_shaking). Astro takes this a step further actually, any file that is importable without a [script directive](https://docs.astro.build/en/reference/directives-reference/#script--style-directives) will be compiled away at build time. 
 
-Now, after this optimization pass I had to decide how I wanted the overall architecture to look. I briefly considered doing view-transitions instead of the hide and show system that currently existed, but a lot of the styling and existing JS relied on that structure and I didn't want to re-tred all that effort. I decided to create a `<SectionTemplate>` component, which I could use to scaffold out the modal (acutally an `<article>` with an ID and class). I can then create individual components for each section, and any necessary sub-components inside those. So, the layout was essentially:
+Now, after this optimization pass I had to decide how I wanted the overall architecture to look. I briefly considered doing view-transitions instead of the hide and show system that currently existed, but a lot of the styling and existing JS relied on that structure and I didn't want to re-tread all that effort. I decided to create a `<SectionTemplate>` component, which I could use to scaffold out the modal (acutally an `<article>` with an ID and class). I can then create individual components for each section, and any necessary sub-components inside those. So, the layout was essentially:
 
 - `public/`; A folder that contains assets that should not be pre-processed (certain images, css, favicon, etc.)
 - `src/`; The folder where all the actual code will live
   - `components/`; Where any sub-components are defined for the various sections
   - `data/`; A folder to hold content for various collections (more on this later)
-  - `layouts/Layout.astro`; The base template that the `index.astro` page inherits from. Contains things like the `<head>`
+  - `layouts/Layout.astro`; The base template that the `index.astro` page inherits from (contains things like the `<head>`)
   - `pages/index.astro`; The definition of the homepage structure
-  - `section/`; The files for each individual section (i.e. `work.astro`, `projects.astro`, etc.)
-  - `styles/main.css`; The old `main.css` file that contains a bunch of global css declarations
+  - `section/`; The files for each individual section (e.g. `work.astro`, `projects.astro`, etc.)
+  - `styles/main.css`; The old `main.css` file that contains a bunch of global CSS declarations
   - `utils/`; Folder that contains the old JS files from the initial project, and a `ts` file for handling RSS feed parsing (more on this later)
   - `content.config.ts`; The configuration for [content collections](https://docs.astro.build/en/guides/content-collections/) essentially defines all the content schema
 
@@ -119,7 +120,7 @@ Now it was time to start building.
 
 ### Contact
 
-This section was the easiest to rebuild. I just had to change some wording, and fix a weird height bug with one of the input fields for the contact form. All of the form submission is handled by [formspree](https://formspree.io/) and has been for a long time with no issues. I fired a quick test email to make sure we were all good. The only other thing I needed to do were the icons. For this I chose a less than optimal aproach. I added an enumerator of all the various platforms to my `content.config.ts` file:
+This section was the easiest to rebuild. I just had to change some wording, and fix a weird height bug with one of the input fields for the contact form. All of the form submission is handled by [Formspree](https://formspree.io/) and has been for a long time with no issues. I fired a quick test email to make sure we were all good. The only other thing I needed to do were the icons. For this I chose a less than optimal aproach. I added an enumerator of all the various platforms to my `content.config.ts` file:
 
 ```ts
 import { z } from 'astro/zod';
@@ -228,7 +229,7 @@ z.object({
 })
 ```
 
-This means if we improperly spell a platform, language, or tag for a project we will get a **build time error** telling us which field is invalid. This is a great start, but we can also do the same for the image to make sure it's available at build time. [I have a whole post] about images I wrote that helps explain some of how Astro handles images, but for now consider it magic. I will just show off the full definition below, and hopefully it will be more obvious:
+This means if we improperly spell a platform, language, or tag for a project we will get a **build time error** telling us which field is invalid. This is a great start, but we can also do the same for the image to make sure it's available at build time. [I have a whole post](https://kieranwood.ca/components/blog/nearly-a-thousand-images/) about images I wrote that helps explain some of how Astro handles images, but for now consider it magic. I will just show off the full definition below, and hopefully it will be more obvious:
 
 
 ```ts
@@ -290,11 +291,14 @@ const projects = await getCollection("projects");
 )}
 ```
 
-With the data layer put in place I decided to make 2 components, a featured project gallery that showed an image and highlighted certain projects, and a projects data table with filtering and nice-to-haves for sorting the bulk of the info:
+With the data layer put in place I decided to make 2 components:
+
+1. a `<featuredProject>` gallery that showed an image and highlighted certain projects, and a 
+2. a `<projectsListing/>` data table with filtering and nice-to-haves for sorting the bulk of the info
 
 ![project section](/tech/blog/my-new-site/project-section.png)
 
-Down the road I plan to add an RSS feed of these projects so my other sites can import it, and I can just have one source of truth for everything going forward. I tried **so many** designs for ths section, and I'm still not massively happy with it. In particular the datatable on mobile is not ideal, but I spent a lot of time on this, and decided to cut my losses on this version. It works well, but it's something I'll definitely be itterating on in the future. 
+Down the road I plan to add an RSS feed of these projects so my other sites can import it, and I can just have one source of truth for everything going forward. I tried **so many** designs for ths section, and I'm still not massively happy with it. In particular the datatable on mobile is not ideal, but I spent a lot of time on this, and decided to cut my losses on this version. It works well, but it's something I'll definitely be iterating on in the future. 
 
 
 ### Mentorship
@@ -393,7 +397,7 @@ This was the section I was dreading. I ended up reusing the same component from 
 
 ![other section](/tech/blog/my-new-site/other-section.jpg)
 
-The design has had mixed reviews, but I don't care. I like it, and it's staying there. Yes, I tried a few others. I considered doing more of a lightbox style with a single image  that you could flip through, but that's way less fun to optimze than dumping 87 images on a single page 🙂. Unfortunately this did take me over my 2MB total I was aiming for, but I think it was worth it. If I was willing to compromise on quality, I could hit that metric, but I would rather go over that budget and keep the quality than doi things the other way around.
+The design has had mixed reviews, but I don't care. I like it, and it's staying there. Yes, I tried a few others. I considered doing more of a lightbox style with a single image  that you could flip through, but that's way less fun to optimze than dumping 87 images on a single page 🙂. Unfortunately this did take me over my 2MB total I was aiming for, but I think it was worth it. If I was willing to compromise on quality, I could hit that metric, but I would rather go over that budget and keep the quality than do things the other way around.
 
 ## Throwing Some Numbers at You
 
@@ -401,30 +405,30 @@ Overall, while it may not seem like it at first, this was quite a bit of work. I
 
 ![PR screenshot](/tech/blog/my-new-site/final-pr.png)
 
-3 thousand lines removed. That in and of itself is nice, but what about the actual performance, well the site itself went from 2.6MB on load to ~600KB, and time to load dopped from 2.5s to 297ms. When you scroll the whole gallery the site ends up being ~2.9MB. This means compared to the old site, for an extra 300KB I added a filtering data table with 40+ projects, and an extra ~80 images. Not bad.
+3 thousand lines removed. That in and of itself is nice, but what about the actual performance? Well, the site itself went from 2.6MB on load to ~600KB, and time to load dropped from 2.5s to 297ms. When you scroll the whole gallery the site ends up being ~2.9MB. This means compared to the old site, for an extra 300KB I added a filtering data table with 40+ projects, and an extra ~80 images. Not bad.
 
 Not everything is sunshine and rainbows though. There are two concerning metrics:
 
 1. Build time; The pipelines take about 5-6 mins to build since they need to generate the images. Subsequent builds are faster now (~2 mins), but this is much worse than the 25 second deploys I had with my static site before. That being said, I'm not paying for compute, and even if I was I could just build that locally on my PC in < 15 seconds if I need to
-2. Total bundle size; Because the originals and optimized versions are served, the total bundle size went from 2.6MB to ~805MB 😣. This luckily doesn't matter too much with github pages since the artifacts are deployed straight from the pipeline, but that might be rougher if I have to swap to a platform where I need to upload the bundle down the road
+2. Total bundle size; Because the originals and optimized versions are served, the total bundle size went from 2.6MB to ~805MB 😣. This luckily doesn't matter too much with Github pages since the artifacts are deployed straight from the pipeline, but that might be rougher if I have to swap to a platform where I need to upload the bundle down the road
 
 But, overall this means a site with a **~310x size increase loads in less than %12 of the time**. There's still more work to be done in the future, particularly on the mobile design side of things, but for now I'm pretty happy with how it ended up. Especially considering my 1 week challenge quickly became 3-4 days after getting sick. 
 
 There are a few other left over items I'll look into:
 
-- Images are still loading versions that are larger than they need to be, so I will need to play around with that more as I go. I also need to clean up some of the settings cloudflare is using to cache my images because [google lighthouse](https://developer.chrome.com/docs/lighthouse/overview) mentioned the cache time is really short, so I'll dig in later
-- The live version of the site will have no `Recent Posts` for each site. This is because I added cloudflares bot-blocking, which is blocking the RSS feed, and it's **VERY** aggressive. It also broke my old uptime monitor, so I'll need to play with it a bit. I've been considering moving off github pages anyway, so I may run my pipelines on a [foregjo](https://forgejo.org/) instance down the road which I can just give access to the RSS files directly from my other sites
+- Images are still loading versions that are larger than they need to be, so I will need to play around with that more as I go. I also need to clean up some of the settings Cloudflare is using to cache my images because [Google Lighthouse](https://developer.chrome.com/docs/lighthouse/overview) mentioned the cache time is really short, so I'll dig in later
+- The live version of the site will have no `Recent Posts` for each site. This is because I added Cloudflares bot-blocking, which is blocking the RSS feed, and it's **VERY** aggressive. It also broke my old uptime monitor, so I'll need to play with it a bit. I've been considering moving off github pages anyway, so I may run my pipelines on a [forgejo](https://forgejo.org/) instance down the road which I can just give access to the RSS files directly from my other sites
 - Some of the code is using deprecated API calls, so I'll need to cleanup some of the JS
 
 ## Takeaways
 
-There's quite a bit that goes into building even a somewhat-decent staticaly generated site. In particular how much goes into producing that much disperate content. This whole build also made me re-examine some of my sites, while I love astro I started during [version 2.0](https://astro.build/blog/astro-2/), 8 months later [3.0 was released](https://astro.build/blog/astro-3/), 2 months later [4.0](https://astro.build/blog/astro-4/), then a year for [5.0](https://astro.build/blog/astro-5/), and 15 months later [version 6](https://astro.build/blog/astro-6/). Each with it's own breaking changes that made upgrading a drag. All this to say, astro is **much more stable** than when I started using it, so investing in relearning best practices has become well worth it. This site is a great example of the sort of site I built long before the image pipelines or content collections existed in astro, and is long overdue for a rebuild (I also want to axe [tailwind](https://tailwindcss.com/) from this site). 
+There's quite a bit that goes into building even a somewhat-decent staticaly generated site. In particular how much goes into producing that much disperate content. This whole build also made me re-examine some of my sites, while I love Astro, I started during [version 2.0](https://astro.build/blog/astro-2/), 8 months later [3.0 was released](https://astro.build/blog/astro-3/), 2 months later [4.0](https://astro.build/blog/astro-4/), then a year for [5.0](https://astro.build/blog/astro-5/), and 15 months later [version 6](https://astro.build/blog/astro-6/). Each with it's own breaking changes that made upgrading a drag. All this to say, astro is **much more stable** than when I started using it, so investing in relearning best practices has become well worth it. This site is a great example of the sort of site I built long before the image pipelines or content collections existed in astro, and is long overdue for a rebuild (I also want to axe [Tailwind](https://tailwindcss.com/) from this site). 
 
 The main things for me going forward are going to be:
 
 - Well defined schemas for content; I never realized how nice type errors are for debugging when you accidentally deleted a character in markdown frontmatter
-- Let Astro and vite handle more optimization
+- Let Astro and Vite handle more optimization
   - All images live in `/src` and will use `<Picture>` or `<Image>`. No more hand optimizing images on each blog post
   - Fonts can have more of an impact than you think on a site, and I will use the new API's going forward to manage them
-- Just use CSS; Now that I've done it all different ways I think pure CSS (no tailwind or other utility systems) is the way to build. I feel much more comfortable with designing when I'm using plain CSS, and much more willing to experiment
-- You can do so much without JS; Reaching for javascript is usually unnecessary. A lot of what you want to do can usually be done with some clever CSS, or a handful of lines of JS
+- Just use CSS; Now that I've done it all different ways I think pure CSS (no Tailwind or other utility systems) is the way to build. I feel much more comfortable with designing when I'm using plain CSS, and much more willing to experiment
+- You can do so much without JS; Reaching for Javascript is usually unnecessary. A lot of what you want to do can usually be done with some clever CSS, or a handful of lines of JS
