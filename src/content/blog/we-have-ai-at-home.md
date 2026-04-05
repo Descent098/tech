@@ -3,10 +3,10 @@ title: We Have AI at Home
 subtitle: How to run generative AI locally
 description: Ever wanted to be able to generate your own images without a middleman? What about a chat ai? This article will cover everything you need to get started!
 pubDate: 2023-12-04T00:00:00-06:00
-modified_date: 2023-12-04T00:00:00-06:00
+updatedDate: 2023-12-04T00:00:00-06:00
 heroImage: /tech/blog/ai-at-home/hero.png
 crosspostURL: https://schulichignite.com/blog/we-have-ai-at-home/
-tags: [ai, tutorial, open source, theory, python]
+tags: [ai, tutorial, open-source, theory, python]
 ---
 AI has hit the world hard in the last few years. Particularly with the introduction of newer generative AI systems like LLM's (Large language models like [ChatGPT](https://openai.com/chatgpt), [Bard](https://bard.google.com/), [Llama](https://ai.meta.com/llama/)), and image generators (like [Midjourney](https://www.midjourney.com/explore), [DALL-E-2](https://openai.com/dall-e-2), [Imagen](https://imagen.research.google/) etc.). These systems make it feel like you can create anything you want with them. 
 

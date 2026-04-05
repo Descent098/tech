@@ -3,7 +3,7 @@ title: HHTTPPP; Setting up the HTTP protocol
 subtitle: Creating our classes & data model
 description: "Starting to setup our code. HHTTPP; Writing your own HTTP server Part 2/5"
 pubDate: 2023-09-04T00:00:00-06:00
-modified_date: ""
+
 heroImage: /tech/blog/hhttpp/hero.jpg
 crosspostURL: https://schulichignite.com/blog/hhttpp/setting-up-http-protocol/
 tags:

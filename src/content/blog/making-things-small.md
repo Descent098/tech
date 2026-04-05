@@ -3,7 +3,7 @@ title: Making Things Small
 subtitle: An introduction to compression
 description: "How compression works with simple examples"
 pubDate: 2023-07-03T00:00:00-06:00
-modified_date: ""
+
 crosspostURL: https://schulichignite.com/blog/making-things-small/
 language: [python]
 heroImage: /tech/blog/compression/hero.jpeg

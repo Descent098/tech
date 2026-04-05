@@ -3,7 +3,7 @@ title: "When Standard Advice Fails"
 subtitle: "When the rule of thumb stops working"
 description: "Why understanding the exceptions to the rule, and measurements are imoprtant"
 pubDate: 2026-02-18T00:00:00-06:00
-modified_date: ""
+
 heroImage: /tech/blog/when-standard-advice-fails/hero.png
 tags:
   - project-management

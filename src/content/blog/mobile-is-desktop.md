@@ -3,7 +3,7 @@ title: The Mobile Desktop Divide
 subtitle: Desktops are dead, and have been for a while
 description: Desktops as we know them have been dead for a long time
 pubDate: 2026-03-30
-modified_date: 2026-04-04T00:00:00-06:00
+updatedDate: 2026-04-04T00:00:00-06:00
 heroImage: /tech/blog/mobile-is-desktop.png
 tags:
   - hardware

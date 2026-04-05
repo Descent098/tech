@@ -3,7 +3,7 @@ title: HHTTPPP; Parsing HTTP requests and responses
 subtitle: Using pattern matching to create objects
 description: "How to parse HTTP requests/responses with regex. HHTTPP; Writing your own HTTP server Part 3/5"
 pubDate: 2023-09-18T00:00:00-06:00
-modified_date: ""
+
 heroImage: /tech/blog/hhttpp/hero.jpg
 crosspostURL: https://schulichignite.com/blog/hhttpp/parsing-requests-responses/
 tags:

@@ -3,14 +3,14 @@ title: Usage-Aware Caching
 subtitle: A new (to me) paradigm for content-heavy site caching in the age of AI scrapers
 description: How to help handle the data scraping hordes on content-heavy sites
 pubDate: 2026-03-24
-modified_date: 2026-04-05T00:00:00-06:00
+updatedDate: 2026-04-05T00:00:00-06:00
 heroImage: /tech/blog/usage-aware-caching.png
 tags:
   - web
   - php
   - performance
   - optimization
-  - js
+  - javascript
   - html
   - frontend
   - ui-ux

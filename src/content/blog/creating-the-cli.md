@@ -3,7 +3,7 @@ title: HHTTPPP; Creating a CLI
 subtitle: Making our system more usable
 description: "Allowing users to interface with our HTTP server more easily! HHTTPP; Writing your own HTTP server Part 5/5"
 pubDate: 2023-10-02T00:00:00-06:00
-modified_date: ""
+
 heroImage: /tech/blog/hhttpp/hero.jpg
 crosspostURL: https://schulichignite.com/blog/hhttpp/creating-the-cli/
 tags:

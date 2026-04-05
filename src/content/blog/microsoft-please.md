@@ -3,7 +3,7 @@ title: "Microsoft Please"
 subtitle: "I just want to develop"
 description: "The rapid and steady decline of microsoft products since 2020"
 pubDate: 2026-01-16T00:00:00-06:00
-modified_date: 2026-04-04T00:00:00-06:00
+updatedDate: 2026-04-04T00:00:00-06:00
 heroImage: /tech/blog/microsoft-please/hero.png
 tags:
   - project-management

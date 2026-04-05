@@ -3,7 +3,7 @@ title: Writing your own HTTP server
 subtitle: HHTTPP creation Series Introduction & Setup
 description: "Ever wanted to write your own HTTP server? This series will show you how to do it. HHTTPP; Writing your own HTTP server Part 1/5"
 pubDate: 2023-08-28T00:00:00-06:00
-modified_date: ""
+
 heroImage: /tech/blog/hhttpp/hero.jpg
 crosspostURL: https://schulichignite.com/blog/hhttpp/series-introduction/
 tags:

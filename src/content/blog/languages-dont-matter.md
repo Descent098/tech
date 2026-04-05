@@ -3,7 +3,7 @@ title: Languages Don't Matter in the Beginning
 subtitle: Just pick your first language and get on with it
 description: What actually matters in the beginning
 pubDate: 2025-05-27
-modified_date: 2025-05-27T00:00:00-06:00
+updatedDate: 2025-05-27T00:00:00-06:00
 heroImage: /tech/blog/languages-dont-matter.jpg
 tags:
   - java

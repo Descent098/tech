@@ -3,7 +3,7 @@ title: "Python + Go: Examples"
 subtitle: Case study of two real libraries using python + go
 description: "Real examples of This method in action"
 pubDate: 2025-05-19T00:00:00-06:00
-modified_date: 2025-05-19T00:00:00-06:00
+updatedDate: 2025-05-19T00:00:00-06:00
 heroImage: /tech/blog/python-plus-go/diagram.excalidraw.png
 language: [python, go, C]
 tags:

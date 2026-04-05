@@ -3,7 +3,7 @@ title: The power of paths
 subtitle: How to find things
 description: "Representing locations can be hard, but it's important to use good representations in code. This helps us in searching for things in code as well as being able to store types of information efficiently."
 pubDate: 2023-06-05T00:00:00-06:00
-modified_date: 2023-01-19T00:00:00-06:00
+updatedDate: 2023-01-19T00:00:00-06:00
 heroImage: /tech/blog/paths/hero.jpg
 crosspostURL: https://schulichignite.com/blog/the-power-of-paths/
 language: [python]
@@ -11,7 +11,7 @@ tags:
   - scorch
   - web
   - theory
-  - low-level
+  - terminology
 ---
 
 A path is a way to something. It's how we go from what we know, and where we are, to what we want to know, and where we want to go. When we're programming we often need to get information in some way. The question is how do we create a path to get that information that is:

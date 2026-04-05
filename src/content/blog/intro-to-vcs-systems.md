@@ -3,7 +3,7 @@ title: "Intro to VCS's"
 subtitle: "How to version software"
 description: "How to create versions for your software. Intro to VCS Part 1/4"
 pubDate: 2023-10-16T00:00:00-06:00
-modified_date: ""
+
 heroImage: /tech/blog/vcs/hero.jpg
 crosspostURL: https://schulichignite.com/blog/vcs/intro-to-vcs-systems/
 tags:
@@ -11,9 +11,7 @@ tags:
   - vcs
   - project-management
   - open-source
-  - computer-science
   - terminology
-  - software-engineering
 ---
 
 Things change fast, and keeping track of those changes is not an easy task. Version control systems are built to help manage versions of software, and software changes. 

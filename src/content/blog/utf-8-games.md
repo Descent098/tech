@@ -3,7 +3,7 @@ title: UTF-8 in Games
 subtitle: Make prototyping games faster
 description: How to use text in your games
 pubDate: 2025-04-16
-modified_date: 2025-04-16T00:00:00-06:00
+updatedDate: 2025-04-16T00:00:00-06:00
 heroImage: /tech/blog/utf-8-games.jpg
 tags:
   - web

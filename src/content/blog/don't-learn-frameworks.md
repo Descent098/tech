@@ -3,7 +3,6 @@ title: "Don't learn Frameworks"
 subtitle: "Learn to code, not to install"
 description: "How to learn more effectively, and avoid the trap of modern frameworks"
 pubDate: 2024-02-05T00:00:00-06:00
-modified_date: ""
 heroImage: /tech/blog/dont-learn-frameworks/hero.png
 tags:
   - web

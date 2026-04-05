@@ -3,7 +3,7 @@ title: "Performance is Hard"
 subtitle: "Details matter a lot"
 description: "Even simple code takes a lot to optimize"
 pubDate: 2026-02-08T00:00:00-06:00
-modified_date: ""
+
 heroImage: /tech/blog/performance-is-hard/hero.png
 tags:
   - project-management

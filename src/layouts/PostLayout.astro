@@ -9,6 +9,7 @@ export interface Props extends BlogSchema {}
 const { title, description, pubDate, updatedDate, heroImage, badge, crosspostURL="", tags = [] } = Astro.props;
 dayjs.extend(localizedFormat);
 const displayDate = dayjs(pubDate).format("ll")
+const formattedUpdatedDate = dayjs(updatedDate).format("ll")
 import { Image } from "astro:assets";
 ---
 
@@ -18,7 +19,14 @@ import { Image } from "astro:assets";
       {heroImage && <Image width={750} height={422} format="webp" transition:name={heroImage} transition:animate="initial" src={heroImage} alt={title} class="w-full mb-6" style="border-radius:.5em" />}
       <h1 class="title my-2 text-4xl font-bold" transition:name={title} transition:animate="initial">{title}</h1>
       {pubDate && <time>{displayDate}</time>}
-      <br />
+      {
+        updatedDate && (
+          <div class="mb-0 pb-0">
+            {" "}
+            Last updated on <time class="mb-0 pb-0">{formattedUpdatedDate}</time>{" "}
+          </div>
+        )
+      }
       {badge && <div class="badge badge-secondary my-1">{badge}</div>}
       {
         tags &&
@@ -27,14 +35,6 @@ import { Image } from "astro:assets";
               {tag}
             </a>
           ))
-      }
-      {
-        updatedDate && (
-          <div>
-            {" "}
-            Last updated on <time>{updatedDate}</time>{" "}
-          </div>
-        )
       }
       { crosspostURL && <p class="text-lg text-italics">Crossposted from <a class="text-violet-700" target="_blank" href={crosspostURL}>{crosspostURL}</a></p>}
       <div class="divider my-2"></div>

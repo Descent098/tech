@@ -3,7 +3,7 @@ title: "Intro to Git"
 subtitle: "Using a dedicated VCS"
 description: "Learning how to use git, the most popular VCS system in the world. Intro to VCS Part 2/4"
 pubDate: 2023-10-23T00:00:00-06:00
-modified_date: ""
+
 heroImage: /tech/blog/vcs/hero.jpg
 video: NwASRGFz5Wg
 crosspostURL: https://schulichignite.com/blog/vcs/intro-to-git/
@@ -12,9 +12,7 @@ tags:
   - vcs
   - project-management
   - open-source
-  - computer-science
   - terminology
-  - software-engineering
 ---
 
 <a class="btn bg-violet-700 hover:bg-violet-500 text-white font-bold py-2 px-4 border border-violet-700 rounded" href="https://kieranwood.ca/tech/blog/intro-to-vcs/" target="_blank">Previous post!</a>

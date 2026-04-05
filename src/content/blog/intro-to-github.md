@@ -3,7 +3,7 @@ title: "Intro to Github"
 subtitle: "Taking git repositories online"
 description: "Now we know how to use git we can look at the social aspects of coding. Intro to VCS Part 3/4"
 pubDate: 2023-10-30T00:00:00-06:00
-modified_date: ""
+
 heroImage: /tech/blog/vcs/hero.jpg
 crosspostURL: https://schulichignite.com/blog/vcs/intro-to-github/
 tags:
@@ -11,9 +11,7 @@ tags:
   - vcs
   - project-management
   - open-source
-  - computer-science
   - terminology
-  - software-engineering
   - legal
 ---
 

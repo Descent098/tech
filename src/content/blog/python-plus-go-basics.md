@@ -3,7 +3,7 @@ title: "Python + Go: The basics"
 subtitle: Creating python libraries with a Go backend
 description: "How to start using CGo and CTypes to connect python and go"
 pubDate: 2025-05-06T00:00:00-06:00
-modified_date: 2025-05-06T00:00:00-06:00
+updatedDate: 2025-05-06T00:00:00-06:00
 heroImage: /tech/blog/python-plus-go/diagram.excalidraw.png
 language: [python, go, C]
 tags:

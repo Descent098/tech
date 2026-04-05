@@ -3,7 +3,7 @@ title: It's caches all the way down
 subtitle: Why calculate when you can just read!
 description: "Optimizing your applications by running functions less often"
 pubDate: 2023-04-03T00:00:00-06:00
-modified_date: 2023-04-03T00:00:00-06:00
+updatedDate: 2023-04-03T00:00:00-06:00
 heroImage: /tech/blog/whiteboard-2.jpg
 crosspostURL: https://schulichignite.com/blog/its-caches-all-the-way-down/
 language:

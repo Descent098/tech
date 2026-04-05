@@ -3,16 +3,14 @@ title: "Reluctant Self-Hoster"
 subtitle: "I'm a self-host hostage, not an acolyte"
 description: "I self-host many services, I wish I didn't have to, but here we are..."
 pubDate: 2026-01-06T00:00:00-06:00
-modified_date: ""
+
 heroImage: /tech/blog/reluctant-self-hoster/hero.png
 tags:
   - theory
   - vcs
   - project-management
   - open-source
-  - computer-science
   - terminology
-  - software-engineering
 ---
 
 I hate self-hosting. I used to enjoy it when I started (10 years ago when I was in high school). It was lots of fun, and I learned a ton that was useful in my career. If you're just starting out, it's worth hosting a service or two (especially ones **you've written** if you're a developer). That being said, bluntly, the experience sucks. Every little issue is yours to solve, and organizing, and re-organizing for whatever the new hotness is gets draining. 

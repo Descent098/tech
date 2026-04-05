@@ -3,7 +3,7 @@ title: "Python + Go: Introduction"
 subtitle: Creating python libraries with a Go backend
 description: "A match made in heaven, or hell?"
 pubDate: 2025-05-05T00:00:00-06:00
-modified_date: 2025-05-05T00:00:00-06:00
+updatedDate: 2025-05-05T00:00:00-06:00
 heroImage: /tech/blog/python-plus-go/diagram.excalidraw.png
 language: [python, go, C]
 tags:

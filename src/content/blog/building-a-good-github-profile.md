@@ -10,9 +10,7 @@ tags:
   - vcs
   - project-management
   - open-source
-  - computer-science
   - terminology
-  - software-engineering
   - legal
 ---
 

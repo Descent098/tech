@@ -3,7 +3,7 @@ title: The Dangers of CDN's
 subtitle: When to use them, and how to avoid issues
 description: "How to avoid the most common vulnerabilities with CDN's"
 pubDate: 2023-01-30T00:00:00-06:00
-modified_date: 2023-01-30T00:00:00-06:00
+updatedDate: 2023-01-30T00:00:00-06:00
 heroImage: /tech/blog/nasa-1lfi7wkgwz4-unsplash.jpg
 video: XfEYE-J2vcE
 crosspostURL: https://schulichignite.com/blog/dangers-of-cdns/
@@ -11,7 +11,7 @@ tags:
   - scorch
   - web
   - html
-  - js
+  - javascript
   - networking
   - security
 ---

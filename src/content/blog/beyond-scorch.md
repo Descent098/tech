@@ -11,7 +11,6 @@ tags:
   - security
   - javascript
   - css
-  - js
   - html
   - frontend
   - ui-ux

@@ -11,7 +11,6 @@ tags:
   - web
   - javascript
   - css
-  - js
   - html
   - frontend
   - ui-ux
