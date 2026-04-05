@@ -3,6 +3,7 @@ title: The Mobile Desktop Divide
 subtitle: Desktops are dead, and have been for a while
 description: Desktops as we know them have been dead for a long time
 pubDate: 2026-03-30
+modified_date: 2026-04-04T00:00:00-06:00
 heroImage: /tech/blog/mobile-is-desktop.png
 tags:
   - hardware
@@ -56,4 +57,8 @@ All this is to say that even in this new AI driven, high compute world, mobile-c
 
 Everything I've seen leaves me to believe that desktops are dead as we know them (or should be), at least in their traditional bulky form. Beyond artificial market segmentation, and very absolute top-end performance needs, I see little reason for the distinction. The mobile systems of today far surpass the desktops of the past, and in many cases, the desktops of today. So, when you're looking for new devices, for the first time in a long time you should really consider the market carefully. Do you need a separate desktop and laptop? Maybe just a laptop and a [USB 4](https://aoostar.com/collections/egpu-series)/[oculink dock](https://store.minisforum.com/en-ca/products/minisforum-deg1-egpu-dock). Do you need a proper server for your homelab? What about a [Raspberry PI](https://www.raspberrypi.com/), or [zimaboard](https://www.zimaspace.com/) instead.
 
+**EDIT**: Since posting this post yesterday I found 2 interesting videos that actually take this to a whole other level:
 
+- [Flagship Android phones are insane for games now](https://www.youtube.com/watch?v=VoRP-GocSaM)
+- [I built the FASTEST MacBook Neo on the Planet](https://www.youtube.com/watch?v=-c-cLV492I4)
+- [Beelink+OpenClaw](https://www.bee-link.com/pages/openclaw) (Don't buy this, but very interesting)

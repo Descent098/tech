@@ -3,7 +3,7 @@ title: "Microsoft Please"
 subtitle: "I just want to develop"
 description: "The rapid and steady decline of microsoft products since 2020"
 pubDate: 2026-01-16T00:00:00-06:00
-modified_date: ""
+modified_date: 2026-04-04T00:00:00-06:00
 heroImage: /tech/blog/microsoft-please/hero.png
 tags:
   - project-management
@@ -92,6 +92,27 @@ Also shout out to microsoft for deciding to put my email on my settings page so 
 ## Conclusion
 
 Microsoft needs to re-evaluate their whole development approach to windows. Not only have they stagnated, but they are going backwards, and no number of products all called copilot can save them. This is not good. Even if you hate microsoft you need to understand that the downstream effects will harm you. Airports, restaurants, enterprise, logistics, medicine, all of these industries rely heavily on windows, and they are all beginning to atrophy with it. Even if they wanted to change to alternatives it would take decades at this point, and the whole time the users will suffer. Do better microsoft.
+
+
+**EDIT**: The situation is getting worse as time is going on:
+
+- Github is below %90 uptime, meaning they're forecasted for ~36 days of outages this year
+  - [Github Historical uptime](https://damrnelson.github.io/github-historical-uptime/)
+  - [The Missing GitHub Status Page](https://mrshu.github.io/github-statuses/)
+  - [GitHub being forced to move to Azure for AI](https://www.youtube.com/watch?v=FItSVRA7FDU)
+  - [Uptime calculator](https://uptime.is/)
+- Microsoft Shipping Broken Updates
+  - KB5079391 (Mar 2026)
+    - [Microsoft pulls KB5079391 Windows update over install issues](https://www.bleepingcomputer.com/news/microsoft/microsoft-pulls-windows-kb5079391-update-over-0x80073712-install-errors/)
+    - [Microsoft Pulls Windows 11 KB5079391 (build 26200.8116) After Install Failures](https://www.youtube.com/watch?v=IYDhqMQGEMI)
+    - [How to Fix a Bad Windows Update](https://www.youtube.com/watch?v=wr6HFnN19rc)
+  - KB5085516 (Mar 2026)
+    - [Microsoft fixes broken Windows update days after vowing fewer broken updates](https://www.theregister.com/2026/03/23/emergency_fix_windows_11/)
+    - [Microsoft: KB5079473 breaks internet access to Windows 11 Teams, Edge, OneDrive, Copilot \[Update\]](https://www.neowin.net/news/microsoft-kb5079473-breaks-internet-access-to-windows-11-teams-edge-onedrive-copilot/)
+  - KB5070773 (Oct 2025)
+    - [Microsofts 2 Emergency Windows Updates—Which Do You Need?](https://www.forbes.com/sites/zakdoffman/2025/10/26/microsoft-issues-2-emergency-windows-updates-what-you-do-now/)
+
+
 
 [^1]: https://www.cnbc.com/2025/04/29/satya-nadella-says-as-much-as-30percent-of-microsoft-code-is-written-by-ai.html
 [^2]: https://learn.microsoft.com/en-us/answers/questions/5595775/since-windows-11-is-phasing-out-local-accounts-how
