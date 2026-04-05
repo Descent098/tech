@@ -246,6 +246,7 @@
 <p>As I said earlier because the request is handled at the cache layer middlewear is skipped. This potentially helps performance, but it means that you can lose functionality that requires that middlewear. For example, if your CMS supports going to “live” pages to edit them, which requires you to be logged in, it will break with this system since the auth is skipped completely.</p>
 <h2 id="wrap-it-up">Wrap it up</h2>
 <p>I’m sure this pattern already has a name I’ve never heard of. The solution is as simple as I could come up with under the constraints, but as I mentioned the best option overall would be to just fix the underlying issues, and using a CDN. But for those of you who are like me and don’t have that option, this is an interesting possible solution, and when there is an open-source implementation available I will update this post to try it out.</p>
+<p><strong>EDIT</strong>: Since posting and beginning working on a solution, clouflare has actually come to a similar conclusion about this issue. They are tackling it in a different, but interesting way for readers interested. You can find details in their <a href="https://blog.cloudflare.com/rethinking-cache-ai-humans/">recent blog post</a></p>
 <section data-footnotes="" class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
 <ol>
 <li id="user-content-fn-1">
