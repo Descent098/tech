@@ -2,7 +2,7 @@
 title: The Fear of Forking
 subtitle: To fork or not to fork, that is the question
 description: A more aggressive approach to open source contribution
-pubDate: 2026-04-10
+pubDate: 2026-04-05
 heroImage: /tech/blog/fear-of-forking/hero.png
 tags:
   - open-source
