@@ -3,6 +3,7 @@ title: Usage-Aware Caching
 subtitle: A new (to me) paradigm for content-heavy site caching in the age of AI scrapers
 description: How to help handle the data scraping hordes on content-heavy sites
 pubDate: 2026-03-24
+modified_date: 2026-04-05T00:00:00-06:00
 heroImage: /tech/blog/usage-aware-caching.png
 tags:
   - web
@@ -316,6 +317,8 @@ As I said earlier because the request is handled at the cache layer middlewear i
 ## Wrap it up
 
 I'm sure this pattern already has a name I've never heard of. The solution is as simple as I could come up with under the constraints, but as I mentioned the best option overall would be to just fix the underlying issues, and using a CDN. But for those of you who are like me and don't have that option, this is an interesting possible solution, and when there is an open-source implementation available I will update this post to try it out.
+
+**EDIT**: Since posting and beginning working on a solution, clouflare has actually come to a similar conclusion about this issue. They are tackling it in a different, but interesting way for readers interested. You can find details in their [recent blog post](https://blog.cloudflare.com/rethinking-cache-ai-humans/)
 
 [^1]: https://github.com/TecharoHQ/anubis
 [^2]: https://developers.cloudflare.com/bots/
