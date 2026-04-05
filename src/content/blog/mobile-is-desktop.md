@@ -8,6 +8,7 @@ heroImage: /tech/blog/mobile-is-desktop.png
 tags:
   - hardware
   - performance
+  - opinion
 ---
 
 Moore's law is dead, and so are most desktops. For those of you who have never heard of this concept, Moore's law states that the number of transistors on a microchip doubles approximately every two years, leading to a reduction in cost, and an increase in compute. It was coined by a co-founder of intel in the mid 60's, and it held true for a long time. But, Moore's law is dead, or at least not as drastic. While this seems like a bad thing the most important thing to remember is that it held for decades. Now that it no longer holds up, how can manufacturers differentiate themselves in the market?

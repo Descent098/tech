@@ -9,6 +9,8 @@ tags:
   - project-management
   - open-source
   - ai
+  - opinion
+  - personal
 ---
 
 A little while ago I wrote a post about why I [self-host projects even though I hate it](../reluctant-self-hoster). It's not even been a month since I wrote that article, and a clear example of my exact complaints about microsoft has become very clear. As people could probably guess, I code a lot. Typically I code at home. Typically this is on a system with 64GB of RAM and a current gen Ryzen 7 chip. Essentially I have a lot of resources at my fingertips. 

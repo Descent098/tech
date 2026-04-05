@@ -12,6 +12,7 @@ tags:
   - frontend
   - ui-ux
   - design
+  - opinion
 ---
 
 A while ago I talked about the dangers of [learning web frameworks instead of technologies](../dont-learn-frameworks/). In my career so far I have exclusively been using plain javascript, and interacting with the DOM directly. This has allowed me to move fairly quickly when developing, while offering broad support for the systems I create because they don't have many (if any) underlying dependencies. These are all strong technical reasons for why I never used frameworks, but a less technical one was just that they didn't make things faster for me. Some people will call this a skill issue (they're right and wrong about that). What I found was that a lot of the existing frameworks I was constantly hacking escape hatches to browser technologies because things just didn't work how they should. I later realized what was happening.
