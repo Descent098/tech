@@ -3,7 +3,7 @@ title: Usage-Aware Caching
 subtitle: A new (to me) paradigm for content-heavy site caching in the age of AI scrapers
 description: How to help handle the data scraping hordes on content-heavy sites
 pubDate: 2026-03-24
-updatedDate: 2026-04-05T00:00:00-06:00
+updatedDate: 2026-04-08T00:00:00-06:00
 heroImage: /tech/blog/usage-aware-caching.png
 tags:
   - web
@@ -286,7 +286,7 @@ There are more complicated heuristics I've considered, but this is just a hard p
 
 #### Batching
 
-In general, your application server will now instead of getting ad-hoc requests, will get a batch of requests at the set interval. This means depending on your refresh time budget you can choose exactly how much resource usage you want to use by pooling your refresh into sub-batches. For example, let's say you have 100 routes in your Tier 1 cache, you can now set a rate limit to say on refresh you only want to process 20 at a time. This means you can spread out the resource cost of the refresh over a given time interval, serving "stale" content in the meantime. This means that in cases that might overwhelm your server, like say a refresh of 5,000 pages for your Tier 2, you can set a timeout per request and only ever have 50 requests in-flight at a time. You can tweak these numbers for **your use case**, to get the right balance of server load for resource cost.
+In general, instead of getting ad-hoc requests, your application server will now get a batch of requests at the set interval. This means depending on your refresh time budget you can choose exactly how much resource usage you want to use by pooling your refresh into sub-batches. For example, let's say you have 100 routes in your Tier 1 cache, you can now set a rate limit to say on refresh you only want to process 20 at a time. This means you can spread out the resource cost of the refresh over a given time interval, serving "stale" content in the meantime. This means that in cases that might overwhelm your server, like say a refresh of 5,000 pages for your Tier 2, you can set a timeout per request and only ever have 50 requests in-flight at a time. You can tweak these numbers for **your use case**, to get the right balance of server load for resource cost.
 
 #### Framework Independent
 
