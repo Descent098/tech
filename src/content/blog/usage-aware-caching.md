@@ -20,7 +20,7 @@ tags:
 
 [Caching](https://kieranwood.ca/compsci/Programming/concepts/Caching) is a tricky problem. It's a constant balance of resource limits and performance. In particular when we look at websites and webapps there is a continuum of how "dynamic" they are. This continuum is mostly a short-hand for how much work we need to do to generate the final output we send to the client. When we just have plain web pages it's easy, we dump the file contents of the HTML/CSS/JS/Images to the client when it's requested. For highly dynamic apps like a stock-trading system, or safety monitoring system for manufacturing plants we need to be polling an API multiple times a second and re-generating the content. Lots of sites sit somewhere in the middle, and for those sites the new rules of engagement with AI companies has begun to pose a threat.
 
-*If you are familiar with TTL-based caching, CDN's, Firewalls and CMS systems feel free to skip to [here](#the-idea)*
+*If you are familiar with [TTL-based caching](https://kieranwood.ca/compsci/Programming/concepts/Caching#time-basedttl), CDN's, Firewalls and CMS systems feel free to skip to [here](#the-idea)*
 
 ## Typical Content-Heavy CMS Setup
 
@@ -34,7 +34,7 @@ To be more specific, sites that would traditionally be run on a CMS (content man
     3. Queries the database for the necessary data
     4. Renders the final result into a string combining the template and associated data
     5. Returns the result to the reverse proxy
-4. Reverse proxy sends response and caches for a set TTL (time to live, usually ~5-30 mins)
+4. Reverse proxy sends response and caches for a set [TTL](https://kieranwood.ca/compsci/Programming/concepts/Caching#time-basedttl) (time to live, usually ~5-30 mins)
 
 This means our best case is in green (just step 1), then the second best is green + yellow (step 1, 2, step 3 is skipped \[application cache\], then 4), and worst is the whole diagram (steps 1-4):
 
