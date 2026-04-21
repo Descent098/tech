@@ -33,6 +33,7 @@ const validTags = z.enum([
     "philosophy",
     "tutorial",
     "games",
+    "floodr",
 
     "scorch", // TODO: turn this into a difficulty system
 

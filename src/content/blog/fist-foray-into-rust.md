@@ -6,7 +6,6 @@ pubDate: 2026-04-15
 heroImage: /tech/blog/first-foray-into-rust.png
 tags:
   - open-source
-  - legal
   - opinion
   - rust
   - personal
