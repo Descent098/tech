@@ -378,7 +378,7 @@
 <p>Everything here is relatively straightforward, except maybe the <code>tag_integrity_hash_function</code> parameter. In python you can pass functions as objects, this is handy because you can have a function run other functions whenever you want. Since we only allowed 1 scheme in our integrity hash checker, we don’t need to override this. But let’s say a tag used the python default <code>hash()</code> function, we could replace the parameter with this function, and it would be used to check, instead of <code>hash_function()</code></p>
 <h2 id="conclusion">Conclusion</h2>
 <p>So in less than 300 lines of code we managed to implement a hash funciton, a hash table, integrity hash checking, and a password system. Hopefully this helped make hashing seem a bit less magical, and gave you some interesting use cases to dive deeper on!</p>  </article> </main> <script type="module">
-    import "https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"
+    import "https://cdn.jsdelivr.net/npm/mermaid@11.14.0/dist/mermaid.min.js"
     window.addEventListener('load', function() {
         mermaid.initialize({
         securityLevel: 'loose',

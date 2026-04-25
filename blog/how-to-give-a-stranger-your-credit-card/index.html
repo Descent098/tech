@@ -184,7 +184,7 @@
 </pre>
 <p>The code is pretty simple to implement, you can find an example of it <a href="https://github.com/Descent098/diffie-hellman">here</a>. Once that key is generated it can either be used directly, or can be put into another encryption protocol in some way. A variant of diffie hellman called <a href="https://blog.cloudflare.com/a-relatively-easy-to-understand-primer-on-elliptic-curve-cryptography/">ECDH (Eliptic Curve Diffie Hellman)</a> is one of the public-key algorithms used to encrypt your web traffic. When you go to a website that has <code>https</code> in it’s name, this means some kind of public-key exchanged happened and was used to help  encrypt your connection. The s at the end means secure, and many TLS/SSL certificates use Diffie-Hellman to generate their keys.</p>
 <p>So everytime you’re going to use your credit card online you can know that one of these systems is keeping you safe (unless you’re on http instead of https, then run away!).</p>  </article> </main> <script type="module">
-    import "https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"
+    import "https://cdn.jsdelivr.net/npm/mermaid@11.14.0/dist/mermaid.min.js"
     window.addEventListener('load', function() {
         mermaid.initialize({
         securityLevel: 'loose',

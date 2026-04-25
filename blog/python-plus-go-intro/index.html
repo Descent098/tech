@@ -275,7 +275,7 @@ Last updated on <time class="mb-0 pb-0">May 5, 2025</time>  </div>  <a href="/te
 </ol>
 <p>I changed the name to <code>similarity.dll</code>, and disabled my defender to compile, and everything worked. This is just a microcosm of the weirdness you can run into when going this route. Some of which is just trial and error to fix. If you corrupt memory for example, there’s no error message at all, your program just won’t run it will print messages until the error, then silently dies in the background. If you decode <code>\r</code> incorrectly, your print statements will break until the next <code>\n</code> in python and go making you think you have a memory corruption issue, but you just messed up your string parsing. If you misalign memory… You get the point. This was also all done on windows and tested on windows, managing all the different runtime environments I’m sure is another beast entirely.</p>
 <p>So, whether it’s worth it or not is up to you, but if you have a use case, or are up for the challenge, check out the <a href="https://kieranwood.ca/tech/blog/python-plus-go-basics">next post</a> for details on <strong>how</strong> to do this.</p>  </article> </main> <script type="module">
-    import "https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"
+    import "https://cdn.jsdelivr.net/npm/mermaid@11.14.0/dist/mermaid.min.js"
     window.addEventListener('load', function() {
         mermaid.initialize({
         securityLevel: 'loose',
