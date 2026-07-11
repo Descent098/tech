@@ -2,7 +2,7 @@
 title: "The Fables of Fable"
 subtitle: "How does the most dangerous model yet stack up"
 description: "Testing Fable on several projects as an AI skeptic"
-pubDate: 2026-07-07T00:00:00-06:00
+pubDate: 2026-07-10T00:00:00-06:00
 heroImage: /tech/blog/fables-of-fable/hero.png
 tags:
   - theory
