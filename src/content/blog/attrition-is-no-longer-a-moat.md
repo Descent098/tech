@@ -27,7 +27,7 @@ Attrition in this context is being used to convey the sort of project that is a 
 
 [ArtCraft](https://getartcraft.com/) is a project that is looking to reimplement a dozen (or more now) industry tools using AI. These products have largely remained because the difficulty in creating them via traditional methods would take years, and the cooperation of many companies for all the different formats. For example [lightcraft](https://getartcraft.com/apps/lightcraft) a project meant to take on adobe lightroom/Camera Raw. A system for processing camera raws.
 
-<details><sumamry>What is a camera raw</summary>
+<details><summary>What is a camera raw</summary>
 
 For those that don't do photography a camera raw is a special type of photo. When you shoot with modern cameras you have the option to either take those photos as raster images (JPEG/PNG), or raws (dng, RAW, RW2, ORF, etc.). Your camera takes photos by exposing [photosites](https://pixelcraft.photo.blog/2023/08/01/what-is-a-photosite/) to light. You set various settings ( aperture, shutter speed, and ISO), to control how much light is added to the sensors, and then a "photo" is the result of what those photosites "see".
 
